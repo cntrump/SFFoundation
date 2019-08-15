@@ -1,0 +1,41 @@
+//
+//  SFFoundation-Prefix.pch
+//  SFFoundation
+//
+//  Created by vvveiii on 2019/6/26.
+//  Copyright © 2019 lvv. All rights reserved.
+//
+
+#ifndef SFFoundation_Prefix_pch
+#define SFFoundation_Prefix_pch
+
+#import <TargetConditionals.h>
+
+#if TARGET_OS_OSX
+#define SF_MACOS  1
+#endif
+
+#if TARGET_OS_IOS
+#define SF_IOS  1
+#endif
+
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <QuartzCore/QuartzCore.h>
+
+#import "SFPlatformDefine.h"
+#import "SFBitOPS.h"
+
+#if SF_IOS
+#import <UIKit/UIKit.h>
+#define kScreenScaleFactor UIScreen.mainScreen.scale
+#endif
+
+#if SF_MACOS
+#import <AppKit/AppKit.h>
+#define kScreenScaleFactor NSScreen.mainScreen.backingScaleFactor
+#endif
+
+#import <objc/runtime.h>
+
+#endif /* SFFoundation_Prefix_pch */
