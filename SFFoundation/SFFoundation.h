@@ -65,6 +65,7 @@
 #import <SFFoundation/SFPagingScrollView.h>
 #import <SFFoundation/SFImageScrollView.h>
 #import <SFFoundation/SFMagnifierView.h>
+#import <SFFoundation/SFTextSelectionView.h>
 
 // MACOS
 #import <SFFoundation/SFDisplayLink.h>

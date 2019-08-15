@@ -41,6 +41,8 @@
 		73111D0822E72825008A4A5C /* demo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73111D0622E72825008A4A5C /* demo.bundle */; };
 		7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318152D230532CA0062B4FC /* SFMagnifierView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318152E230532CB0062B4FC /* SFMagnifierView.m */; };
+		7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318153123056AC10062B4FC /* SFTextSelectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318153223056AC10062B4FC /* SFTextSelectionView.m */; };
 		73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 73213EA122CDB18C0037204E /* SFBitOPS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745022E1A290008F53B2 /* SDWebImage.framework */; };
 		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
@@ -163,6 +165,8 @@
 		73111D0622E72825008A4A5C /* demo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = demo.bundle; sourceTree = "<group>"; };
 		7318152D230532CA0062B4FC /* SFMagnifierView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFMagnifierView.h; sourceTree = "<group>"; };
 		7318152E230532CB0062B4FC /* SFMagnifierView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFMagnifierView.m; sourceTree = "<group>"; };
+		7318153123056AC10062B4FC /* SFTextSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextSelectionView.h; sourceTree = "<group>"; };
+		7318153223056AC10062B4FC /* SFTextSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextSelectionView.m; sourceTree = "<group>"; };
 		73213EA122CDB18C0037204E /* SFBitOPS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBitOPS.h; sourceTree = "<group>"; };
 		7327745022E1A290008F53B2 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/Static/SDWebImage.framework; sourceTree = "<group>"; };
 		7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImageMapKit.framework; path = Carthage/Build/iOS/Static/SDWebImageMapKit.framework; sourceTree = "<group>"; };
@@ -433,6 +437,8 @@
 				735623C722E2E65600DF9796 /* SFView.m */,
 				7318152D230532CA0062B4FC /* SFMagnifierView.h */,
 				7318152E230532CB0062B4FC /* SFMagnifierView.m */,
+				7318153123056AC10062B4FC /* SFTextSelectionView.h */,
+				7318153223056AC10062B4FC /* SFTextSelectionView.m */,
 			);
 			path = SFView;
 			sourceTree = "<group>";
@@ -605,6 +611,7 @@
 				730AD66D22C3469400510B82 /* SFTextStorage.h in Headers */,
 				73A6113922FD1932007FB40B /* NSScrollView+SFExtension.h in Headers */,
 				738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */,
+				7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */,
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
@@ -764,6 +771,7 @@
 				730AD65B22C32D2100510B82 /* SFNotificationObserver.m in Sources */,
 				73AFB1E422EAB89E0058B8DF /* SFImageDestination.m in Sources */,
 				73B31A9D22C6761E00D1E163 /* SFGeometry.m in Sources */,
+				7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */,
 				73D538A622C4A3240041CE03 /* SFOverlayViewController.m in Sources */,
 				73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */,
 				730AD66E22C3469400510B82 /* SFTextStorage.m in Sources */,
