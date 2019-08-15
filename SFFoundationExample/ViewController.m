@@ -355,6 +355,11 @@
     _pagingScrollView.dataSource = self;
     _pagingScrollView.delegate = self;
     [self.view addSubview:_pagingScrollView];
+
+    SFMagnifierView *magnifierView = [[SFMagnifierView alloc] initWithFrame:CGRectMake(50, 100, 100, 100)];
+    magnifierView.backgroundColor = [UIColor sf_colorWithRGB:0xff0000 alpha:0.3];
+    magnifierView.targetView = _pagingScrollView;
+    [self.view addSubview:magnifierView];
 }
 
 - (void)buttonAction:(SFButton *)sender {

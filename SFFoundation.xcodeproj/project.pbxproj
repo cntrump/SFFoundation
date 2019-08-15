@@ -39,6 +39,8 @@
 		73111D0522E6E881008A4A5C /* SFDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 73111D0322E6E881008A4A5C /* SFDisplayLink.m */; };
 		73111D0722E72825008A4A5C /* demo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73111D0622E72825008A4A5C /* demo.bundle */; };
 		73111D0822E72825008A4A5C /* demo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73111D0622E72825008A4A5C /* demo.bundle */; };
+		7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318152D230532CA0062B4FC /* SFMagnifierView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318152E230532CB0062B4FC /* SFMagnifierView.m */; };
 		73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 73213EA122CDB18C0037204E /* SFBitOPS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745022E1A290008F53B2 /* SDWebImage.framework */; };
 		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
@@ -159,6 +161,8 @@
 		73111D0222E6E881008A4A5C /* SFDisplayLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFDisplayLink.h; sourceTree = "<group>"; };
 		73111D0322E6E881008A4A5C /* SFDisplayLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFDisplayLink.m; sourceTree = "<group>"; };
 		73111D0622E72825008A4A5C /* demo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = demo.bundle; sourceTree = "<group>"; };
+		7318152D230532CA0062B4FC /* SFMagnifierView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFMagnifierView.h; sourceTree = "<group>"; };
+		7318152E230532CB0062B4FC /* SFMagnifierView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFMagnifierView.m; sourceTree = "<group>"; };
 		73213EA122CDB18C0037204E /* SFBitOPS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBitOPS.h; sourceTree = "<group>"; };
 		7327745022E1A290008F53B2 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/Static/SDWebImage.framework; sourceTree = "<group>"; };
 		7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImageMapKit.framework; path = Carthage/Build/iOS/Static/SDWebImageMapKit.framework; sourceTree = "<group>"; };
@@ -427,6 +431,8 @@
 			children = (
 				735623C622E2E65600DF9796 /* SFView.h */,
 				735623C722E2E65600DF9796 /* SFView.m */,
+				7318152D230532CA0062B4FC /* SFMagnifierView.h */,
+				7318152E230532CB0062B4FC /* SFMagnifierView.m */,
 			);
 			path = SFView;
 			sourceTree = "<group>";
@@ -599,6 +605,7 @@
 				730AD66D22C3469400510B82 /* SFTextStorage.h in Headers */,
 				73A6113922FD1932007FB40B /* NSScrollView+SFExtension.h in Headers */,
 				738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */,
+				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
@@ -771,6 +778,7 @@
 				734910E622C5EF42008E48BE /* NSDate+SFTime.m in Sources */,
 				73D538AA22C4A3240041CE03 /* SFAlertContainerController.m in Sources */,
 				732E1DA522DEF9B50003829A /* SFAsyncTransaction.m in Sources */,
+				73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */,
 				73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */,
 				73AB9A3422DDC0F1006BF59C /* SFRunLoopObserver.m in Sources */,
 				730AD64822C31BAC00510B82 /* SFDispatchQueuePool.m in Sources */,
