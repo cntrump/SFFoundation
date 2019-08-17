@@ -56,6 +56,7 @@
 #import <SFFoundation/SFRunLoopObserver.h>
 #import <SFFoundation/SFAsyncLayer.h>
 #import <SFFoundation/SFTextKitContext.h>
+#import <SFFoundation/NSString+SFExtension.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>

@@ -100,6 +100,8 @@
 		73D538AF22C4A3240041CE03 /* UIViewController+SFOverlayWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 73D538A122C4A3240041CE03 /* UIViewController+SFOverlayWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73D538B622C4BB0B0041CE03 /* SFISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 73D538B422C4BB0B0041CE03 /* SFISO8601DateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73D538B722C4BB0B0041CE03 /* SFISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D538B522C4BB0B0041CE03 /* SFISO8601DateFormatter.m */; };
+		73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 73D7391C2307A17200F643AF /* NSString+SFExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73D7391F2307A17200F643AF /* NSString+SFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D7391D2307A17200F643AF /* NSString+SFExtension.m */; };
 		73D815C922EAA40E00991D05 /* SFAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 73D815C722EAA40E00991D05 /* SFAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D815C822EAA40E00991D05 /* SFAnimatedImage.m */; };
 		73F7F1B722E5D67E00881631 /* SFImageSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F7F1B522E5D67E00881631 /* SFImageSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -230,6 +232,8 @@
 		73D538A122C4A3240041CE03 /* UIViewController+SFOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SFOverlayWindow.h"; sourceTree = "<group>"; };
 		73D538B422C4BB0B0041CE03 /* SFISO8601DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFISO8601DateFormatter.h; sourceTree = "<group>"; };
 		73D538B522C4BB0B0041CE03 /* SFISO8601DateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFISO8601DateFormatter.m; sourceTree = "<group>"; };
+		73D7391C2307A17200F643AF /* NSString+SFExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+SFExtension.h"; sourceTree = "<group>"; };
+		73D7391D2307A17200F643AF /* NSString+SFExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFExtension.m"; sourceTree = "<group>"; };
 		73D815C722EAA40E00991D05 /* SFAnimatedImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAnimatedImage.h; sourceTree = "<group>"; };
 		73D815C822EAA40E00991D05 /* SFAnimatedImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAnimatedImage.m; sourceTree = "<group>"; };
 		73F7F1B522E5D67E00881631 /* SFImageSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageSource.h; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				73D7391B2307A15000F643AF /* SFString */,
 				73A6113622FD18E8007FB40B /* SFScrollView */,
 				73D2942F22F573F900E32F36 /* SFPageScrollView */,
 				73D5388E22C461B70041CE03 /* SFButton */,
@@ -567,6 +572,15 @@
 			path = SFTime;
 			sourceTree = "<group>";
 		};
+		73D7391B2307A15000F643AF /* SFString */ = {
+			isa = PBXGroup;
+			children = (
+				73D7391C2307A17200F643AF /* NSString+SFExtension.h */,
+				73D7391D2307A17200F643AF /* NSString+SFExtension.m */,
+			);
+			path = SFString;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -613,6 +627,7 @@
 				738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */,
 				7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */,
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
+				73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
@@ -779,6 +794,7 @@
 				73D538A922C4A3240041CE03 /* SFAlertWindow.m in Sources */,
 				73D538AB22C4A3240041CE03 /* SFActionSheetWindow.m in Sources */,
 				730AD65322C31E4C00510B82 /* SFDispatchQueue.m in Sources */,
+				73D7391F2307A17200F643AF /* NSString+SFExtension.m in Sources */,
 				73D2943322F5740800E32F36 /* SFPagingScrollView.m in Sources */,
 				73A6113A22FD1932007FB40B /* NSScrollView+SFExtension.m in Sources */,
 				73AB9A3922DE02F3006BF59C /* SFAsyncLayer.m in Sources */,
