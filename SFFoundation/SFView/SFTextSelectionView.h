@@ -8,11 +8,18 @@
 
 #if SF_IOS
 
+@class SFTextKitContext;
+
 @interface SFTextSelectionView : UIView
 
 @property(nonatomic, assign) NSRange selectedRange;
+@property(nonatomic, assign) CGSize size;
+@property(nonatomic, assign) CGPoint origin;
 
-- (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer;
+- (instancetype)initWithFrame:(CGRect)frame
+                textContext:(SFTextKitContext *)textContext
+                selectedRange:(NSRange)selectedRange
+                       origin:(CGPoint)origin;
 
 @end
 

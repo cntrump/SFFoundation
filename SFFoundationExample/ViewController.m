@@ -240,6 +240,53 @@
 
 @end
 
+@interface TextContainerView : UIView {
+    SFTextSelectionView *_textSelectionView;
+}
+
+@property(nonatomic, readonly) SFTextKitContext *context;
+
+@end
+
+@implementation TextContainerView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                                                         attributes:@{
+                                                                                      NSFontAttributeName: [UIFont systemFontOfSize:17],
+                                                                                      NSForegroundColorAttributeName: UIColor.orangeColor
+                                                                                      }];
+        _context = [[SFTextKitContext alloc] initWithSize:self.bounds.size attributedText:attrString];
+
+        _textSelectionView = [[SFTextSelectionView alloc] initWithFrame:self.bounds
+                                                                                textContext:_context
+                                                                              selectedRange:NSMakeRange(30, 15)
+                                                                                     origin:CGPointMake(25, 25)];
+        [self addSubview:_textSelectionView];
+    }
+
+    return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+
+    CGSize size = CGSizeMake(CGRectGetWidth(rect) - 30, CGRectGetHeight(rect) - 30);
+    CGPoint start = CGPointMake(15, 15);
+    [_context performWithBlock:^(NSLayoutManager *layoutManager, NSTextContainer *textContainer, NSTextStorage *textStorage) {
+        textContainer.size = size;
+        NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
+        [layoutManager drawBackgroundForGlyphRange:glyphRange atPoint:start];
+        [layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:start];
+    }];
+
+    _textSelectionView.origin = start;
+    _textSelectionView.size = size;
+}
+
+@end
+
 #pragma mark - ViewController
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource, SFPagingScrollViewDataSource, UIScrollViewDelegate> {
@@ -259,107 +306,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _pool = SFDispatchQueuePool.pool;
-
-    for (NSUInteger i = 0; i < 100; i++) {
-        [_pool async:^{
-        }];
-    }
-
-    _sessionManager = SFURLSessionManager.manager;
-    [_sessionManager getWithURL:@"https://github.com" headers:nil body:nil completion:^(NSURLRequest *request, NSURLResponse *response, NSData *data, NSError *error) {
-        
-    }];
-
-    _tableView = [[TableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    [_tableView registerClass:Cell.class forCellReuseIdentifier:NSStringFromClass(Cell.class)];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _tableView.estimatedRowHeight = 50;
-    _tableView.rowHeight = UITableViewAutomaticDimension;
-    [self.view addSubview:_tableView];
-
-//    UIAsyncLabel *asyncView = [[UIAsyncLabel alloc] initWithFrame:CGRectMake(50, 220, 50, 50)];
-//    asyncView.backgroundColor = UIColor.purpleColor;
-//    asyncView.textColor = UIColor.whiteColor;
-//    asyncView.text = @"123";
-//    [self.view addSubview:asyncView];
-
-    _button = SFButton.button;
-    _button.frame = CGRectMake(50, 120, 120, 80);
-    _button.direction = SFButtonDirectionColumn;
-    _button.spacing = 10;
-    [_button setImage:[UIImage imageNamed:@"Expression_76"] forState:UIControlStateNormal];
-    [_button setTitle:@"123456" forState:UIControlStateNormal];
-    [_button setTitle:@"000000" forState:UIControlStateHighlighted];
-    [_button setTitleColor:UIColor.whiteColor forState:UIControlStateHighlighted];
-    [_button setBackgroundImage:[UIImage sf_imageWithColor:[UIColor sf_colorWithRGB:0x05a5ee]] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_button];
-
-    RoundButton *b = [RoundButton button];
-    b.frame = CGRectMake(180, 120, 80, 80);
-    [b setBackgroundImage:[UIImage imageNamed:@"test_png"] forState:UIControlStateNormal];
-    [b setBackgroundImage:[UIImage sf_imageWithColor:[UIColor sf_colorWithRGB:0 alpha:0.3]] forState:UIControlStateHighlighted];
-    [b addTarget:self action:@selector(testAnimate:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:b];
-
-    SFISO8601DateFormatter *df = [[SFISO8601DateFormatter alloc] init];
-    df.formatOptions = SFISO8601DateFormatWithYear |
-                       SFISO8601DateFormatWithMonth |
-                       SFISO8601DateFormatWithDay |
-                       SFISO8601DateFormatWithDashSeparatorInDate |
-                       SFISO8601DateFormatWithTime |
-                       SFISO8601DateFormatWithColonSeparatorInTime |
-                       SFISO8601DateFormatWithFractionalSeconds |
-                       SFISO8601DateFormatWithTimeZone;
-    df.timeZone = [NSTimeZone systemTimeZone];
-
-    NSDate *date = [df.copy dateFromString:@"2016-12-02T17:35:58.616+0800"];
-    NSDateComponents *dc = [df.copy dateComponentsFromString:@"2016-12-02T17:35:58.616-0900"];
-    NSLog(@"%@", [df stringFromDate:NSDate.date]);
-
-    UIImage *image = [UIImage imageNamed:@"test_png"];
-    CGSize imageSize = image.size;
-    UIImage *cropImage = [image sf_cropRect:CGRectMake((imageSize.width - 50) * 0.5, (imageSize.height - 50) * 0.5, 50, 50)];
-
-    _animatedImageView = [[SFView alloc] init];
-    _animatedImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _animatedImageView.frame = CGRectMake(80, 250, 80, 80);
-    [self.view addSubview:_animatedImageView];
-
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(50, 64, 200, 44)];
-    [self.view addSubview:searchBar];
-    UITextField *searchField = [searchBar sf_getIvarValueWithName:@"_searchField"];
-    searchField.placeholder = @"test";
-
-    NSString *path = [NSBundle.mainBundle pathForResource:@"demo" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
-    NSData *imageData = [NSData dataWithContentsOfFile:[bundle pathForResource:@"demo" ofType:@"png"]];
-    _animatedImageView.sf_animatedImageData = imageData;
-    _animatedImageView.backgroundColor = UIColor.orangeColor;
-
-    SFImageSource *is = [[SFImageSource alloc] initWithData:imageData];
-    UIImage *thumb = [is thumbnailAtIndex:0 maxPixelSize:16];
-
-    UITextField *textField = [[UITextField alloc] init];
-    UILabel *placeholderLabel = [textField sf_getIvarValueWithName:@"_placeholderLabel"];
-    textField.placeholder = @"x";
-
-    NSLog(@"get ivar:%@", searchField);
-
-    _pagingScrollView = [[SFPagingScrollView alloc] initWithFrame:self.view.bounds];
-    [_pagingScrollView registerClass:ScrollCell.class forCellReuseIdentifier:NSStringFromClass(ScrollCell.class)];
-    _pagingScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _pagingScrollView.dataSource = self;
-    _pagingScrollView.delegate = self;
-    [self.view addSubview:_pagingScrollView];
-
-    SFMagnifierView *magnifierView = [[SFMagnifierView alloc] initWithFrame:CGRectMake(50, 100, 100, 100)];
-    magnifierView.backgroundColor = [UIColor sf_colorWithRGB:0xff0000 alpha:0.3];
-    magnifierView.targetView = _pagingScrollView;
-    [self.view addSubview:magnifierView];
+    TextContainerView *textView = [[TextContainerView alloc] initWithFrame:CGRectMake(50, 100, 180, 150)];
+    [self.view addSubview:textView];
 }
 
 - (void)buttonAction:(SFButton *)sender {
