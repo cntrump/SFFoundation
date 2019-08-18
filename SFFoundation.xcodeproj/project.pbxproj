@@ -43,6 +43,8 @@
 		73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318152E230532CB0062B4FC /* SFMagnifierView.m */; };
 		7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318153123056AC10062B4FC /* SFTextSelectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318153223056AC10062B4FC /* SFTextSelectionView.m */; };
+		731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 731D6DB02308CE7800EDC951 /* SFStringTokenizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		731D6DB32308CE7800EDC951 /* SFStringTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 731D6DB12308CE7800EDC951 /* SFStringTokenizer.m */; };
 		73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 73213EA122CDB18C0037204E /* SFBitOPS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745022E1A290008F53B2 /* SDWebImage.framework */; };
 		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
@@ -169,6 +171,8 @@
 		7318152E230532CB0062B4FC /* SFMagnifierView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFMagnifierView.m; sourceTree = "<group>"; };
 		7318153123056AC10062B4FC /* SFTextSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextSelectionView.h; sourceTree = "<group>"; };
 		7318153223056AC10062B4FC /* SFTextSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextSelectionView.m; sourceTree = "<group>"; };
+		731D6DB02308CE7800EDC951 /* SFStringTokenizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFStringTokenizer.h; sourceTree = "<group>"; };
+		731D6DB12308CE7800EDC951 /* SFStringTokenizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFStringTokenizer.m; sourceTree = "<group>"; };
 		73213EA122CDB18C0037204E /* SFBitOPS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBitOPS.h; sourceTree = "<group>"; };
 		7327745022E1A290008F53B2 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/Static/SDWebImage.framework; sourceTree = "<group>"; };
 		7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImageMapKit.framework; path = Carthage/Build/iOS/Static/SDWebImageMapKit.framework; sourceTree = "<group>"; };
@@ -577,6 +581,8 @@
 			children = (
 				73D7391C2307A17200F643AF /* NSString+SFExtension.h */,
 				73D7391D2307A17200F643AF /* NSString+SFExtension.m */,
+				731D6DB02308CE7800EDC951 /* SFStringTokenizer.h */,
+				731D6DB12308CE7800EDC951 /* SFStringTokenizer.m */,
 			);
 			path = SFString;
 			sourceTree = "<group>";
@@ -628,6 +634,7 @@
 				7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */,
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */,
+				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
@@ -806,6 +813,7 @@
 				73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */,
 				73AB9A3422DDC0F1006BF59C /* SFRunLoopObserver.m in Sources */,
 				730AD64822C31BAC00510B82 /* SFDispatchQueuePool.m in Sources */,
+				731D6DB32308CE7800EDC951 /* SFStringTokenizer.m in Sources */,
 				73D538B722C4BB0B0041CE03 /* SFISO8601DateFormatter.m in Sources */,
 				73488BEC22E6103600832EF7 /* SFAsyncImageView.m in Sources */,
 			);

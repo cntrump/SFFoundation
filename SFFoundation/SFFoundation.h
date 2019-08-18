@@ -57,6 +57,7 @@
 #import <SFFoundation/SFAsyncLayer.h>
 #import <SFFoundation/SFTextKitContext.h>
 #import <SFFoundation/NSString+SFExtension.h>
+#import <SFFoundation/SFStringTokenizer.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>
