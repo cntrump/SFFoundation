@@ -26,10 +26,22 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = UIColor.blueColor;
     }
 
     return self;
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    super.tintColor = tintColor;
+
+    CGRect rect = CGRectMake(0, 0, 11, 11);
+
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [[UIBezierPath bezierPathWithOvalInRect:CGRectMake(0.5, 0.5, 10, 10)] addClip];
+    [tintColor setFill];
+    UIRectFill(rect);
+    self.layer.contents = (__bridge id)UIGraphicsGetImageFromCurrentImageContext().CGImage;
+    UIGraphicsEndImageContext();
 }
 
 @end
@@ -45,25 +57,8 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
 
 - (instancetype)initWithStyle:(SFSelectionGrabberStyle)style {
     if (self = [super initWithFrame:CGRectZero]) {
-        self.backgroundColor = UIColor.blueColor;
-
         _style = style;
-
-        CGRect dotFrame = CGRectZero;
-        switch (style) {
-            case SFSelectionGrabberStyleTop:
-                dotFrame = CGRectMake(-4.5, -10, 11, 11);
-                break;
-
-            case SFSelectionGrabberStyleBottom:
-                dotFrame = CGRectMake(-4.5, -1, 11, 11);
-                break;
-
-            default:
-                break;
-        }
-
-        _grabberDot = [[SFSelectionGrabberDot alloc] initWithFrame:dotFrame];
+        _grabberDot = [[SFSelectionGrabberDot alloc] initWithFrame:CGRectZero];
         [self addSubview:_grabberDot];
     }
 
@@ -73,20 +68,50 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    if (_style == SFSelectionGrabberStyleBottom) {
-        _grabberDot.frame = CGRectMake(-4.5, CGRectGetHeight(self.bounds) - 1, 11, 11);
+    switch (_style) {
+        case SFSelectionGrabberStyleTop:
+            _grabberDot.frame = CGRectMake(-4.5, -10, 11, 11);
+            break;
+
+        case SFSelectionGrabberStyleBottom:
+            _grabberDot.frame = CGRectMake(-4.5, CGRectGetHeight(self.bounds) - 1, 11, 11);
+            break;
+
+        default:
+            break;
     }
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    super.tintColor = tintColor;
+
+    CGRect rect = CGRectMake(0, 0, 2, 2);
+
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [tintColor setFill];
+    UIRectFill(rect);
+    self.layer.contents = (__bridge id)UIGraphicsGetImageFromCurrentImageContext().CGImage;
+    UIGraphicsEndImageContext();
+
+    _grabberDot.tintColor = tintColor;
 }
 
 @end
 
 #pragma mark - SFTextSelectionView
 
+typedef NS_ENUM(NSInteger, SFSelectionDirection) {
+    SFSelectionDirectionUndefined,
+    SFSelectionDirectionLeft,
+    SFSelectionDirectionRight
+};
+
 @interface SFTextSelectionView () {
     SFTextKitContext *_textContext;
     CAShapeLayer *_textRangeLayer;
     UIView *_beginView, *_endView;
     SFSelectionGrabber *_beginGrabber, *_endGrabber;
+    SFSelectionDirection _selectionDirection;
 }
 
 @end
@@ -100,8 +125,9 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
     if (self = [super initWithFrame:frame]) {
         _origin = origin;
         _textContext = textContext;
+
         _textRangeLayer = CAShapeLayer.layer;
-        _textRangeLayer.fillColor = [UIColor sf_colorWithRGB:0x0000ff alpha:0.3].CGColor;
+        _textRangeLayer.contentsScale = UIScreen.mainScreen.scale;
         [self.layer addSublayer:_textRangeLayer];
 
         _beginView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -116,10 +142,19 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
         _endGrabber = [[SFSelectionGrabber alloc] initWithStyle:SFSelectionGrabberStyleBottom];
         [self addSubview:_endGrabber];
 
+        self.tintColor = [UIColor sf_colorWithRGB:0x007aff];
         self.selectedRange = selectedRange;
     }
 
     return self;
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    super.tintColor = tintColor;
+
+    _beginGrabber.tintColor = tintColor;
+    _endGrabber.tintColor = tintColor;
+    _textRangeLayer.fillColor = [tintColor colorWithAlphaComponent:0.2].CGColor;
 }
 
 - (void)setSize:(CGSize)size {
@@ -189,6 +224,80 @@ typedef NS_ENUM(NSInteger, SFSelectionGrabberStyle) {
     [path appendPath:[UIBezierPath bezierPathWithRect:rect]];
 
     return path;
+}
+
+#pragma mark -
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+
+    CGPoint location = [touches.anyObject locationInView:self];
+    CGRect rect = UIEdgeInsetsInsetRect(_beginGrabber.frame, UIEdgeInsetsMake(-22, -10, 0, -10));
+    if (CGRectContainsPoint(rect, location)) {
+        _selectionDirection = SFSelectionDirectionLeft;
+        return;
+    }
+
+    rect = UIEdgeInsetsInsetRect(_endGrabber.frame, UIEdgeInsetsMake(0, -10, -22, -10));
+    if (CGRectContainsPoint(rect, location)) {
+        _selectionDirection = SFSelectionDirectionRight;
+        return;
+    }
+
+    _selectionDirection = SFSelectionDirectionUndefined;
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesMoved:touches withEvent:event];
+
+    if (_selectionDirection == SFSelectionDirectionUndefined) {
+        return;
+    }
+
+    CGPoint location = [touches.anyObject locationInView:self];
+    CGPoint p = CGPointMake(location.x - _origin.x, location.y - _origin.y);
+    __block NSInteger characterIndex = NSNotFound;
+    [_textContext performWithBlock:^(NSLayoutManager *layoutManager, NSTextContainer *textContainer, NSTextStorage *textStorage) {
+        NSInteger glyphIndex = [layoutManager glyphIndexForPoint:p inTextContainer:textContainer];
+        characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    }];
+
+    NSInteger maxIndex = NSMaxRange(_selectedRange) - 1;
+    NSRange selectedRange = _selectedRange;
+
+    switch (_selectionDirection) {
+        case SFSelectionDirectionLeft:
+            if (characterIndex > maxIndex) {
+                characterIndex = maxIndex;
+            }
+
+            selectedRange.location = characterIndex;
+            selectedRange.length += _selectedRange.location - characterIndex;
+            break;
+
+        case SFSelectionDirectionRight:
+            if (characterIndex < _selectedRange.location) {
+                characterIndex = _selectedRange.location;
+            }
+
+            selectedRange.length += characterIndex - maxIndex;
+            break;
+
+        default:
+            break;
+    }
+
+    self.selectedRange = selectedRange;
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    _selectionDirection = SFSelectionDirectionUndefined;
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    _selectionDirection = SFSelectionDirectionUndefined;
 }
 
 @end

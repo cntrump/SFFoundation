@@ -252,6 +252,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = UIColor.whiteColor;
+        
         NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                                                          attributes:@{
                                                                                       NSFontAttributeName: [UIFont systemFontOfSize:17],
@@ -261,7 +263,7 @@
 
         _textSelectionView = [[SFTextSelectionView alloc] initWithFrame:self.bounds
                                                                                 textContext:_context
-                                                                              selectedRange:NSMakeRange(30, 15)
+                                                                              selectedRange:NSMakeRange(30, 1)
                                                                                      origin:CGPointMake(25, 25)];
         [self addSubview:_textSelectionView];
     }
