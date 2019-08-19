@@ -289,6 +289,20 @@
 
 @end
 
+@interface SFUILabel : UILabel
+
+@end
+
+@implementation SFUILabel
+
+- (NSAttributedString *)attributedText {
+    NSAttributedString *attributedText = super.attributedText;
+
+    return attributedText;
+}
+
+@end
+
 #pragma mark - ViewController
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource, SFPagingScrollViewDataSource, UIScrollViewDelegate> {
@@ -307,6 +321,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    SFUILabel *label = [[SFUILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:19];
+    label.textColor = UIColor.purpleColor;
+    label.text = @"123";
+    [self.view addSubview:label];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:@[
+                                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
+                                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:20],
+                                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:120]
+                                ]];
+
+    NSLog(@"%@", label.attributedText);
 
     TextContainerView *textView = [[TextContainerView alloc] initWithFrame:CGRectMake(50, 100, 180, 150)];
     [self.view addSubview:textView];
