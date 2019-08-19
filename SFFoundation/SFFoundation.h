@@ -42,6 +42,7 @@
 #import <SFFoundation/SFImageSource.h>
 #import <SFFoundation/SFImageDestination.h>
 #import <SFFoundation/SFTextStorage.h>
+#import <SFFoundation/SFTextContainer.h>
 #import <SFFoundation/SFURLSessionManager.h>
 #import <SFFoundation/SFRuntime.h>
 #import <SFFoundation/SFDelegateForwarder.h>

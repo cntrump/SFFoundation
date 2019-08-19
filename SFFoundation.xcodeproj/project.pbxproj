@@ -39,6 +39,8 @@
 		73111D0522E6E881008A4A5C /* SFDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 73111D0322E6E881008A4A5C /* SFDisplayLink.m */; };
 		73111D0722E72825008A4A5C /* demo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73111D0622E72825008A4A5C /* demo.bundle */; };
 		73111D0822E72825008A4A5C /* demo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73111D0622E72825008A4A5C /* demo.bundle */; };
+		73135BDB230AA189008AC619 /* SFTextContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 73135BD9230AA189008AC619 /* SFTextContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73135BDC230AA189008AC619 /* SFTextContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 73135BDA230AA189008AC619 /* SFTextContainer.m */; };
 		7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318152D230532CA0062B4FC /* SFMagnifierView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318152E230532CB0062B4FC /* SFMagnifierView.m */; };
 		7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7318153123056AC10062B4FC /* SFTextSelectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -167,6 +169,8 @@
 		73111D0222E6E881008A4A5C /* SFDisplayLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFDisplayLink.h; sourceTree = "<group>"; };
 		73111D0322E6E881008A4A5C /* SFDisplayLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFDisplayLink.m; sourceTree = "<group>"; };
 		73111D0622E72825008A4A5C /* demo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = demo.bundle; sourceTree = "<group>"; };
+		73135BD9230AA189008AC619 /* SFTextContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextContainer.h; sourceTree = "<group>"; };
+		73135BDA230AA189008AC619 /* SFTextContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextContainer.m; sourceTree = "<group>"; };
 		7318152D230532CA0062B4FC /* SFMagnifierView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFMagnifierView.h; sourceTree = "<group>"; };
 		7318152E230532CB0062B4FC /* SFMagnifierView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFMagnifierView.m; sourceTree = "<group>"; };
 		7318153123056AC10062B4FC /* SFTextSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextSelectionView.h; sourceTree = "<group>"; };
@@ -392,10 +396,12 @@
 		730AD66A22C3462C00510B82 /* SFTextKit */ = {
 			isa = PBXGroup;
 			children = (
-				730AD66B22C3469400510B82 /* SFTextStorage.h */,
-				730AD66C22C3469400510B82 /* SFTextStorage.m */,
+				73135BD9230AA189008AC619 /* SFTextContainer.h */,
+				73135BDA230AA189008AC619 /* SFTextContainer.m */,
 				735623C122E2B3B400DF9796 /* SFTextKitContext.h */,
 				735623C222E2B3B400DF9796 /* SFTextKitContext.m */,
+				730AD66B22C3469400510B82 /* SFTextStorage.h */,
+				730AD66C22C3469400510B82 /* SFTextStorage.m */,
 			);
 			path = SFTextKit;
 			sourceTree = "<group>";
@@ -634,6 +640,7 @@
 				7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */,
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */,
+				73135BDB230AA189008AC619 /* SFTextContainer.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
@@ -790,6 +797,7 @@
 				7351723422DC722E00465DC0 /* SFGraphics.m in Sources */,
 				730AD65722C3285400510B82 /* SFDispatchSemaphore.m in Sources */,
 				730AD66322C33D1400510B82 /* SFColor.m in Sources */,
+				73135BDC230AA189008AC619 /* SFTextContainer.m in Sources */,
 				730AD65B22C32D2100510B82 /* SFNotificationObserver.m in Sources */,
 				73AFB1E422EAB89E0058B8DF /* SFImageDestination.m in Sources */,
 				73B31A9D22C6761E00D1E163 /* SFGeometry.m in Sources */,

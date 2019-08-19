@@ -8,6 +8,7 @@
 
 #import "SFTextKitContext.h"
 #import "SFTextStorage.h"
+#import "SFTextContainer.h"
 #import "SFDispatchSemaphore.h"
 
 static SFDispatchSemaphore *TextKitStorageLock(void) {
@@ -53,10 +54,10 @@ static SFDispatchSemaphore *TextKitStorageLock(void) {
 #if SF_MACOS
         if (@available(macOS 10.11, *)) {
 #endif
-            _textContainer = [[containerClass ? : NSTextContainer.class alloc] initWithSize:size];
+            _textContainer = [[containerClass ? : SFTextContainer.class alloc] initWithSize:size];
 #if SF_MACOS
         } else {
-            _textContainer = [[containerClass ? : NSTextContainer.class alloc] initWithContainerSize:size];
+            _textContainer = [[containerClass ? : SFTextContainer.class alloc] initWithContainerSize:size];
         }
 #endif
         _textContainer.lineFragmentPadding = 0;
