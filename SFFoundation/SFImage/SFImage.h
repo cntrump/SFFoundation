@@ -30,3 +30,10 @@
 - (void)drawInRect:(CGRect)rect contentsGravity:(CALayerContentsGravity)contentsGravity;
 
 @end
+
+SF_EXTERN_C_BEGIN
+
+UIImageOrientation imageOrientationFromEXIFOrientation(CGImagePropertyOrientation exifOrientation);
+CGImagePropertyOrientation exifOrientationFromImageOrientation(UIImageOrientation imageOrientation);
+
+SF_EXTERN_C_END

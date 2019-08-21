@@ -178,3 +178,35 @@
 }
 
 @end
+
+SF_EXTERN_C_BEGIN
+UIImageOrientation imageOrientationFromEXIFOrientation(CGImagePropertyOrientation exifOrientation) {
+    NSDictionary<NSNumber*,NSNumber*> *table = @{
+                                   @(kCGImagePropertyOrientationUp):            @(UIImageOrientationUp),
+                                   @(kCGImagePropertyOrientationDown):          @(UIImageOrientationDown),
+                                   @(kCGImagePropertyOrientationLeft):          @(UIImageOrientationLeft),
+                                   @(kCGImagePropertyOrientationRight):         @(UIImageOrientationRight),
+                                   @(kCGImagePropertyOrientationUpMirrored):    @(UIImageOrientationUpMirrored),
+                                   @(kCGImagePropertyOrientationDownMirrored):  @(UIImageOrientationDownMirrored),
+                                   @(kCGImagePropertyOrientationLeftMirrored):  @(UIImageOrientationLeftMirrored),
+                                   @(kCGImagePropertyOrientationRightMirrored): @(UIImageOrientationRightMirrored)
+                                   };
+
+    return (UIImageOrientation)(table[@(exifOrientation)] ? : @(UIImageOrientationUp)).integerValue;
+}
+
+CGImagePropertyOrientation exifOrientationFromImageOrientation(UIImageOrientation imageOrientation) {
+    NSDictionary<NSNumber*,NSNumber*> *table = @{
+                                                 @(UIImageOrientationUp):             @(kCGImagePropertyOrientationUp),
+                                                 @(UIImageOrientationDown):           @(kCGImagePropertyOrientationDown),
+                                                 @(UIImageOrientationLeft):           @(kCGImagePropertyOrientationLeft),
+                                                 @(UIImageOrientationRight):          @(kCGImagePropertyOrientationRight),
+                                                 @(UIImageOrientationUpMirrored):     @(kCGImagePropertyOrientationUpMirrored),
+                                                 @(UIImageOrientationDownMirrored):   @(kCGImagePropertyOrientationDownMirrored),
+                                                 @(UIImageOrientationLeftMirrored):   @(kCGImagePropertyOrientationLeftMirrored),
+                                                 @(UIImageOrientationRightMirrored):  @(kCGImagePropertyOrientationRightMirrored)
+                                                 };
+
+    return (CGImagePropertyOrientation)(table[@(imageOrientation)] ? : @(kCGImagePropertyOrientationUp)).integerValue;
+}
+SF_EXTERN_C_END
