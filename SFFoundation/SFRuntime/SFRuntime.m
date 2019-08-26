@@ -11,18 +11,11 @@
 @implementation NSObject (SFRuntime)
 
 + (void)sf_swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector {
-    if (!originalSelector || !swizzledSelector) {
-        return;
-    }
+    sf_swizzle(self, originalSelector, self, swizzledSelector);
+}
 
-    Method originalMethod = class_getInstanceMethod(self, originalSelector);
-    Method swizzledMethod = class_getInstanceMethod(self, swizzledSelector);
-
-    if (class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
-        class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-    } else {
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-    }
++ (void)sf_swizzleMethod:(SEL)originalSelector originalClass:(Class)cls with:(SEL)swizzledSelector {
+    sf_swizzle(cls, originalSelector, self, swizzledSelector);
 }
 
 - (id)sf_getIvarValueWithName:(NSString *)name {
@@ -39,3 +32,22 @@
 }
 
 @end
+
+SF_EXTERN_C_BEGIN
+
+void sf_swizzle(Class cls, SEL originalSel, Class newClass, SEL newSel) {
+    if (!originalSel || !newSel) {
+        return;
+    }
+
+    Method originalMethod = class_getInstanceMethod(cls, originalSel);
+    Method swizzledMethod = class_getInstanceMethod(newClass, newSel);
+
+    if (class_addMethod(cls, originalSel, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
+        class_replaceMethod(cls, newSel, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+
+SF_EXTERN_C_END

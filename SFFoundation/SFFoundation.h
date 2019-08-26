@@ -59,6 +59,7 @@
 #import <SFFoundation/SFTextKitContext.h>
 #import <SFFoundation/NSString+SFExtension.h>
 #import <SFFoundation/SFStringTokenizer.h>
+#import <SFFoundation/SFCardNumberFormatter.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>

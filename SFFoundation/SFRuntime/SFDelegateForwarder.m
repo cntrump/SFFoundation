@@ -24,7 +24,10 @@ static BOOL shouldForwardScrollViewDelegateMethodToExternalDelegate(SEL selector
 - (instancetype)initWithInternalDelegate:(id)internalDelegate externalDelegate:(id)externalDelegate {
     if (self = [super init]) {
         _internalDelegate = internalDelegate;
-        _externalDelegate = externalDelegate;
+
+        if (internalDelegate != externalDelegate) {
+            _externalDelegate = externalDelegate;
+        }
     }
 
     return self;
@@ -53,8 +56,7 @@ static BOOL shouldForwardScrollViewDelegateMethodToExternalDelegate(SEL selector
     SEL aSelector = [anInvocation selector];
     BOOL internalDelegateWillRespond = [_internalDelegate respondsToSelector:aSelector];
     BOOL externalDelegateWillRespond = shouldForwardScrollViewDelegateMethodToExternalDelegate(aSelector) &&
-                                        [externalDelegate respondsToSelector:aSelector] &&
-                                        _externalDelegate != _internalDelegate;
+                                        [externalDelegate respondsToSelector:aSelector];
 
     if (internalDelegateWillRespond) {
         [anInvocation invokeWithTarget:_internalDelegate];
@@ -72,8 +74,7 @@ static BOOL shouldForwardScrollViewDelegateMethodToExternalDelegate(SEL selector
 - (id)forwardingTargetForSelector:(SEL)aSelector {
     BOOL internalDelegateWillRespond = [_internalDelegate respondsToSelector:aSelector];
     BOOL externalDelegateWillRespond = shouldForwardScrollViewDelegateMethodToExternalDelegate(aSelector) &&
-                                        [_externalDelegate respondsToSelector:aSelector] &&
-                                        _externalDelegate != _internalDelegate;
+                                        [_externalDelegate respondsToSelector:aSelector];
 
     if (internalDelegateWillRespond && !externalDelegateWillRespond) {
         return _internalDelegate;

@@ -108,6 +108,8 @@
 		73D7391F2307A17200F643AF /* NSString+SFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D7391D2307A17200F643AF /* NSString+SFExtension.m */; };
 		73D815C922EAA40E00991D05 /* SFAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 73D815C722EAA40E00991D05 /* SFAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D815C822EAA40E00991D05 /* SFAnimatedImage.m */; };
+		73E03E5D2313CAE700BC065D /* SFCardNumberFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73E03E5E2313CAE700BC065D /* SFCardNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */; };
 		73F7F1B722E5D67E00881631 /* SFImageSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F7F1B522E5D67E00881631 /* SFImageSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7F1B622E5D67E00881631 /* SFImageSource.m */; };
 		73FBA1A222C6F9FD00C0CD43 /* SFImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 73FBA1A022C6F9FD00C0CD43 /* SFImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -244,6 +246,8 @@
 		73D7391D2307A17200F643AF /* NSString+SFExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFExtension.m"; sourceTree = "<group>"; };
 		73D815C722EAA40E00991D05 /* SFAnimatedImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAnimatedImage.h; sourceTree = "<group>"; };
 		73D815C822EAA40E00991D05 /* SFAnimatedImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAnimatedImage.m; sourceTree = "<group>"; };
+		73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFCardNumberFormatter.h; path = SFFoundation/SFView/SFCardNumberFormatter.h; sourceTree = SOURCE_ROOT; };
+		73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFCardNumberFormatter.m; path = SFFoundation/SFView/SFCardNumberFormatter.m; sourceTree = SOURCE_ROOT; };
 		73F7F1B522E5D67E00881631 /* SFImageSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageSource.h; sourceTree = "<group>"; };
 		73F7F1B622E5D67E00881631 /* SFImageSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageSource.m; sourceTree = "<group>"; };
 		73FBA1A022C6F9FD00C0CD43 /* SFImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageView.h; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				73E03E5A2313CA2700BC065D /* SFFormatter */,
 				73D5388E22C461B70041CE03 /* SFButton */,
 				730AD65F22C33CF100510B82 /* SFColor */,
 				730AD64922C31E4C00510B82 /* SFDispatch */,
@@ -593,6 +598,15 @@
 			path = SFString;
 			sourceTree = "<group>";
 		};
+		73E03E5A2313CA2700BC065D /* SFFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */,
+				73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */,
+			);
+			path = SFFormatter;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -638,6 +652,7 @@
 				73A6113922FD1932007FB40B /* NSScrollView+SFExtension.h in Headers */,
 				738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */,
 				7318153323056AC10062B4FC /* SFTextSelectionView.h in Headers */,
+				73E03E5D2313CAE700BC065D /* SFCardNumberFormatter.h in Headers */,
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */,
 				73135BDB230AA189008AC619 /* SFTextContainer.h in Headers */,
@@ -803,6 +818,7 @@
 				73B31A9D22C6761E00D1E163 /* SFGeometry.m in Sources */,
 				7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */,
 				73D538A622C4A3240041CE03 /* SFOverlayViewController.m in Sources */,
+				73E03E5E2313CAE700BC065D /* SFCardNumberFormatter.m in Sources */,
 				73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */,
 				730AD66E22C3469400510B82 /* SFTextStorage.m in Sources */,
 				735623C422E2B3B400DF9796 /* SFTextKitContext.m in Sources */,
@@ -992,6 +1008,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "NS_BLOCK_ASSERTIONS=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1098,10 +1115,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_LDFLAGS = (
-					"-objc",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = me.lvv.SFFoundationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -1125,10 +1139,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_LDFLAGS = (
-					"-objc",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = me.lvv.SFFoundationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

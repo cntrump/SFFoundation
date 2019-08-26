@@ -13,3 +13,9 @@
 - (id)sf_getIvarValueWithName:(NSString *)name;
 
 @end
+
+SF_EXTERN_C_BEGIN
+
+void sf_swizzle(Class cls, SEL originalSel, Class newClass, SEL newSel);
+
+SF_EXTERN_C_END
