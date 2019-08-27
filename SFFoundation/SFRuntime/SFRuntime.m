@@ -11,11 +11,7 @@
 @implementation NSObject (SFRuntime)
 
 + (void)sf_swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector {
-    sf_swizzle(self, originalSelector, self, swizzledSelector);
-}
-
-+ (void)sf_swizzleMethod:(SEL)originalSelector originalClass:(Class)cls with:(SEL)swizzledSelector {
-    sf_swizzle(cls, originalSelector, self, swizzledSelector);
+    sf_swizzleClass(object_getClass(self), originalSelector, swizzledSelector);
 }
 
 - (id)sf_getIvarValueWithName:(NSString *)name {
@@ -23,7 +19,7 @@
         return nil;
     }
 
-    Ivar ivar = class_getInstanceVariable(self.class, name.UTF8String);
+    Ivar ivar = class_getInstanceVariable(object_getClass(self), name.UTF8String);
     if (!ivar) {
         return nil;
     }
@@ -35,16 +31,27 @@
 
 SF_EXTERN_C_BEGIN
 
-void sf_swizzle(Class cls, SEL originalSel, Class newClass, SEL newSel) {
-    if (!originalSel || !newSel) {
+void sf_swizzleClass(Class class, SEL originalSelector, SEL swizzledSelector) {
+    if (!class || !originalSelector || !swizzledSelector) {
         return;
     }
 
-    Method originalMethod = class_getInstanceMethod(cls, originalSel);
-    Method swizzledMethod = class_getInstanceMethod(newClass, newSel);
+    Method originalMethod = class_getClassMethod(class, originalSelector);
+    Method swizzledMethod = class_getClassMethod(class, swizzledSelector);
+    if (!originalMethod || !swizzledMethod) {
+        return;
+    }
 
-    if (class_addMethod(cls, originalSel, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
-        class_replaceMethod(cls, newSel, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    BOOL didAddMethod = class_addMethod(class,
+                                        originalSelector,
+                                        method_getImplementation(swizzledMethod),
+                                        method_getTypeEncoding(swizzledMethod));
+
+    if (didAddMethod) {
+        class_replaceMethod(class,
+                            swizzledSelector,
+                            method_getImplementation(originalMethod),
+                            method_getTypeEncoding(originalMethod));
     } else {
         method_exchangeImplementations(originalMethod, swizzledMethod);
     }

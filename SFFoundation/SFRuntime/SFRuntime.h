@@ -16,6 +16,6 @@
 
 SF_EXTERN_C_BEGIN
 
-void sf_swizzle(Class cls, SEL originalSel, Class newClass, SEL newSel);
+void sf_swizzleClass(Class class, SEL originalSelector, SEL swizzledSelector);
 
 SF_EXTERN_C_END
