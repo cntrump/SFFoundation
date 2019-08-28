@@ -52,6 +52,8 @@
 		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
 		732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 732E1DA222DEF9B50003829A /* SFAsyncTransaction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		732E1DA522DEF9B50003829A /* SFAsyncTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 732E1DA322DEF9B50003829A /* SFAsyncTransaction.m */; };
+		73446D2D231657730048DA74 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73446D2C231657730048DA74 /* libc++.tbd */; };
+		73446D2E2316577D0048DA74 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73446D2C231657730048DA74 /* libc++.tbd */; };
 		7345F8AB22CB2FEE0049BFD8 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7345F8AA22CB2FEE0049BFD8 /* NavigationController.m */; };
 		73488BEB22E6103600832EF7 /* SFAsyncImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 73488BE922E6103500832EF7 /* SFAsyncImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73488BEC22E6103600832EF7 /* SFAsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73488BEA22E6103600832EF7 /* SFAsyncImageView.m */; };
@@ -186,6 +188,7 @@
 		7327745522E1A29B008F53B2 /* SDWebImageMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImageMapKit.framework; path = Carthage/Build/Mac/Static/SDWebImageMapKit.framework; sourceTree = "<group>"; };
 		732E1DA222DEF9B50003829A /* SFAsyncTransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAsyncTransaction.h; sourceTree = "<group>"; };
 		732E1DA322DEF9B50003829A /* SFAsyncTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAsyncTransaction.m; sourceTree = "<group>"; };
+		73446D2C231657730048DA74 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		7345F8A922CB2FEE0049BFD8 /* NavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		7345F8AA22CB2FEE0049BFD8 /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		73488BE922E6103500832EF7 /* SFAsyncImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAsyncImageView.h; sourceTree = "<group>"; };
@@ -266,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73446D2D231657730048DA74 /* libc++.tbd in Frameworks */,
 				730AD69122C35E0C00510B82 /* SFFoundation.framework in Frameworks */,
 				7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */,
 				7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */,
@@ -276,6 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73446D2E2316577D0048DA74 /* libc++.tbd in Frameworks */,
 				73701F1622C6666500E9A20A /* SFFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +438,7 @@
 		730AD69022C35E0C00510B82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73446D2C231657730048DA74 /* libc++.tbd */,
 				7327745422E1A29B008F53B2 /* SDWebImage.framework */,
 				7327745522E1A29B008F53B2 /* SDWebImageMapKit.framework */,
 				7327745022E1A290008F53B2 /* SDWebImage.framework */,
@@ -1040,6 +1046,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SFFoundation/SFFoundation-Prefix.pch";
 				INFOPLIST_FILE = SFFoundation/Info.plist;
@@ -1077,6 +1084,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SFFoundation/SFFoundation-Prefix.pch";
 				INFOPLIST_FILE = SFFoundation/Info.plist;
