@@ -70,6 +70,7 @@
 #import <SFFoundation/SFImageScrollView.h>
 #import <SFFoundation/SFMagnifierView.h>
 #import <SFFoundation/SFTextSelectionView.h>
+#import <SFFoundation/SFKeyboardListener.h>
 
 // MACOS
 #import <SFFoundation/SFDisplayLink.h>

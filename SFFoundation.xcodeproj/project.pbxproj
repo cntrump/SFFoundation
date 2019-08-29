@@ -47,6 +47,8 @@
 		7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7318153223056AC10062B4FC /* SFTextSelectionView.m */; };
 		731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 731D6DB02308CE7800EDC951 /* SFStringTokenizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		731D6DB32308CE7800EDC951 /* SFStringTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 731D6DB12308CE7800EDC951 /* SFStringTokenizer.m */; };
+		731EB3C2231767FB0033D3FE /* SFKeyboardListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 731EB3C0231767FB0033D3FE /* SFKeyboardListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		731EB3C3231767FB0033D3FE /* SFKeyboardListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EB3C1231767FB0033D3FE /* SFKeyboardListener.m */; };
 		73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 73213EA122CDB18C0037204E /* SFBitOPS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745022E1A290008F53B2 /* SDWebImage.framework */; };
 		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
@@ -181,6 +183,8 @@
 		7318153223056AC10062B4FC /* SFTextSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextSelectionView.m; sourceTree = "<group>"; };
 		731D6DB02308CE7800EDC951 /* SFStringTokenizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFStringTokenizer.h; sourceTree = "<group>"; };
 		731D6DB12308CE7800EDC951 /* SFStringTokenizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFStringTokenizer.m; sourceTree = "<group>"; };
+		731EB3C0231767FB0033D3FE /* SFKeyboardListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFKeyboardListener.h; sourceTree = "<group>"; };
+		731EB3C1231767FB0033D3FE /* SFKeyboardListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFKeyboardListener.m; sourceTree = "<group>"; };
 		73213EA122CDB18C0037204E /* SFBitOPS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBitOPS.h; sourceTree = "<group>"; };
 		7327745022E1A290008F53B2 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/Static/SDWebImage.framework; sourceTree = "<group>"; };
 		7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImageMapKit.framework; path = Carthage/Build/iOS/Static/SDWebImageMapKit.framework; sourceTree = "<group>"; };
@@ -312,6 +316,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				731EB3BF231767DA0033D3FE /* SFKeyboard */,
 				73E03E5A2313CA2700BC065D /* SFFormatter */,
 				73D5388E22C461B70041CE03 /* SFButton */,
 				730AD65F22C33CF100510B82 /* SFColor */,
@@ -445,6 +450,15 @@
 				7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		731EB3BF231767DA0033D3FE /* SFKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				731EB3C0231767FB0033D3FE /* SFKeyboardListener.h */,
+				731EB3C1231767FB0033D3FE /* SFKeyboardListener.m */,
+			);
+			path = SFKeyboard;
 			sourceTree = "<group>";
 		};
 		7351723022DC721100465DC0 /* SFGraphics */ = {
@@ -662,6 +676,7 @@
 				7318152F230532CB0062B4FC /* SFMagnifierView.h in Headers */,
 				73D7391E2307A17200F643AF /* NSString+SFExtension.h in Headers */,
 				73135BDB230AA189008AC619 /* SFTextContainer.h in Headers */,
+				731EB3C2231767FB0033D3FE /* SFKeyboardListener.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
@@ -842,6 +857,7 @@
 				73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */,
 				73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */,
 				73AB9A3422DDC0F1006BF59C /* SFRunLoopObserver.m in Sources */,
+				731EB3C3231767FB0033D3FE /* SFKeyboardListener.m in Sources */,
 				730AD64822C31BAC00510B82 /* SFDispatchQueuePool.m in Sources */,
 				731D6DB32308CE7800EDC951 /* SFStringTokenizer.m in Sources */,
 				73D538B722C4BB0B0041CE03 /* SFISO8601DateFormatter.m in Sources */,
