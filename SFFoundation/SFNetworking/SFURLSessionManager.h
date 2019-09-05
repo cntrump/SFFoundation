@@ -29,16 +29,16 @@ typedef void (^SFURLCompletionHandler)(NSURLRequest *request, NSURLResponse *res
 - (void)invalidateAndCancel;
 - (void)finishTasksAndInvalidate;
 
-- (void)http:(NSString *)HTTPMethod
-         url:(NSURL *)url
-     headers:(NSDictionary<NSString *, NSString *> *)headers
-        body:(NSData *)body
-  completion:(SFURLCompletionHandler)completionHandler;
-
 @end
 
 
 @interface SFURLSessionManager (SFHTTP)
+
+- (void)http:(NSString *)HTTPMethod
+       url:(NSURL *)url
+   headers:(NSDictionary<NSString *, NSString *> *)headers
+      body:(NSData *)body
+completion:(SFURLCompletionHandler)completionHandler;
 
 - (void)httpGET:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
@@ -79,5 +79,13 @@ typedef void (^SFURLCompletionHandler)(NSURLRequest *request, NSURLResponse *res
              headers:(NSDictionary<NSString *, NSString *> *)headers
                 body:(NSData *)body
           completion:(SFURLCompletionHandler)completionHandler;
+
+@end
+
+@interface SFURLSessionManager (SFWebSocket)
+
+- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
+
+- (NSURLSessionWebSocketTask *)webSocketWithRequest:(NSURLRequest *)request API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
 
 @end

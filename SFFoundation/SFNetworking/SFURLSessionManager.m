@@ -87,59 +87,6 @@ NSString *SFHTTPPATCH    = @"PATCH";
     _sessionMutex.unlock();
 }
 
-- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(SFURLCompletionHandler)completionHandler {
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request];
-
-    __block NSURLResponse *response_ = nil;
-    __block NSMutableData *respData_ = NSMutableData.data;
-
-    dataTask.sf_delegator.didReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition disposition)) {
-        response_ = response;
-        completionHandler(NSURLSessionResponseAllow);
-    };
-
-    dataTask.sf_delegator.didReceiveData = ^(NSData *data) {
-        [respData_ appendData:data];
-    };
-    
-    dataTask.sf_delegator.didCompleteWithError = ^(NSError *error) {
-        if ([response_ isKindOfClass:NSHTTPURLResponse.class]) {
-            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response_;
-            NSInteger statusCode = resp.statusCode;
-            if (statusCode >= HTTP_CODE_400) {
-                error = [NSError errorWithDomain:SFHTTPErrorDomain code:statusCode userInfo:@{
-                                                                                              @"method": request.HTTPMethod,
-                                                                                              @"url": request.URL.absoluteString,
-                                                                                              NSLocalizedDescriptionKey: [NSString stringWithFormat:@"server return %ld", (long)statusCode]
-                                                                                              }];
-            }
-        }
-
-        if (completionHandler) {
-            completionHandler(request, response_, respData_, error);
-        }
-    };
-
-    return dataTask;
-}
-
-- (void)http:(NSString *)HTTPMethod
-         url:(NSURL *)url
-     headers:(NSDictionary<NSString *, NSString *> *)headers
-        body:(NSData *)body
-  completion:(SFURLCompletionHandler)completionHandler {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = HTTPMethod;
-    request.HTTPBody = body;
-
-    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
-        [request setValue:obj forHTTPHeaderField:key];
-    }];
-
-    NSURLSessionDataTask *dataTask = [self dataTaskWithRequest:request completionHandler:completionHandler];
-    [dataTask resume];
-}
-
 #pragma mark - NSURLSessionTaskDelegate
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
@@ -308,10 +255,77 @@ didBecomeInputStream:(NSInputStream *)inputStream
     }
 }
 
+#pragma mark - NSURLSessionWebSocketDelegate
+
+- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didOpenWithProtocol:(NSString * _Nullable) protocol API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    if (webSocketTask.sf_delegator.didOpenWithProtocol) {
+        webSocketTask.sf_delegator.didOpenWithProtocol(protocol);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didCloseWithCode:(NSURLSessionWebSocketCloseCode)closeCode reason:(NSData * _Nullable)reason API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    if (webSocketTask.sf_delegator.didCloseWithCode) {
+        webSocketTask.sf_delegator.didCloseWithCode(closeCode, reason);
+    }
+}
+
 @end
 
 
 @implementation SFURLSessionManager (SFHTTP)
+
+- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(SFURLCompletionHandler)completionHandler {
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request];
+
+    __block NSURLResponse *response_ = nil;
+    __block NSMutableData *respData_ = NSMutableData.data;
+
+    dataTask.sf_delegator.didReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition disposition)) {
+        response_ = response;
+        completionHandler(NSURLSessionResponseAllow);
+    };
+
+    dataTask.sf_delegator.didReceiveData = ^(NSData *data) {
+        [respData_ appendData:data];
+    };
+
+    dataTask.sf_delegator.didCompleteWithError = ^(NSError *error) {
+        if ([response_ isKindOfClass:NSHTTPURLResponse.class]) {
+            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response_;
+            NSInteger statusCode = resp.statusCode;
+            if (statusCode >= HTTP_CODE_400) {
+                error = [NSError errorWithDomain:SFHTTPErrorDomain code:statusCode userInfo:@{
+                                                                                              @"method": request.HTTPMethod,
+                                                                                              @"url": request.URL.absoluteString,
+                                                                                              NSLocalizedDescriptionKey: [NSString stringWithFormat:@"server return %ld", (long)statusCode]
+                                                                                              }];
+            }
+        }
+
+        if (completionHandler) {
+            completionHandler(request, response_, respData_, error);
+        }
+    };
+
+    return dataTask;
+}
+
+- (void)http:(NSString *)HTTPMethod
+         url:(NSURL *)url
+     headers:(NSDictionary<NSString *, NSString *> *)headers
+        body:(NSData *)body
+  completion:(SFURLCompletionHandler)completionHandler {
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.HTTPMethod = HTTPMethod;
+    request.HTTPBody = body;
+
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
+        [request setValue:obj forHTTPHeaderField:key];
+    }];
+
+    NSURLSessionDataTask *dataTask = [self dataTaskWithRequest:request completionHandler:completionHandler];
+    [dataTask resume];
+}
 
 - (void)httpGET:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
@@ -369,6 +383,28 @@ didBecomeInputStream:(NSInputStream *)inputStream
                 body:(NSData *)body
           completion:(SFURLCompletionHandler)completionHandler {
     [self http:SFHTTPPATCH url:url headers:headers body:body completion:completionHandler];
+}
+
+@end
+
+@implementation SFURLSessionManager (SFWebSocket)
+
+- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    return [self webSocketWithURL:url protocols:nil];
+}
+
+- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url protocols:(NSArray<NSString *>*)protocols API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    NSURLSessionWebSocketTask *webSocketTask = protocols ?
+                                                [self.session webSocketTaskWithURL:url protocols:protocols] :
+                                                [self.session webSocketTaskWithURL:url];
+
+    return webSocketTask;
+}
+
+- (NSURLSessionWebSocketTask *)webSocketWithRequest:(NSURLRequest *)request API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    NSURLSessionWebSocketTask *webSocketTask = [self.session webSocketTaskWithRequest:request];
+
+    return webSocketTask;
 }
 
 @end

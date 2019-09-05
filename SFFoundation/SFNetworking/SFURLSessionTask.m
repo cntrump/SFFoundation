@@ -21,7 +21,26 @@
 @implementation SFURLSessionStreamTaskDelegator
 @end
 
+@implementation SFURLSessionWebSocketTaskDelegator
+@end
+
+@implementation NSURLSessionWebSocketTask (SFURLSessionWebSocketTask)
+
+- (void)sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler {
+    [self sendMessage:[[NSURLSessionWebSocketMessage alloc] initWithString:text] completionHandler:completionHandler];
+}
+
+- (void)sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler {
+    [self sendMessage:[[NSURLSessionWebSocketMessage alloc] initWithData:data] completionHandler:completionHandler];
+}
+
+@end
+
 @implementation NSURLSessionTask (SFURLSessionTaskDelegator)
+
+- (void)setSf_delegator:(SFURLSessionTaskDelegator *)delegator {
+    objc_setAssociatedObject(self, @selector(sf_delegator), delegator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 - (SFURLSessionTaskDelegator *)sf_delegator {
     SFURLSessionTaskDelegator *delegator = objc_getAssociatedObject(self, @selector(sf_delegator));
@@ -42,10 +61,23 @@
                 }
             }
 
-            delegator = delegator ? : [[SFURLSessionTaskDelegator alloc] init];
+#if SF_MACOS
+            if (@available(macOS 10.15, *)) {
+#endif
+#if SF_IOS
+            if (@available(iOS 13.0, *)) {
+#endif
+                if ([self isKindOfClass:NSURLSessionWebSocketTask.class]) {
+                    delegator = [[SFURLSessionWebSocketTaskDelegator alloc] init];
+                }
+            }
+
+            if (!delegator) {
+                delegator = [[SFURLSessionTaskDelegator alloc] init];
+            }
         }
 
-        objc_setAssociatedObject(self, @selector(sf_delegator), delegator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.sf_delegator = delegator;
     }
 
     return delegator;

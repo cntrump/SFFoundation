@@ -71,6 +71,17 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 #pragma mark -
 
+NS_CLASS_AVAILABLE(10_15, 13_0)
+@interface SFURLSessionWebSocketTaskDelegator : SFURLSessionTaskDelegator
+
+@property(nonatomic, copy) void (^didOpenWithProtocol)(NSString *protocol);
+
+@property(nonatomic, copy) void (^didCloseWithCode)(NSURLSessionWebSocketCloseCode closeCode, NSData *reason);
+
+@end
+
+#pragma mark -
+
 @interface NSURLSessionTask (SFURLSessionTaskDelegator)
 
 @property(nonatomic, readonly) SFURLSessionTaskDelegator *sf_delegator;
@@ -101,3 +112,21 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 @property(nonatomic, readonly) SFURLSessionStreamTaskDelegator *sf_delegator;
 
 @end
+
+#pragma mark -
+
+NS_CLASS_AVAILABLE(10_15, 13_0)
+@interface NSURLSessionWebSocketTask (SFURLSessionWebSocketTaskDelegator)
+
+@property(nonatomic, readonly) SFURLSessionWebSocketTaskDelegator *sf_delegator;
+
+@end
+
+NS_CLASS_AVAILABLE(10_15, 13_0)
+@interface NSURLSessionWebSocketTask (SFURLSessionWebSocketTask)
+
+- (void)sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler;
+- (void)sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler;
+
+@end
+
