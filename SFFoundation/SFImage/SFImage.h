@@ -33,7 +33,9 @@
 
 SF_EXTERN_C_BEGIN
 
+#if SF_IOS
 UIImageOrientation imageOrientationFromEXIFOrientation(CGImagePropertyOrientation exifOrientation);
 CGImagePropertyOrientation exifOrientationFromImageOrientation(UIImageOrientation imageOrientation);
+#endif
 
 SF_EXTERN_C_END

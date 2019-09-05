@@ -43,6 +43,7 @@
 #import <SFFoundation/SFImageDestination.h>
 #import <SFFoundation/SFTextStorage.h>
 #import <SFFoundation/SFTextContainer.h>
+#import <SFFoundation/SFURLSessionTask.h>
 #import <SFFoundation/SFURLSessionManager.h>
 #import <SFFoundation/SFRuntime.h>
 #import <SFFoundation/SFDelegateForwarder.h>
@@ -60,6 +61,7 @@
 #import <SFFoundation/NSString+SFExtension.h>
 #import <SFFoundation/SFStringTokenizer.h>
 #import <SFFoundation/SFCardNumberFormatter.h>
+#import <SFFoundation/SFAsyncOperation.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>

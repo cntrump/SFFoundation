@@ -180,6 +180,8 @@
 @end
 
 SF_EXTERN_C_BEGIN
+
+#if SF_IOS
 UIImageOrientation imageOrientationFromEXIFOrientation(CGImagePropertyOrientation exifOrientation) {
     NSDictionary<NSNumber*,NSNumber*> *table = @{
                                    @(kCGImagePropertyOrientationUp):            @(UIImageOrientationUp),
@@ -209,4 +211,6 @@ CGImagePropertyOrientation exifOrientationFromImageOrientation(UIImageOrientatio
 
     return (CGImagePropertyOrientation)(table[@(imageOrientation)] ? : @(kCGImagePropertyOrientationUp)).integerValue;
 }
+#endif
+
 SF_EXTERN_C_END

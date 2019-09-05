@@ -75,7 +75,22 @@
 
 @end
 
-@interface AppDelegate ()
+@interface TestOperation : SFAsyncOperation
+
+@end
+
+@implementation TestOperation
+
+- (void)main {
+
+}
+
+@end
+
+@interface AppDelegate () {
+    SFURLSessionManager *_manager;
+    NSOperationQueue *_operationQueue;
+}
 
 @property (weak) IBOutlet NSWindow *window;
 @end
@@ -94,6 +109,16 @@
     aniView.contentMode = SFViewContentModeScaleAspectFit;
     self.window.contentView = aniView;
     self.window.contentView.sf_animatedImageData = [NSData dataWithContentsOfFile:[bundle pathForResource:@"demo" ofType:@"png"]];
+
+    _operationQueue = [[NSOperationQueue alloc] init];
+
+    TestOperation *op = TestOperation.operation;
+    [_operationQueue addOperation:op];
+
+    _manager = SFURLSessionManager.manager;
+    [_manager httpGET:[NSURL URLWithString:@"https://github.com"] headers:nil completion:^(NSURLRequest *request, NSURLResponse *response, NSData *data, NSError *error) {
+
+    }];
 }
 
 

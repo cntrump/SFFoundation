@@ -8,15 +8,15 @@
 
 extern NSErrorDomain SFHTTPErrorDomain;
 
-extern NSString *SFHTTPMethodGET;
-extern NSString *SFHTTPMethodHEAD;
-extern NSString *SFHTTPMethodPOST;
-extern NSString *SFHTTPMethodPUT;
-extern NSString *SFHTTPMethodDELETE;
-extern NSString *SFHTTPMethodCONNECT;
-extern NSString *SFHTTPMethodOPTIONS;
-extern NSString *SFHTTPMethodTRACE;
-extern NSString *SFHTTPMethodPATCH;
+extern NSString *SFHTTPGET;
+extern NSString *SFHTTPHEAD;
+extern NSString *SFHTTPPOST;
+extern NSString *SFHTTPPUT;
+extern NSString *SFHTTPDELETE;
+extern NSString *SFHTTPCONNECT;
+extern NSString *SFHTTPOPTIONS;
+extern NSString *SFHTTPTRACE;
+extern NSString *SFHTTPPATCH;
 
 typedef void (^SFURLCompletionHandler)(NSURLRequest *request, NSURLResponse *response, NSData *data, NSError *error);
 
@@ -24,8 +24,13 @@ typedef void (^SFURLCompletionHandler)(NSURLRequest *request, NSURLResponse *res
 
 + (instancetype)manager;
 
-- (void)send:(NSString *)HTTPMethod
-         url:(NSString *)url
++ (instancetype)managerWithConfiguration:(NSURLSessionConfiguration *)configuration;
+
+- (void)invalidateAndCancel;
+- (void)finishTasksAndInvalidate;
+
+- (void)http:(NSString *)HTTPMethod
+         url:(NSURL *)url
      headers:(NSDictionary<NSString *, NSString *> *)headers
         body:(NSData *)body
   completion:(SFURLCompletionHandler)completionHandler;
@@ -35,47 +40,42 @@ typedef void (^SFURLCompletionHandler)(NSURLRequest *request, NSURLResponse *res
 
 @interface SFURLSessionManager (SFHTTP)
 
-- (void)getWithURL:(NSString *)url
+- (void)httpGET:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
-              body:(NSData *)body
         completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)headWithURL:(NSString *)url
+- (void)httpHEAD:(NSURL *)url
+            headers:(NSDictionary<NSString *, NSString *> *)headers
+         completion:(SFURLCompletionHandler)completionHandler;
+
+- (void)httpPOST:(NSURL *)url
             headers:(NSDictionary<NSString *, NSString *> *)headers
                body:(NSData *)body
          completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)postWithURL:(NSString *)url
-            headers:(NSDictionary<NSString *, NSString *> *)headers
-               body:(NSData *)body
-         completion:(SFURLCompletionHandler)completionHandler;
-
-- (void)putWithURL:(NSString *)url
+- (void)httpPUT:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
               body:(NSData *)body
         completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)deleteWithURL:(NSString *)url
+- (void)httpDELETE:(NSURL *)url
               headers:(NSDictionary<NSString *, NSString *> *)headers
-                 body:(NSData *)body
            completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)connectWithURL:(NSString *)url
+- (void)httpCONNECT:(NSURL *)url
                headers:(NSDictionary<NSString *, NSString *> *)headers
                   body:(NSData *)body
             completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)optionsWithURL:(NSString *)url
+- (void)httpOPTIONS:(NSURL *)url
                headers:(NSDictionary<NSString *, NSString *> *)headers
-                  body:(NSData *)body
             completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)traceWithURL:(NSString *)url
+- (void)httpTRACE:(NSURL *)url
              headers:(NSDictionary<NSString *, NSString *> *)headers
-                body:(NSData *)body
           completion:(SFURLCompletionHandler)completionHandler;
 
-- (void)patchWithURL:(NSString *)url
+- (void)httpPATCH:(NSURL *)url
              headers:(NSDictionary<NSString *, NSString *> *)headers
                 body:(NSData *)body
           completion:(SFURLCompletionHandler)completionHandler;

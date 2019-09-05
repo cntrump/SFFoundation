@@ -7,60 +7,102 @@
 //
 
 #import "SFURLSessionManager.h"
+#import "SFURLSessionTask.h"
+#import <mutex>
 
 NSErrorDomain SFHTTPErrorDomain = @"SFHTTPErrorDomain";
 
-NSString *SFHTTPMethodGET      = @"GET";
-NSString *SFHTTPMethodHEAD     = @"HEAD";
-NSString *SFHTTPMethodPOST     = @"POST";
-NSString *SFHTTPMethodPUT      = @"PUT";
-NSString *SFHTTPMethodDELETE   = @"DELETE";
-NSString *SFHTTPMethodCONNECT  = @"CONNECT";
-NSString *SFHTTPMethodOPTIONS  = @"OPTIONS";
-NSString *SFHTTPMethodTRACE    = @"TRACE";
-NSString *SFHTTPMethodPATCH    = @"PATCH";
+NSString *SFHTTPGET      = @"GET";
+NSString *SFHTTPHEAD     = @"HEAD";
+NSString *SFHTTPPOST     = @"POST";
+NSString *SFHTTPPUT      = @"PUT";
+NSString *SFHTTPDELETE   = @"DELETE";
+NSString *SFHTTPCONNECT  = @"CONNECT";
+NSString *SFHTTPOPTIONS  = @"OPTIONS";
+NSString *SFHTTPTRACE    = @"TRACE";
+NSString *SFHTTPPATCH    = @"PATCH";
 
 #define HTTP_CODE_400   (400)
 
-static BOOL HTTPMethodHasNoBody(NSString *HTTPMethod) {
-    HTTPMethod = HTTPMethod.uppercaseString;
-
-    return [HTTPMethod isEqualToString:SFHTTPMethodGET] ||
-            [HTTPMethod isEqualToString:SFHTTPMethodHEAD] ||
-            [HTTPMethod isEqualToString:SFHTTPMethodDELETE] ||
-            [HTTPMethod isEqualToString:SFHTTPMethodOPTIONS] ||
-            [HTTPMethod isEqualToString:SFHTTPMethodTRACE];
-}
-
 @interface SFURLSessionManager () {
+    NSOperationQueue *_delegateQueue;
     NSURLSession *_session;
+    NSURLSessionConfiguration *_configuration;
+    std::mutex _sessionMutex;
 }
+
+@property(nonatomic, readonly) NSURLSession *session;
 
 @end
 
 @implementation SFURLSessionManager
 
-- (void)dealloc {
-    [_session invalidateAndCancel];
-}
-
 + (instancetype)manager {
-    return [[self alloc] init];
+    return [[self alloc] initWithConfiguration:nil];
 }
 
-- (instancetype)init {
++ (instancetype)managerWithConfiguration:(NSURLSessionConfiguration *)configuration {
+    return [[self alloc] initWithConfiguration:configuration];
+}
+
+- (instancetype)initWithConfiguration:(NSURLSessionConfiguration *)configuration {
     if (self = [super init]) {
-        NSURLSessionConfiguration *config = NSURLSessionConfiguration.defaultSessionConfiguration;
-        _session = [NSURLSession sessionWithConfiguration:config];
+        _delegateQueue = [[NSOperationQueue alloc] init];
+        _delegateQueue.maxConcurrentOperationCount = 1;
+
+        _configuration = [configuration copy];
+        if (!_configuration) {
+            _configuration = [NSURLSessionConfiguration.defaultSessionConfiguration copy];
+        }
     }
 
     return self;
 }
 
+- (NSURLSession *)session {
+    _sessionMutex.lock();
+
+    if (!_session) {
+        _session = [NSURLSession sessionWithConfiguration:_configuration
+                                                 delegate:(id<NSURLSessionDelegate>)self
+                                            delegateQueue:_delegateQueue];
+    }
+
+    _sessionMutex.unlock();
+
+    return _session;
+}
+
+- (void)invalidateAndCancel {
+    _sessionMutex.lock();
+    [_session invalidateAndCancel];
+    _session = nil;
+    _sessionMutex.unlock();
+}
+
+- (void)finishTasksAndInvalidate {
+    _sessionMutex.lock();
+    [_session finishTasksAndInvalidate];
+    _session = nil;
+    _sessionMutex.unlock();
+}
+
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(SFURLCompletionHandler)completionHandler {
-    NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if ([response isKindOfClass:NSHTTPURLResponse.class]) {
-            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request];
+
+    __block NSURLResponse *response_ = nil;
+    __block NSMutableData *respData_ = NSMutableData.data;
+
+    dataTask.sf_taskDelegator.didReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition disposition)) {
+        response_ = response;
+        completionHandler(NSURLSessionResponseAllow);
+    };
+    dataTask.sf_taskDelegator.didReceiveData = ^(NSData *data) {
+        [respData_ appendData:data];
+    };
+    dataTask.sf_taskDelegator.didCompleteWithError = ^(NSError *error) {
+        if ([response_ isKindOfClass:NSHTTPURLResponse.class]) {
+            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response_;
             NSInteger statusCode = resp.statusCode;
             if (statusCode >= HTTP_CODE_400) {
                 error = [NSError errorWithDomain:SFHTTPErrorDomain code:statusCode userInfo:@{
@@ -72,21 +114,21 @@ static BOOL HTTPMethodHasNoBody(NSString *HTTPMethod) {
         }
 
         if (completionHandler) {
-            completionHandler(request, response, data, error);
+            completionHandler(request, response_, respData_, error);
         }
-    }];
+    };
 
     return dataTask;
 }
 
-- (void)send:(NSString *)HTTPMethod
-         url:(NSString *)url
+- (void)http:(NSString *)HTTPMethod
+         url:(NSURL *)url
      headers:(NSDictionary<NSString *, NSString *> *)headers
         body:(NSData *)body
   completion:(SFURLCompletionHandler)completionHandler {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = HTTPMethod;
-    request.HTTPBody = HTTPMethodHasNoBody(HTTPMethod) ? nil : body;
+    request.HTTPBody = body;
 
     [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         [request setValue:obj forHTTPHeaderField:key];
@@ -96,72 +138,235 @@ static BOOL HTTPMethodHasNoBody(NSString *HTTPMethod) {
     [dataTask resume];
 }
 
+#pragma mark - NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+willBeginDelayedRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler
+API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
+    if (task.sf_taskDelegator.willBeginDelayedRequest) {
+        task.sf_taskDelegator.willBeginDelayedRequest(request, completionHandler);
+    } else {
+        completionHandler(NSURLSessionDelayedRequestContinueLoading, nil);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session taskIsWaitingForConnectivity:(NSURLSessionTask *)task
+API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
+    if (task.sf_taskDelegator.taskIsWaitingForConnectivity) {
+        task.sf_taskDelegator.taskIsWaitingForConnectivity();
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+    if (task.sf_taskDelegator.willPerformHTTPRedirection) {
+        task.sf_taskDelegator.willPerformHTTPRedirection(response, request, completionHandler);
+    } else {
+        completionHandler(request);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
+    if (task.sf_taskDelegator.didReceiveChallenge) {
+        task.sf_taskDelegator.didReceiveChallenge(challenge, completionHandler);
+    } else {
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+ needNewBodyStream:(void (^)(NSInputStream * _Nullable bodyStream))completionHandler {
+    if (task.sf_taskDelegator.needNewBodyStream) {
+        task.sf_taskDelegator.needNewBodyStream(completionHandler);
+    } else {
+        completionHandler(nil);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+   didSendBodyData:(int64_t)bytesSent
+    totalBytesSent:(int64_t)totalBytesSent
+totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    if (task.sf_taskDelegator.didSendBodyData) {
+        task.sf_taskDelegator.didSendBodyData(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics API_AVAILABLE(macosx(10.12), ios(10.0), watchos(3.0), tvos(10.0)) {
+    if (task.sf_taskDelegator.didFinishCollectingMetrics) {
+        task.sf_taskDelegator.didFinishCollectingMetrics(metrics);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+    if (task.sf_taskDelegator.didCompleteWithError) {
+        task.sf_taskDelegator.didCompleteWithError(error);
+    }
+}
+
+#pragma mark - NSURLSessionDataDelegate
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    if (dataTask.sf_taskDelegator.didReceiveResponse) {
+        dataTask.sf_taskDelegator.didReceiveResponse(response, completionHandler);
+    } else {
+        completionHandler(NSURLSessionResponseAllow);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
+    if (dataTask.sf_taskDelegator.didBecomeDownloadTask) {
+        dataTask.sf_taskDelegator.didBecomeDownloadTask(downloadTask);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
+    if (dataTask.sf_taskDelegator.didBecomeStreamTask) {
+        dataTask.sf_taskDelegator.didBecomeStreamTask(streamTask);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data {
+    if (dataTask.sf_taskDelegator.didReceiveData) {
+        dataTask.sf_taskDelegator.didReceiveData(data);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+ willCacheResponse:(NSCachedURLResponse *)proposedResponse
+ completionHandler:(void (^)(NSCachedURLResponse * _Nullable cachedResponse))completionHandler {
+    if (dataTask.sf_taskDelegator.willCacheResponse) {
+        dataTask.sf_taskDelegator.willCacheResponse(proposedResponse, completionHandler);
+    } else {
+        completionHandler(proposedResponse);
+    }
+}
+
+#pragma mark - NSURLSessionDownloadDelegate
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location {
+    if (downloadTask.sf_taskDelegator.didFinishDownloadingToURL) {
+        downloadTask.sf_taskDelegator.didFinishDownloadingToURL(location);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    if (downloadTask.sf_taskDelegator.didWriteData) {
+        downloadTask.sf_taskDelegator.didWriteData(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didResumeAtOffset:(int64_t)fileOffset
+expectedTotalBytes:(int64_t)expectedTotalBytes {
+    if (downloadTask.sf_taskDelegator.didResumeAtOffset) {
+        downloadTask.sf_taskDelegator.didResumeAtOffset(fileOffset, expectedTotalBytes);
+    }
+}
+
+#pragma mark - NSURLSessionStreamDelegate
+
+- (void)URLSession:(NSURLSession *)session readClosedForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
+    if (streamTask.sf_taskDelegator.readClosedForStreamTask) {
+        streamTask.sf_taskDelegator.readClosedForStreamTask();
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session writeClosedForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
+    if (streamTask.sf_taskDelegator.writeClosedForStreamTask) {
+        streamTask.sf_taskDelegator.writeClosedForStreamTask();
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session betterRouteDiscoveredForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
+    if (streamTask.sf_taskDelegator.betterRouteDiscoveredForStreamTask) {
+        streamTask.sf_taskDelegator.betterRouteDiscoveredForStreamTask();
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session streamTask:(NSURLSessionStreamTask *)streamTask
+didBecomeInputStream:(NSInputStream *)inputStream
+      outputStream:(NSOutputStream *)outputStream API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
+    if (streamTask.sf_taskDelegator.didBecomeInputStream) {
+        streamTask.sf_taskDelegator.didBecomeInputStream(inputStream, outputStream);
+    }
+}
+
 @end
 
 
 @implementation SFURLSessionManager (SFHTTP)
 
-- (void)getWithURL:(NSString *)url
+- (void)httpGET:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
-              body:(NSData *)body
         completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodGET url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPGET url:url headers:headers body:nil completion:completionHandler];
 }
 
-- (void)headWithURL:(NSString *)url
+- (void)httpHEAD:(NSURL *)url
+            headers:(NSDictionary<NSString *, NSString *> *)headers
+         completion:(SFURLCompletionHandler)completionHandler {
+    [self http:SFHTTPHEAD url:url headers:headers body:nil completion:completionHandler];
+}
+
+- (void)httpPOST:(NSURL *)url
             headers:(NSDictionary<NSString *, NSString *> *)headers
                body:(NSData *)body
          completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodHEAD url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPPOST url:url headers:headers body:body completion:completionHandler];
 }
 
-- (void)postWithURL:(NSString *)url
-            headers:(NSDictionary<NSString *, NSString *> *)headers
-               body:(NSData *)body
-         completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodPOST url:url headers:headers body:body completion:completionHandler];
-}
-
-- (void)putWithURL:(NSString *)url
+- (void)httpPUT:(NSURL *)url
            headers:(NSDictionary<NSString *, NSString *> *)headers
               body:(NSData *)body
         completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodPUT url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPPUT url:url headers:headers body:body completion:completionHandler];
 }
 
-- (void)deleteWithURL:(NSString *)url
+- (void)httpDELETE:(NSURL *)url
               headers:(NSDictionary<NSString *, NSString *> *)headers
-                 body:(NSData *)body
            completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodDELETE url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPDELETE url:url headers:headers body:nil completion:completionHandler];
 }
 
-- (void)connectWithURL:(NSString *)url
+- (void)httpCONNECT:(NSURL *)url
                headers:(NSDictionary<NSString *, NSString *> *)headers
                   body:(NSData *)body
             completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodCONNECT url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPCONNECT url:url headers:headers body:body completion:completionHandler];
 }
 
-- (void)optionsWithURL:(NSString *)url
+- (void)httpOPTIONS:(NSURL *)url
                headers:(NSDictionary<NSString *, NSString *> *)headers
-                  body:(NSData *)body
             completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodOPTIONS url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPOPTIONS url:url headers:headers body:nil completion:completionHandler];
 }
 
-- (void)traceWithURL:(NSString *)url
+- (void)httpTRACE:(NSURL *)url
+             headers:(NSDictionary<NSString *, NSString *> *)headers
+          completion:(SFURLCompletionHandler)completionHandler {
+    [self http:SFHTTPTRACE url:url headers:headers body:nil completion:completionHandler];
+}
+
+- (void)httpPATCH:(NSURL *)url
              headers:(NSDictionary<NSString *, NSString *> *)headers
                 body:(NSData *)body
           completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodTRACE url:url headers:headers body:body completion:completionHandler];
-}
-
-- (void)patchWithURL:(NSString *)url
-             headers:(NSDictionary<NSString *, NSString *> *)headers
-                body:(NSData *)body
-          completion:(SFURLCompletionHandler)completionHandler {
-    [self send:SFHTTPMethodPATCH url:url headers:headers body:body completion:completionHandler];
+    [self http:SFHTTPPATCH url:url headers:headers body:body completion:completionHandler];
 }
 
 @end
