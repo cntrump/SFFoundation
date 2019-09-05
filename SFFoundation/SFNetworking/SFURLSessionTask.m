@@ -23,8 +23,8 @@
 
 @implementation NSURLSessionTask (SFURLSessionTaskDelegator)
 
-- (SFURLSessionTaskDelegator *)sf_taskDelegator {
-    SFURLSessionTaskDelegator *delegator = objc_getAssociatedObject(self, @selector(sf_taskDelegator));
+- (SFURLSessionTaskDelegator *)sf_delegator {
+    SFURLSessionTaskDelegator *delegator = objc_getAssociatedObject(self, @selector(sf_delegator));
     if (!delegator) {
         if ([self isKindOfClass:NSURLSessionDataTask.class]) {
             delegator = [[SFURLSessionDataTaskDelegator alloc] init];
@@ -45,7 +45,7 @@
             delegator = delegator ? : [[SFURLSessionTaskDelegator alloc] init];
         }
 
-        objc_setAssociatedObject(self, @selector(sf_taskDelegator), delegator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, @selector(sf_delegator), delegator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 
     return delegator;

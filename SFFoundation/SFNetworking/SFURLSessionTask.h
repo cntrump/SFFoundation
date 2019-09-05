@@ -73,7 +73,7 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 @interface NSURLSessionTask (SFURLSessionTaskDelegator)
 
-@property(nonatomic, readonly) SFURLSessionTaskDelegator *sf_taskDelegator;
+@property(nonatomic, readonly) SFURLSessionTaskDelegator *sf_delegator;
 
 @end
 
@@ -81,7 +81,7 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 @interface NSURLSessionDataTask (SFURLSessionDataTaskDelegator)
 
-@property(nonatomic, readonly) SFURLSessionDataTaskDelegator *sf_taskDelegator;
+@property(nonatomic, readonly) SFURLSessionDataTaskDelegator *sf_delegator;
 
 @end
 
@@ -89,7 +89,7 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 @interface NSURLSessionDownloadTask (SFURLSessionDownloadTaskDelegator)
 
-@property(nonatomic, readonly) SFURLSessionDownloadTaskDelegator *sf_taskDelegator;
+@property(nonatomic, readonly) SFURLSessionDownloadTaskDelegator *sf_delegator;
 
 @end
 
@@ -98,6 +98,6 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 NS_CLASS_AVAILABLE(10_11, 9_0)
 @interface NSURLSessionStreamTask (SFURLSessionStreamTaskDelegator)
 
-@property(nonatomic, readonly) SFURLSessionStreamTaskDelegator *sf_taskDelegator;
+@property(nonatomic, readonly) SFURLSessionStreamTaskDelegator *sf_delegator;
 
 @end

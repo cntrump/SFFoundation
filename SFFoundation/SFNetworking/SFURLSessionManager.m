@@ -93,14 +93,16 @@ NSString *SFHTTPPATCH    = @"PATCH";
     __block NSURLResponse *response_ = nil;
     __block NSMutableData *respData_ = NSMutableData.data;
 
-    dataTask.sf_taskDelegator.didReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition disposition)) {
+    dataTask.sf_delegator.didReceiveResponse = ^(NSURLResponse *response, void (^completionHandler)(NSURLSessionResponseDisposition disposition)) {
         response_ = response;
         completionHandler(NSURLSessionResponseAllow);
     };
-    dataTask.sf_taskDelegator.didReceiveData = ^(NSData *data) {
+
+    dataTask.sf_delegator.didReceiveData = ^(NSData *data) {
         [respData_ appendData:data];
     };
-    dataTask.sf_taskDelegator.didCompleteWithError = ^(NSError *error) {
+    
+    dataTask.sf_delegator.didCompleteWithError = ^(NSError *error) {
         if ([response_ isKindOfClass:NSHTTPURLResponse.class]) {
             NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response_;
             NSInteger statusCode = resp.statusCode;
@@ -144,8 +146,8 @@ NSString *SFHTTPPATCH    = @"PATCH";
 willBeginDelayedRequest:(NSURLRequest *)request
  completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler
 API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
-    if (task.sf_taskDelegator.willBeginDelayedRequest) {
-        task.sf_taskDelegator.willBeginDelayedRequest(request, completionHandler);
+    if (task.sf_delegator.willBeginDelayedRequest) {
+        task.sf_delegator.willBeginDelayedRequest(request, completionHandler);
     } else {
         completionHandler(NSURLSessionDelayedRequestContinueLoading, nil);
     }
@@ -153,8 +155,8 @@ API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
 
 - (void)URLSession:(NSURLSession *)session taskIsWaitingForConnectivity:(NSURLSessionTask *)task
 API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
-    if (task.sf_taskDelegator.taskIsWaitingForConnectivity) {
-        task.sf_taskDelegator.taskIsWaitingForConnectivity();
+    if (task.sf_delegator.taskIsWaitingForConnectivity) {
+        task.sf_delegator.taskIsWaitingForConnectivity();
     }
 }
 
@@ -162,8 +164,8 @@ API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
 willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         newRequest:(NSURLRequest *)request
  completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
-    if (task.sf_taskDelegator.willPerformHTTPRedirection) {
-        task.sf_taskDelegator.willPerformHTTPRedirection(response, request, completionHandler);
+    if (task.sf_delegator.willPerformHTTPRedirection) {
+        task.sf_delegator.willPerformHTTPRedirection(response, request, completionHandler);
     } else {
         completionHandler(request);
     }
@@ -172,8 +174,8 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
  completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
-    if (task.sf_taskDelegator.didReceiveChallenge) {
-        task.sf_taskDelegator.didReceiveChallenge(challenge, completionHandler);
+    if (task.sf_delegator.didReceiveChallenge) {
+        task.sf_delegator.didReceiveChallenge(challenge, completionHandler);
     } else {
         completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
     }
@@ -181,8 +183,8 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
  needNewBodyStream:(void (^)(NSInputStream * _Nullable bodyStream))completionHandler {
-    if (task.sf_taskDelegator.needNewBodyStream) {
-        task.sf_taskDelegator.needNewBodyStream(completionHandler);
+    if (task.sf_delegator.needNewBodyStream) {
+        task.sf_delegator.needNewBodyStream(completionHandler);
     } else {
         completionHandler(nil);
     }
@@ -192,20 +194,20 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
    didSendBodyData:(int64_t)bytesSent
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
-    if (task.sf_taskDelegator.didSendBodyData) {
-        task.sf_taskDelegator.didSendBodyData(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+    if (task.sf_delegator.didSendBodyData) {
+        task.sf_delegator.didSendBodyData(bytesSent, totalBytesSent, totalBytesExpectedToSend);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics API_AVAILABLE(macosx(10.12), ios(10.0), watchos(3.0), tvos(10.0)) {
-    if (task.sf_taskDelegator.didFinishCollectingMetrics) {
-        task.sf_taskDelegator.didFinishCollectingMetrics(metrics);
+    if (task.sf_delegator.didFinishCollectingMetrics) {
+        task.sf_delegator.didFinishCollectingMetrics(metrics);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
-    if (task.sf_taskDelegator.didCompleteWithError) {
-        task.sf_taskDelegator.didCompleteWithError(error);
+    if (task.sf_delegator.didCompleteWithError) {
+        task.sf_delegator.didCompleteWithError(error);
     }
 }
 
@@ -214,8 +216,8 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
-    if (dataTask.sf_taskDelegator.didReceiveResponse) {
-        dataTask.sf_taskDelegator.didReceiveResponse(response, completionHandler);
+    if (dataTask.sf_delegator.didReceiveResponse) {
+        dataTask.sf_delegator.didReceiveResponse(response, completionHandler);
     } else {
         completionHandler(NSURLSessionResponseAllow);
     }
@@ -223,30 +225,30 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
 didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
-    if (dataTask.sf_taskDelegator.didBecomeDownloadTask) {
-        dataTask.sf_taskDelegator.didBecomeDownloadTask(downloadTask);
+    if (dataTask.sf_delegator.didBecomeDownloadTask) {
+        dataTask.sf_delegator.didBecomeDownloadTask(downloadTask);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
 didBecomeStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
-    if (dataTask.sf_taskDelegator.didBecomeStreamTask) {
-        dataTask.sf_taskDelegator.didBecomeStreamTask(streamTask);
+    if (dataTask.sf_delegator.didBecomeStreamTask) {
+        dataTask.sf_delegator.didBecomeStreamTask(streamTask);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data {
-    if (dataTask.sf_taskDelegator.didReceiveData) {
-        dataTask.sf_taskDelegator.didReceiveData(data);
+    if (dataTask.sf_delegator.didReceiveData) {
+        dataTask.sf_delegator.didReceiveData(data);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
  willCacheResponse:(NSCachedURLResponse *)proposedResponse
  completionHandler:(void (^)(NSCachedURLResponse * _Nullable cachedResponse))completionHandler {
-    if (dataTask.sf_taskDelegator.willCacheResponse) {
-        dataTask.sf_taskDelegator.willCacheResponse(proposedResponse, completionHandler);
+    if (dataTask.sf_delegator.willCacheResponse) {
+        dataTask.sf_delegator.willCacheResponse(proposedResponse, completionHandler);
     } else {
         completionHandler(proposedResponse);
     }
@@ -256,8 +258,8 @@ didBecomeStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location {
-    if (downloadTask.sf_taskDelegator.didFinishDownloadingToURL) {
-        downloadTask.sf_taskDelegator.didFinishDownloadingToURL(location);
+    if (downloadTask.sf_delegator.didFinishDownloadingToURL) {
+        downloadTask.sf_delegator.didFinishDownloadingToURL(location);
     }
 }
 
@@ -265,44 +267,44 @@ didFinishDownloadingToURL:(NSURL *)location {
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    if (downloadTask.sf_taskDelegator.didWriteData) {
-        downloadTask.sf_taskDelegator.didWriteData(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    if (downloadTask.sf_delegator.didWriteData) {
+        downloadTask.sf_delegator.didWriteData(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     }
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
  didResumeAtOffset:(int64_t)fileOffset
 expectedTotalBytes:(int64_t)expectedTotalBytes {
-    if (downloadTask.sf_taskDelegator.didResumeAtOffset) {
-        downloadTask.sf_taskDelegator.didResumeAtOffset(fileOffset, expectedTotalBytes);
+    if (downloadTask.sf_delegator.didResumeAtOffset) {
+        downloadTask.sf_delegator.didResumeAtOffset(fileOffset, expectedTotalBytes);
     }
 }
 
 #pragma mark - NSURLSessionStreamDelegate
 
 - (void)URLSession:(NSURLSession *)session readClosedForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
-    if (streamTask.sf_taskDelegator.readClosedForStreamTask) {
-        streamTask.sf_taskDelegator.readClosedForStreamTask();
+    if (streamTask.sf_delegator.readClosedForStreamTask) {
+        streamTask.sf_delegator.readClosedForStreamTask();
     }
 }
 
 - (void)URLSession:(NSURLSession *)session writeClosedForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
-    if (streamTask.sf_taskDelegator.writeClosedForStreamTask) {
-        streamTask.sf_taskDelegator.writeClosedForStreamTask();
+    if (streamTask.sf_delegator.writeClosedForStreamTask) {
+        streamTask.sf_delegator.writeClosedForStreamTask();
     }
 }
 
 - (void)URLSession:(NSURLSession *)session betterRouteDiscoveredForStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
-    if (streamTask.sf_taskDelegator.betterRouteDiscoveredForStreamTask) {
-        streamTask.sf_taskDelegator.betterRouteDiscoveredForStreamTask();
+    if (streamTask.sf_delegator.betterRouteDiscoveredForStreamTask) {
+        streamTask.sf_delegator.betterRouteDiscoveredForStreamTask();
     }
 }
 
 - (void)URLSession:(NSURLSession *)session streamTask:(NSURLSessionStreamTask *)streamTask
 didBecomeInputStream:(NSInputStream *)inputStream
       outputStream:(NSOutputStream *)outputStream API_AVAILABLE(macosx(10.11), ios(9.0), watchos(3.0), tvos(9.0)) {
-    if (streamTask.sf_taskDelegator.didBecomeInputStream) {
-        streamTask.sf_taskDelegator.didBecomeInputStream(inputStream, outputStream);
+    if (streamTask.sf_delegator.didBecomeInputStream) {
+        streamTask.sf_delegator.didBecomeInputStream(inputStream, outputStream);
     }
 }
 
