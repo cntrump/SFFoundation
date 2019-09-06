@@ -21,20 +21,22 @@
 @implementation SFURLSessionStreamTaskDelegator
 @end
 
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 @implementation SFURLSessionWebSocketTaskDelegator
 @end
 
 @implementation NSURLSessionWebSocketTask (SFURLSessionWebSocketTask)
 
-- (void)sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler {
+- (void)sf_sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler {
     [self sendMessage:[[NSURLSessionWebSocketMessage alloc] initWithString:text] completionHandler:completionHandler];
 }
 
-- (void)sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler {
+- (void)sf_sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler {
     [self sendMessage:[[NSURLSessionWebSocketMessage alloc] initWithData:data] completionHandler:completionHandler];
 }
 
 @end
+#endif
 
 @implementation NSURLSessionTask (SFURLSessionTaskDelegator)
 
@@ -60,7 +62,7 @@
                     delegator = [[SFURLSessionStreamTaskDelegator alloc] init];
                 }
             }
-
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 #if SF_MACOS
             if (@available(macOS 10.15, *)) {
 #endif
@@ -71,7 +73,7 @@
                     delegator = [[SFURLSessionWebSocketTaskDelegator alloc] init];
                 }
             }
-
+#endif
             if (!delegator) {
                 delegator = [[SFURLSessionTaskDelegator alloc] init];
             }

@@ -8,7 +8,7 @@
 
 #import "NSScrollView+SFExtension.h"
 
-#if SF_MACOSX
+#if SF_MACOS
 
 @implementation NSScrollView (SFExtension)
 
@@ -16,26 +16,26 @@
     NSPoint newScrollOrigin;
 
     // assume that the scrollview is an existing variable
-    if (scrollview.documentView.isFlipped) {
+    if (self.documentView.isFlipped) {
         newScrollOrigin = NSMakePoint(0.0, 0.0);
     } else {
-        newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollview.documentView.frame) - NSHeight(scrollview.contentView.bounds));
+        newScrollOrigin = NSMakePoint(0.0, NSMaxY(self.documentView.frame) - NSHeight(self.contentView.bounds));
     }
 
-    scrollview.documentView.scrollPoint = newScrollOrigin;
+    [self.documentView scrollPoint:newScrollOrigin];
 }
 
 - (void)sf_scrollToBottom {
     NSPoint newScrollOrigin;
 
     // assume that the scrollview is an existing variable
-    if (scrollview.documentView.isFlipped) {
-        newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollview.documentView.frame) - NSHeight(scrollview.contentView.bounds));
+    if (self.documentView.isFlipped) {
+        newScrollOrigin = NSMakePoint(0.0, NSMaxY(self.documentView.frame) - NSHeight(self.contentView.bounds));
     } else {
         newScrollOrigin = NSMakePoint(0.0, 0.0);
     }
 
-    scrollview.documentView.scrollPoint = newScrollOrigin;
+    [self.documentView scrollPoint:newScrollOrigin];
 }
 
 @end

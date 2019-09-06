@@ -6,7 +6,7 @@
 //  Copyright © 2019 lvv. All rights reserved.
 //
 
-#if SF_MACOSX
+#if SF_MACOS
 
 @interface NSScrollView (SFExtension)
 

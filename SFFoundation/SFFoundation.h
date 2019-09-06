@@ -8,12 +8,52 @@
 
 #import <TargetConditionals.h>
 
+#ifndef __MAC_10_15
+#   define __MAC_10_15         101500
+#endif
+
+#ifndef __IPHONE_13_0
+#   define __IPHONE_13_0    130000
+#endif
+
 #if TARGET_OS_OSX
-#define SF_MACOS  1
+#   define SF_MACOS  1
+
+#   ifndef NSFoundationVersionNumber10_12_Max
+#       define NSFoundationVersionNumber10_12_Max 1399
+#   endif
+
+#   ifndef NSFoundationVersionNumber10_13_Max
+#       define NSFoundationVersionNumber10_13_Max 1499
+#   endif
+
+#   ifndef NSFoundationVersionNumber10_14_Max
+#       define NSFoundationVersionNumber10_14_Max 1599
+#   endif
+
+#   ifndef NSFoundationVersionNumber10_15_Max
+#       define NSFoundationVersionNumber10_15_Max 1699
+#   endif
 #endif
 
 #if TARGET_OS_IOS
-#define SF_IOS  1
+#   define SF_IOS  1
+
+#   ifndef NSFoundationVersionNumber_iOS_10_x_Max
+#       define NSFoundationVersionNumber_iOS_10_x_Max 1399
+#   endif
+
+#   ifndef NSFoundationVersionNumber_iOS_11_x_Max
+#       define NSFoundationVersionNumber_iOS_11_x_Max 1499
+#   endif
+
+#   ifndef NSFoundationVersionNumber_iOS_12_x_Max
+#       define NSFoundationVersionNumber_iOS_12_x_Max 1599
+#   endif
+
+#   ifndef NSFoundationVersionNumber_iOS_13_x_Max
+#       define NSFoundationVersionNumber_iOS_13_x_Max 1699
+#   endif
 #endif
 
 #if SF_IOS

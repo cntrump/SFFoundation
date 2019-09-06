@@ -257,6 +257,7 @@ didBecomeInputStream:(NSInputStream *)inputStream
 
 #pragma mark - NSURLSessionWebSocketDelegate
 
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 - (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didOpenWithProtocol:(NSString * _Nullable) protocol API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
     if (webSocketTask.sf_delegator.didOpenWithProtocol) {
         webSocketTask.sf_delegator.didOpenWithProtocol(protocol);
@@ -268,6 +269,7 @@ didBecomeInputStream:(NSInputStream *)inputStream
         webSocketTask.sf_delegator.didCloseWithCode(closeCode, reason);
     }
 }
+#endif
 
 @end
 
@@ -387,6 +389,7 @@ didBecomeInputStream:(NSInputStream *)inputStream
 
 @end
 
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 @implementation SFURLSessionManager (SFWebSocket)
 
 - (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
@@ -408,3 +411,4 @@ didBecomeInputStream:(NSInputStream *)inputStream
 }
 
 @end
+#endif

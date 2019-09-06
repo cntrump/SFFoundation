@@ -343,11 +343,6 @@
     [manager httpGET:[NSURL URLWithString:@"https://github.com"] headers:nil completion:^(NSURLRequest *request, NSURLResponse *response, NSData *data, NSError *error) {
 
     }];
-    NSURLSessionWebSocketTask *task = [manager webSocketWithURL:[NSURL URLWithString:@"ws://123.207.167.163:9010/ajaxchattest"]];
-    [task resume];
-    [task sendPingWithPongReceiveHandler:^(NSError * _Nullable error) {
-
-    }];
 }
 
 - (void)buttonAction:(SFButton *)sender {

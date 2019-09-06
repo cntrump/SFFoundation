@@ -71,6 +71,7 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 #pragma mark -
 
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 NS_CLASS_AVAILABLE(10_15, 13_0)
 @interface SFURLSessionWebSocketTaskDelegator : SFURLSessionTaskDelegator
 
@@ -79,6 +80,7 @@ NS_CLASS_AVAILABLE(10_15, 13_0)
 @property(nonatomic, copy) void (^didCloseWithCode)(NSURLSessionWebSocketCloseCode closeCode, NSData *reason);
 
 @end
+#endif
 
 #pragma mark -
 
@@ -115,6 +117,7 @@ NS_CLASS_AVAILABLE(10_11, 9_0)
 
 #pragma mark -
 
+#if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 NS_CLASS_AVAILABLE(10_15, 13_0)
 @interface NSURLSessionWebSocketTask (SFURLSessionWebSocketTaskDelegator)
 
@@ -125,8 +128,8 @@ NS_CLASS_AVAILABLE(10_15, 13_0)
 NS_CLASS_AVAILABLE(10_15, 13_0)
 @interface NSURLSessionWebSocketTask (SFURLSessionWebSocketTask)
 
-- (void)sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler;
-- (void)sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler;
+- (void)sf_sendTextMessage:(NSString *)text completionHandler:(void (^)(NSError *error))completionHandler;
+- (void)sf_sendDataMessage:(NSData *)data completionHandler:(void (^)(NSError *error))completionHandler;
 
 @end
-
+#endif
