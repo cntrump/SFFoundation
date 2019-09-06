@@ -91,7 +91,7 @@ NSString *SFHTTPPATCH    = @"PATCH";
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 willBeginDelayedRequest:(NSURLRequest *)request
- completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler
+ completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest *newRequest))completionHandler
 API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
     if (task.sf_delegator.willBeginDelayedRequest) {
         task.sf_delegator.willBeginDelayedRequest(request, completionHandler);
@@ -110,7 +110,7 @@ API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0)) {
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         newRequest:(NSURLRequest *)request
- completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+ completionHandler:(void (^)(NSURLRequest *))completionHandler {
     if (task.sf_delegator.willPerformHTTPRedirection) {
         task.sf_delegator.willPerformHTTPRedirection(response, request, completionHandler);
     } else {
@@ -120,7 +120,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
- completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
     if (task.sf_delegator.didReceiveChallenge) {
         task.sf_delegator.didReceiveChallenge(challenge, completionHandler);
     } else {
@@ -129,7 +129,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
- needNewBodyStream:(void (^)(NSInputStream * _Nullable bodyStream))completionHandler {
+ needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler {
     if (task.sf_delegator.needNewBodyStream) {
         task.sf_delegator.needNewBodyStream(completionHandler);
     } else {
@@ -152,7 +152,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     if (task.sf_delegator.didCompleteWithError) {
         task.sf_delegator.didCompleteWithError(error);
     }
@@ -193,7 +193,7 @@ didBecomeStreamTask:(NSURLSessionStreamTask *)streamTask API_AVAILABLE(macosx(10
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
  willCacheResponse:(NSCachedURLResponse *)proposedResponse
- completionHandler:(void (^)(NSCachedURLResponse * _Nullable cachedResponse))completionHandler {
+ completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler {
     if (dataTask.sf_delegator.willCacheResponse) {
         dataTask.sf_delegator.willCacheResponse(proposedResponse, completionHandler);
     } else {
@@ -258,13 +258,13 @@ didBecomeInputStream:(NSInputStream *)inputStream
 #pragma mark - NSURLSessionWebSocketDelegate
 
 #if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didOpenWithProtocol:(NSString * _Nullable) protocol API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didOpenWithProtocol:(NSString *)protocol API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
     if (webSocketTask.sf_delegator.didOpenWithProtocol) {
         webSocketTask.sf_delegator.didOpenWithProtocol(protocol);
     }
 }
 
-- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didCloseWithCode:(NSURLSessionWebSocketCloseCode)closeCode reason:(NSData * _Nullable)reason API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didCloseWithCode:(NSURLSessionWebSocketCloseCode)closeCode reason:(NSData *)reason API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
     if (webSocketTask.sf_delegator.didCloseWithCode) {
         webSocketTask.sf_delegator.didCloseWithCode(closeCode, reason);
     }
@@ -392,21 +392,37 @@ didBecomeInputStream:(NSInputStream *)inputStream
 #if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 @implementation SFURLSessionManager (SFWebSocket)
 
-- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
-    return [self webSocketWithURL:url protocols:nil];
+- (NSURLSessionWebSocketTask *)webSocketTaskWithURL:(NSURL *)url
+                                            didOpen:(void (^)(NSString *protocol))didOpen
+                                           didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                         completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+    return [self webSocketTaskWithURL:url protocols:nil didOpen:didOpen didClose:didClose completion:completionHandler];
 }
 
-- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url protocols:(NSArray<NSString *>*)protocols API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+- (NSURLSessionWebSocketTask *)webSocketTaskWithURL:(NSURL *)url
+                                          protocols:(NSArray<NSString *>*)protocols
+                                            didOpen:(void (^)(NSString *protocol))didOpen
+                                           didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                         completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
     NSURLSessionWebSocketTask *webSocketTask = protocols ?
                                                 [self.session webSocketTaskWithURL:url protocols:protocols] :
                                                 [self.session webSocketTaskWithURL:url];
+    webSocketTask.sf_delegator.didCompleteWithError = completionHandler;
+    webSocketTask.sf_delegator.didOpenWithProtocol = didOpen;
+    webSocketTask.sf_delegator.didCloseWithCode = didClose;
 
     return webSocketTask;
 }
 
-- (NSURLSessionWebSocketTask *)webSocketWithRequest:(NSURLRequest *)request API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
+- (NSURLSessionWebSocketTask *)webSocketTaskWithRequest:(NSURLRequest *)request
+                                                didOpen:(void (^)(NSString *protocol))didOpen
+                                               didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                             completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0)) {
     NSURLSessionWebSocketTask *webSocketTask = [self.session webSocketTaskWithRequest:request];
-
+    webSocketTask.sf_delegator.didCompleteWithError = completionHandler;
+    webSocketTask.sf_delegator.didOpenWithProtocol = didOpen;
+    webSocketTask.sf_delegator.didCloseWithCode = didClose;
+    
     return webSocketTask;
 }
 

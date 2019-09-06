@@ -54,8 +54,6 @@
 		731F5C1D23209C8B0086EB12 /* SFURLSessionTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 731F5C1B23209C8B0086EB12 /* SFURLSessionTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		731F5C1E23209C8B0086EB12 /* SFURLSessionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 731F5C1C23209C8B0086EB12 /* SFURLSessionTask.m */; };
 		73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 73213EA122CDB18C0037204E /* SFBitOPS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745022E1A290008F53B2 /* SDWebImage.framework */; };
-		7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7327745122E1A291008F53B2 /* SDWebImageMapKit.framework */; };
 		732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 732E1DA222DEF9B50003829A /* SFAsyncTransaction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		732E1DA522DEF9B50003829A /* SFAsyncTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 732E1DA322DEF9B50003829A /* SFAsyncTransaction.m */; };
 		73446D2D231657730048DA74 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73446D2C231657730048DA74 /* libc++.tbd */; };
@@ -283,8 +281,6 @@
 			files = (
 				73446D2D231657730048DA74 /* libc++.tbd in Frameworks */,
 				730AD69122C35E0C00510B82 /* SFFoundation.framework in Frameworks */,
-				7327745222E1A291008F53B2 /* SDWebImage.framework in Frameworks */,
-				7327745322E1A291008F53B2 /* SDWebImageMapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

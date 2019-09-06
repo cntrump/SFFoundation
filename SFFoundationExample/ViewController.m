@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 @import SFFoundation;
-@import SDWebImage;
 
 @interface ScrollCell : SFPagingScrollViewCell {
     SFImageScrollView *_aniView;
@@ -209,7 +208,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         _backgroundView = [[SFAsyncImageView alloc] initWithImage:[UIImage sf_imageWithColor:UIColor.orangeColor]];
-        [_backgroundView sd_setImageWithURL:[NSURL URLWithString:@"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3987907653,720009510&fm=27&gp=0.jpg"] placeholderImage:[UIImage sf_imageWithColor:UIColor.magentaColor]];
         [self.contentView addSubview:_backgroundView];
         _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addConstraints:@[
@@ -338,11 +336,6 @@
 
     TextContainerView *textView = [[TextContainerView alloc] initWithFrame:CGRectMake(50, 100, 180, 150)];
     [self.view addSubview:textView];
-
-    SFURLSessionManager *manager = SFURLSessionManager.manager;
-    [manager httpGET:[NSURL URLWithString:@"https://github.com"] headers:nil completion:^(NSURLRequest *request, NSURLResponse *response, NSData *data, NSError *error) {
-
-    }];
 }
 
 - (void)buttonAction:(SFButton *)sender {

@@ -85,9 +85,21 @@ completion:(SFURLCompletionHandler)completionHandler;
 #if (SF_MACOS && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15) || (SF_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 @interface SFURLSessionManager (SFWebSocket)
 
-- (NSURLSessionWebSocketTask *)webSocketWithURL:(NSURL *)url API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
+- (NSURLSessionWebSocketTask *)webSocketTaskWithURL:(NSURL *)url
+                                            didOpen:(void (^)(NSString *protocol))didOpen
+                                           didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                         completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
 
-- (NSURLSessionWebSocketTask *)webSocketWithRequest:(NSURLRequest *)request API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
+- (NSURLSessionWebSocketTask *)webSocketTaskWithURL:(NSURL *)url
+                                          protocols:(NSArray<NSString *>*)protocols
+                                            didOpen:(void (^)(NSString *protocol))didOpen
+                                           didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                         completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
+
+- (NSURLSessionWebSocketTask *)webSocketTaskWithRequest:(NSURLRequest *)request
+                                                didOpen:(void (^)(NSString *protocol))didOpen
+                                               didClose:(void (^)(NSURLSessionWebSocketCloseCode closeCode, NSData *reson))didClose
+                                             completion:(void (^)(NSError *error))completionHandler API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
 
 @end
 #endif
