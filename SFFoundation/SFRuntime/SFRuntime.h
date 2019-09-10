@@ -8,8 +8,6 @@
 
 @interface NSObject (SFRuntime)
 
-+ (void)sf_swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector;
-
 - (id)sf_getIvarValueWithName:(NSString *)name;
 
 @end
@@ -17,5 +15,6 @@
 SF_EXTERN_C_BEGIN
 
 void sf_swizzleClass(Class cls, SEL originalSelector, SEL swizzledSelector);
+void sf_swizzleInstance(Class cls, SEL originalSelector, SEL swizzledSelector);
 
 SF_EXTERN_C_END
