@@ -92,6 +92,9 @@ SF_EXTERN_C_END
         sf_swizzleInstance(NSClassFromString(@"__NSArrayI"), @selector(objectAtIndex:), @selector(sf_objectAtIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSArrayI"), @selector(objectAtIndexedSubscript:), @selector(sf_objectAtIndexedSubscript:));
 
+        sf_swizzleInstance(NSClassFromString(@"__NSSingleObjectArrayI"), @selector(objectAtIndex:), @selector(sf_S_objectAtIndex:));
+        sf_swizzleInstance(NSClassFromString(@"__NSSingleObjectArrayI"), @selector(objectAtIndexedSubscript:), @selector(sf_S_objectAtIndexedSubscript:));
+
         sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(objectAtIndex:), @selector(sf_M_objectAtIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(objectAtIndexedSubscript:), @selector(sf_M_objectAtIndexedSubscript:));
 
@@ -129,6 +132,24 @@ SF_EXTERN_C_END
     }
 
     return [self sf_objectAtIndexedSubscript:idx];
+}
+
+- (id)sf_S_objectAtIndex:(NSUInteger)index {
+    NSUInteger count = self.count;
+    if (index >= count) {
+        return nil;
+    }
+
+    return [self sf_S_objectAtIndex:index];
+}
+
+- (id)sf_S_objectAtIndexedSubscript:(NSUInteger)idx {
+    NSUInteger count = self.count;
+    if (idx >= count) {
+        return nil;
+    }
+
+    return [self sf_S_objectAtIndexedSubscript:idx];
 }
 
 - (id)sf_M_objectAtIndex:(NSUInteger)index {
