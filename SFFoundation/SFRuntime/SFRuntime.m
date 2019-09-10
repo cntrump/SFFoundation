@@ -87,6 +87,8 @@ SF_EXTERN_C_END
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(NSClassFromString(@"__NSPlaceholderArray"), @selector(initWithObjects:count:), @selector(sf_initWithObjects:count:));
+
         sf_swizzleInstance(NSClassFromString(@"__NSArrayI"), @selector(objectAtIndex:), @selector(sf_objectAtIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSArrayI"), @selector(objectAtIndexedSubscript:), @selector(sf_objectAtIndexedSubscript:));
 
@@ -96,6 +98,19 @@ SF_EXTERN_C_END
         sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(objectAtIndex:), @selector(sf_FrozenM_objectAtIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(objectAtIndexedSubscript:), @selector(sf_FrozenM_objectAtIndexedSubscript:));
     });
+}
+
+- (instancetype)sf_initWithObjects:(id  _Nonnull const [])objects count:(NSUInteger)cnt {
+    NSUInteger count = cnt;
+    for (NSUInteger i = 0; i < cnt; i++) {
+        id obj = objects[i];
+        if (!obj) {
+            count = i;
+            break;
+        }
+    }
+
+    return [self sf_initWithObjects:objects count:count];
 }
 
 - (id)sf_objectAtIndex:(NSUInteger)index {
@@ -248,6 +263,32 @@ SF_EXTERN_C_END
     }
 
     return [self sf_B_isEqualToNumber:number];
+}
+
+@end
+
+
+@implementation NSDictionary (SFSafety)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(NSClassFromString(@"__NSPlaceholderDictionary"), @selector(initWithObjects:forKeys:count:), @selector(sf_initWithObjects:forKeys:count:));
+    });
+}
+
+- (instancetype)sf_initWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt {
+    NSUInteger count = cnt;
+    for (NSUInteger i = 0; i < cnt; i++) {
+        id obj = objects[i];
+        id key = keys[i];
+        if (!obj || !key) {
+            count = i;
+            break;
+        }
+    }
+
+    return [self sf_initWithObjects:objects forKeys:keys count:count];
 }
 
 @end
