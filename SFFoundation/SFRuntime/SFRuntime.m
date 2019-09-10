@@ -314,6 +314,33 @@ SF_EXTERN_C_END
 
 @end
 
+@implementation NSMutableDictionary (SFSafety)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKeyedSubscript:), @selector(sf_setObject:forKeyedSubscript:));
+        sf_swizzleInstance(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKey:), @selector(sf_setObject:forKey:));
+    });
+}
+
+- (void)sf_setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+    if (!key) {
+        return;
+    }
+
+    [self sf_setObject:obj forKeyedSubscript:key];
+}
+
+- (void)sf_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
+    if (!aKey) {
+        return;
+    }
+
+    [self sf_setObject:anObject forKey:aKey];
+}
+
+@end
 
 #if SF_IOS
 @implementation UINavigationController (SFSafety)
