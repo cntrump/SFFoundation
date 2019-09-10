@@ -320,6 +320,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"push" style:UIBarButtonItemStylePlain target:self action:@selector(push:)];
+
     SFUILabel *label = [[SFUILabel alloc] init];
     label.font = [UIFont systemFontOfSize:19];
     label.textColor = UIColor.purpleColor;
@@ -336,6 +338,10 @@
 
     TextContainerView *textView = [[TextContainerView alloc] initWithFrame:CGRectMake(50, 100, 180, 150)];
     [self.view addSubview:textView];
+}
+
+- (void)push:(id)sender {
+    [self.navigationController pushViewController:[[UIViewController alloc] init] animated:YES];
 }
 
 - (void)buttonAction:(SFButton *)sender {
