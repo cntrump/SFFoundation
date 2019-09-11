@@ -12,7 +12,7 @@
 @interface SFOverlayViewController : UIViewController
 
 @property(nonatomic, weak) UIWindow *mainWindow;
-@property(nonatomic, weak) SFOverlayWindow *rootWindow;
+@property(nonatomic, strong) SFOverlayWindow *rootWindow;
 
 @end
 
