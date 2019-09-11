@@ -211,7 +211,7 @@ SF_EXTERN_C_END
 
     NSUInteger count = self.count;
     if (index > count) {
-        index = count;
+        return;
     }
 
     [self sf_M_insertObject:anObject atIndex:index];
@@ -224,7 +224,7 @@ SF_EXTERN_C_END
 
     NSUInteger count = self.count;
     if (idx > count) {
-        idx = count;
+        return;
     }
 
     [self sf_M_setObject:obj atIndexedSubscript:idx];
@@ -237,7 +237,7 @@ SF_EXTERN_C_END
 
     NSUInteger count = self.count;
     if (index > count) {
-        index = count;
+        return;
     }
 
     [self sf_FrozenM_insertObject:anObject atIndex:index];
@@ -250,7 +250,7 @@ SF_EXTERN_C_END
 
     NSUInteger count = self.count;
     if (idx > count) {
-        idx = count;
+        return;
     }
 
     [self sf_FrozenM_setObject:obj atIndexedSubscript:idx];
