@@ -223,8 +223,8 @@ SF_EXTERN_C_END
     }
 
     NSUInteger count = self.count;
-    if (idx >= count) {
-        return;
+    if (idx > count) {
+        idx = count;
     }
 
     [self sf_M_setObject:obj atIndexedSubscript:idx];
@@ -249,8 +249,8 @@ SF_EXTERN_C_END
     }
 
     NSUInteger count = self.count;
-    if (idx >= count) {
-        return;
+    if (idx > count) {
+        idx = count;
     }
 
     [self sf_FrozenM_setObject:obj atIndexedSubscript:idx];
