@@ -341,10 +341,6 @@
 }
 
 - (void)push:(id)sender {
-    [self.navigationController pushViewController:[[UIViewController alloc] init] animated:YES];
-}
-
-- (void)buttonAction:(SFButton *)sender {
     [SFOverlayWindow.window presentViewController:[[PopViewController alloc] init] animated:YES completion:nil];
 }
 
@@ -359,10 +355,6 @@
     [UIView animateWithDuration:0.4 animations:^{
         _animatedImageView.frame = frame;
     }];
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

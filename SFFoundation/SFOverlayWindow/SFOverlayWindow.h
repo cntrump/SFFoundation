@@ -11,8 +11,6 @@
 
 + (instancetype)window;
 
-@property(class, nonatomic, readonly) UIWindow *mainWindow;
-
 - (void)show;
 
 - (void)destory;

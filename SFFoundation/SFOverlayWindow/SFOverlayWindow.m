@@ -10,13 +10,12 @@
 #import "SFOverlayWindow.h"
 #import "SFOverlayViewController.h"
 #import "UIViewController+SFOverlayWindow.h"
-#import <stdatomic.h>
-
-static atomic_long windowCount = 0;
 
 @interface SFOverlayWindow () {
     UIWindowLevel _innerWindowLevel;
 }
+
+@property(nonatomic, weak) UIWindow *baseKeyWindow;
 
 @end
 
@@ -32,12 +31,22 @@ static atomic_long windowCount = 0;
 
 - (instancetype)initWithFrame:(CGRect)frame {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    UIWindow *basedWindow = nil;
+
     if (@available(iOS 13.0, *)) {
         UIWindowScene *windowScene = nil;
         for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
             if ([scene isKindOfClass:UIWindowScene.class]) {
                 if (scene.activationState == UISceneActivationStateForegroundActive) {
                     windowScene = (UIWindowScene *)scene;
+
+                    for (UIWindow *window in windowScene.windows) {
+                        if (window.isKeyWindow) {
+                            basedWindow = window;
+                            break;
+                        }
+                    }
+
                     break;
                 }
             }
@@ -46,11 +55,19 @@ static atomic_long windowCount = 0;
         self = [super initWithWindowScene:windowScene];
     } else {
 #endif
+        for (UIWindow *window in UIApplication.sharedApplication.windows) {
+            if (window.isKeyWindow) {
+                basedWindow = window;
+                break;
+            }
+        }
+
         self = [super initWithFrame:frame];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
     }
 #endif
     if (self) {
+        _baseKeyWindow = basedWindow;
         _innerWindowLevel = UIWindowLevelNormal;
         self.rootViewController = [[self.class.rootViewControllerClass alloc] init];
     }
@@ -67,23 +84,14 @@ static atomic_long windowCount = 0;
     super.windowLevel = windowLevel;
 }
 
-+ (UIWindow *)mainWindow {
-    return UIApplication.sharedApplication.delegate.window;
-}
-
 - (void)destory {
     if (self.hidden) {
         return;
     }
 
-    long remainWindowCount = atomic_dec_return(&windowCount);
-
     self.hidden = YES;
     ((SFOverlayViewController *)self.rootViewController).rootWindow = nil;
-
-    if (remainWindowCount <= 0) {
-        [self.class.mainWindow makeKeyWindow];
-    }
+    [self.baseKeyWindow makeKeyWindow];
 }
 
 - (void)show {
@@ -91,25 +99,23 @@ static atomic_long windowCount = 0;
 }
 
 - (void)showWithLevel:(UIWindowLevel)level {
-    if (!self.isHidden || !self.class.mainWindow) {
+    if (!self.isHidden || !self.baseKeyWindow) {
         return;
     }
 
-    atomic_inc_return(&windowCount);
-
     SFOverlayViewController *rootVC = (SFOverlayViewController *)self.rootViewController;
-    rootVC.mainWindow = self.class.mainWindow;
+    rootVC.mainWindow = self.baseKeyWindow;
     rootVC.rootWindow = self;
     rootVC.view.backgroundColor = UIColor.clearColor;
 
     self.backgroundColor = UIColor.clearColor;
-    self.frame = self.class.mainWindow.frame;
+    self.frame = self.baseKeyWindow.frame;
     self.windowLevel = level;
     [self makeKeyAndVisible];
 }
 
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
-    if (!self.hidden || !self.class.mainWindow || self.rootViewController.presentedViewController) {
+    if (!self.hidden || !self.baseKeyWindow || self.rootViewController.presentedViewController) {
         return;
     }
 
