@@ -31,7 +31,26 @@ static atomic_long windowCount = 0;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    if (@available(iOS 13.0, *)) {
+        UIWindowScene *windowScene = nil;
+        for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+            if ([scene isKindOfClass:UIWindowScene.class]) {
+                if (scene.activationState == UISceneActivationStateForegroundActive) {
+                    windowScene = (UIWindowScene *)scene;
+                    break;
+                }
+            }
+        }
+
+        self = [super initWithWindowScene:windowScene];
+    } else {
+#endif
+        self = [super initWithFrame:frame];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    }
+#endif
+    if (self) {
         _innerWindowLevel = UIWindowLevelNormal;
         self.rootViewController = [[self.class.rootViewControllerClass alloc] init];
     }
