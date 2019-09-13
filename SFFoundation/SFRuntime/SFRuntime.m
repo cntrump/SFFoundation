@@ -359,6 +359,7 @@ SF_EXTERN_C_END
     dispatch_once(&onceToken, ^{
         sf_swizzleInstance(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKeyedSubscript:), @selector(sf_setObject:forKeyedSubscript:));
         sf_swizzleInstance(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKey:), @selector(sf_setObject:forKey:));
+        sf_swizzleInstance(NSClassFromString(@"__NSDictionaryM"), @selector(removeObjectForKey:), @selector(sf_removeObjectForKey:));
     });
 }
 
@@ -376,6 +377,14 @@ SF_EXTERN_C_END
     }
 
     [self sf_setObject:anObject forKey:aKey];
+}
+
+- (void)sf_removeObjectForKey:(id)aKey {
+    if (!aKey) {
+        return;
+    }
+
+    [self sf_removeObjectForKey:aKey];
 }
 
 @end
