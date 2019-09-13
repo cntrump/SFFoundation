@@ -198,9 +198,13 @@ SF_EXTERN_C_END
     dispatch_once(&onceToken, ^{
         sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(insertObject:atIndex:), @selector(sf_M_insertObject:atIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(setObject:atIndexedSubscript:), @selector(sf_M_setObject:atIndexedSubscript:));
+        sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(removeObjectAtIndex:), @selector(sf_M_removeObjectAtIndex:));
+        sf_swizzleInstance(NSClassFromString(@"__NSArrayM"), @selector(removeObject:), @selector(sf_M_removeObject:));
 
         sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(insertObject:atIndex:), @selector(sf_FrozenM_insertObject:atIndex:));
         sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(setObject:atIndexedSubscript:), @selector(sf_FrozenM_setObject:atIndexedSubscript:));
+        sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(removeObjectAtIndex:), @selector(sf_FrozenM_removeObjectAtIndex:));
+        sf_swizzleInstance(NSClassFromString(@"__NSFrozenArrayM"), @selector(removeObject:), @selector(sf_FrozenM_removeObject:));
     });
 }
 
@@ -230,6 +234,23 @@ SF_EXTERN_C_END
     [self sf_M_setObject:obj atIndexedSubscript:idx];
 }
 
+- (void)sf_M_removeObjectAtIndex:(NSUInteger)index {
+    NSUInteger count = self.count;
+    if (index >= count) {
+        return;
+    }
+
+    [self sf_M_removeObjectAtIndex:index];
+}
+
+- (void)sf_M_removeObject:(id)anObject {
+    if (!anObject) {
+        return;
+    }
+
+    [self sf_M_removeObject:anObject];
+}
+
 - (void)sf_FrozenM_insertObject:(id)anObject atIndex:(NSUInteger)index {
     if (!anObject) {
         return;
@@ -254,6 +275,23 @@ SF_EXTERN_C_END
     }
 
     [self sf_FrozenM_setObject:obj atIndexedSubscript:idx];
+}
+
+- (void)sf_FrozenM_removeObjectAtIndex:(NSUInteger)index {
+    NSUInteger count = self.count;
+    if (index >= count) {
+        return;
+    }
+
+    [self sf_FrozenM_removeObjectAtIndex:index];
+}
+
+- (void)sf_FrozenM_removeObject:(id)anObject {
+    if (!anObject) {
+        return;
+    }
+
+    [self sf_FrozenM_removeObject:anObject];
 }
 
 @end
