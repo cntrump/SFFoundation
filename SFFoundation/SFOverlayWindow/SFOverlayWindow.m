@@ -30,9 +30,8 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
     UIWindow *basedWindow = nil;
-
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
     if (@available(iOS 13.0, *)) {
         UIWindowScene *windowScene = nil;
         for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
