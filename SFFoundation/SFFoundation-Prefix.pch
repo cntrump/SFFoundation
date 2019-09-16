@@ -80,11 +80,11 @@
 
 @interface SFFoundation : NSObject
 
-@property(class, nonatomic, assign) BOOL enableBlockAssertions; // default is NO
+@property(class, nonatomic, assign) BOOL enableAssertions; // default is NO
 
 @end
 
-#define SFAssert(condition, desc, ...)  do { if (SFFoundation.enableBlockAssertions) {NSAssert((condition), (desc), ##__VA_ARGS__);}} while(0)
+#define SFAssert(condition, desc, ...)  do { if (SFFoundation.enableAssertions) {NSAssert((condition), (desc), ##__VA_ARGS__);}} while(0)
 #define SFAssert1(condition, desc, arg1) SFAssert((condition), (desc), (arg1))
 #define SFAssert2(condition, desc, arg1, arg2) SFAssert((condition), (desc), (arg1), (arg2))
 #define SFAssert3(condition, desc, arg1, arg2, arg3) SFAssert((condition), (desc), (arg1), (arg2), (arg3))

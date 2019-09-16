@@ -120,6 +120,6 @@
 
 @interface SFFoundation : NSObject
 
-@property(class, nonatomic, assign) BOOL enableBlockAssertions; // default is NO
+@property(class, nonatomic, assign) BOOL enableAssertions; // default is NO
 
 @end

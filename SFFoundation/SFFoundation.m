@@ -6,16 +6,16 @@
 //  Copyright © 2019 lvv. All rights reserved.
 //
 
-static BOOL EnableBlockAssertions = NO;
+static BOOL EnableAssertions = NO;
 
 @implementation SFFoundation
 
-+ (void)setEnableBlockAssertions:(BOOL)enableBlockAssertions {
-    EnableBlockAssertions = enableBlockAssertions;
++ (void)setEnableAssertions:(BOOL)enableAssertions {
+    EnableAssertions = enableAssertions;
 }
 
-+ (BOOL)enableBlockAssertions {
-    return EnableBlockAssertions;
++ (BOOL)enableAssertions {
+    return EnableAssertions;
 }
 
 @end
