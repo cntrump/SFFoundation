@@ -60,7 +60,6 @@
 #endif
 
 #import <Foundation/Foundation.h>
-#import <Foundation/NSException.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
 
