@@ -107,7 +107,7 @@ SF_EXTERN_C_END
     NSUInteger count = cnt;
     for (NSUInteger i = 0; i < cnt; i++) {
         id obj = objects[i];
-        NSAssert(obj, @"object must not be nil.");
+        SFAssert(obj, @"object must not be nil.");
         if (!obj) {
             count = i;
             break;
@@ -119,7 +119,7 @@ SF_EXTERN_C_END
 
 - (id)sf_objectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return nil;
     }
@@ -129,7 +129,7 @@ SF_EXTERN_C_END
 
 - (id)sf_objectAtIndexedSubscript:(NSUInteger)idx {
     NSUInteger count = self.count;
-    NSAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx >= count) {
         return nil;
     }
@@ -139,7 +139,7 @@ SF_EXTERN_C_END
 
 - (id)sf_S_objectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return nil;
     }
@@ -149,7 +149,7 @@ SF_EXTERN_C_END
 
 - (id)sf_S_objectAtIndexedSubscript:(NSUInteger)idx {
     NSUInteger count = self.count;
-    NSAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx >= count) {
         return nil;
     }
@@ -159,7 +159,7 @@ SF_EXTERN_C_END
 
 - (id)sf_M_objectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return nil;
     }
@@ -169,7 +169,7 @@ SF_EXTERN_C_END
 
 - (id)sf_M_objectAtIndexedSubscript:(NSUInteger)idx {
     NSUInteger count = self.count;
-    NSAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx >= count) {
         return nil;
     }
@@ -179,7 +179,7 @@ SF_EXTERN_C_END
 
 - (id)sf_FrozenM_objectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return nil;
     }
@@ -189,7 +189,7 @@ SF_EXTERN_C_END
 
 - (id)sf_FrozenM_objectAtIndexedSubscript:(NSUInteger)idx {
     NSUInteger count = self.count;
-    NSAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx < count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx >= count) {
         return nil;
     }
@@ -218,13 +218,13 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_M_insertObject:(id)anObject atIndex:(NSUInteger)index {
-    NSAssert(anObject, @"object must not be nil.");
+    SFAssert(anObject, @"object must not be nil.");
     if (!anObject) {
         return;
     }
 
     NSUInteger count = self.count;
-    NSAssert2(index <= count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index <= count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index > count) {
         return;
     }
@@ -233,13 +233,13 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_M_setObject:(id)obj atIndexedSubscript:(NSUInteger)idx {
-    NSAssert(obj, @"object must not be nil.");
+    SFAssert(obj, @"object must not be nil.");
     if (!obj) {
         return;
     }
 
     NSUInteger count = self.count;
-    NSAssert2(idx <= count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx <= count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx > count) {
         return;
     }
@@ -249,7 +249,7 @@ SF_EXTERN_C_END
 
 - (void)sf_M_removeObjectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return;
     }
@@ -258,7 +258,7 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_M_removeObject:(id)anObject {
-    NSAssert(anObject, @"object must not be nil.");
+    SFAssert(anObject, @"object must not be nil.");
     if (!anObject) {
         return;
     }
@@ -267,13 +267,13 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_FrozenM_insertObject:(id)anObject atIndex:(NSUInteger)index {
-    NSAssert(anObject, @"object must not be nil.");
+    SFAssert(anObject, @"object must not be nil.");
     if (!anObject) {
         return;
     }
 
     NSUInteger count = self.count;
-    NSAssert2(index <= count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index <= count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index > count) {
         return;
     }
@@ -282,13 +282,13 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_FrozenM_setObject:(id)obj atIndexedSubscript:(NSUInteger)idx {
-    NSAssert(obj, @"object must not be nil.");
+    SFAssert(obj, @"object must not be nil.");
     if (!obj) {
         return;
     }
 
     NSUInteger count = self.count;
-    NSAssert2(idx <= count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
+    SFAssert2(idx <= count, @"index %lu beyond bounds [0 .. %lu].", idx, count);
     if (idx > count) {
         return;
     }
@@ -298,7 +298,7 @@ SF_EXTERN_C_END
 
 - (void)sf_FrozenM_removeObjectAtIndex:(NSUInteger)index {
     NSUInteger count = self.count;
-    NSAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
+    SFAssert2(index < count, @"index %lu beyond bounds [0 .. %lu].", index, count);
     if (index >= count) {
         return;
     }
@@ -307,7 +307,7 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_FrozenM_removeObject:(id)anObject {
-    NSAssert(anObject, @"object must not be nil.");
+    SFAssert(anObject, @"object must not be nil.");
     if (!anObject) {
         return;
     }
@@ -362,7 +362,7 @@ SF_EXTERN_C_END
     for (NSUInteger i = 0; i < cnt; i++) {
         id obj = objects[i];
         id key = keys[i];
-        NSAssert(key && obj, @"key and obj must be paired.");
+        SFAssert(key && obj, @"key and obj must be paired.");
         if (!obj || !key) {
             count = i;
             break;
@@ -386,7 +386,7 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
-    NSAssert(key, @"key must not be nil.");
+    SFAssert(key, @"key must not be nil.");
     if (!key) {
         return;
     }
@@ -395,7 +395,7 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-    NSAssert(aKey, @"key must not be nil.");
+    SFAssert(aKey, @"key must not be nil.");
     if (!aKey) {
         return;
     }
@@ -404,7 +404,7 @@ SF_EXTERN_C_END
 }
 
 - (void)sf_removeObjectForKey:(id)aKey {
-    NSAssert(aKey, @"key must not be nil.");
+    SFAssert(aKey, @"key must not be nil.");
     if (!aKey) {
         return;
     }

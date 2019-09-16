@@ -117,3 +117,9 @@
 // MACOS
 #import <SFFoundation/SFDisplayLink.h>
 #import <SFFoundation/NSScrollView+SFExtension.h>
+
+@interface SFFoundation : NSObject
+
+@property(class, nonatomic, assign) BOOL enableBlockAssertions; // default is NO
+
+@end

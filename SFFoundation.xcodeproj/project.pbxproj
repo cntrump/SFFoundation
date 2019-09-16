@@ -118,6 +118,7 @@
 		73E03E5E2313CAE700BC065D /* SFCardNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */; };
 		73F7F1B722E5D67E00881631 /* SFImageSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F7F1B522E5D67E00881631 /* SFImageSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7F1B622E5D67E00881631 /* SFImageSource.m */; };
+		73FAAED7232F2A3B008C07A9 /* SFFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FAAED6232F2A3B008C07A9 /* SFFoundation.m */; };
 		73FBA1A222C6F9FD00C0CD43 /* SFImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 73FBA1A022C6F9FD00C0CD43 /* SFImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73FBA1A322C6F9FD00C0CD43 /* SFImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBA1A122C6F9FD00C0CD43 /* SFImageView.m */; };
 /* End PBXBuildFile section */
@@ -263,6 +264,7 @@
 		73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFCardNumberFormatter.m; path = SFFoundation/SFView/SFCardNumberFormatter.m; sourceTree = SOURCE_ROOT; };
 		73F7F1B522E5D67E00881631 /* SFImageSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageSource.h; sourceTree = "<group>"; };
 		73F7F1B622E5D67E00881631 /* SFImageSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageSource.m; sourceTree = "<group>"; };
+		73FAAED6232F2A3B008C07A9 /* SFFoundation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFoundation.m; sourceTree = "<group>"; };
 		73FBA1A022C6F9FD00C0CD43 /* SFImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageView.h; sourceTree = "<group>"; };
 		73FBA1A122C6F9FD00C0CD43 /* SFImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -344,6 +346,7 @@
 				735623C522E2E63E00DF9796 /* SFView */,
 				73213EA122CDB18C0037204E /* SFBitOPS.h */,
 				730AD63B22C319D400510B82 /* SFFoundation.h */,
+				73FAAED6232F2A3B008C07A9 /* SFFoundation.m */,
 				730AD66422C33DA000510B82 /* SFPlatformDefine.h */,
 				730AD64322C31B3100510B82 /* SFFoundation-Prefix.pch */,
 				730AD63C22C319D400510B82 /* Info.plist */,
@@ -878,6 +881,7 @@
 				730AD67322C350CE00510B82 /* SFDispatchWorkItem.m in Sources */,
 				734910E622C5EF42008E48BE /* NSDate+SFTime.m in Sources */,
 				73D538AA22C4A3240041CE03 /* SFAlertContainerController.m in Sources */,
+				73FAAED7232F2A3B008C07A9 /* SFFoundation.m in Sources */,
 				732E1DA522DEF9B50003829A /* SFAsyncTransaction.m in Sources */,
 				73181530230532CB0062B4FC /* SFMagnifierView.m in Sources */,
 				73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */,
