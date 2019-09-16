@@ -84,22 +84,12 @@
 
 @end
 
-#if !defined(NS_BLOCK_ASSERTIONS)
-#   define SFAssert(condition, desc, ...)  do { if (SFFoundation.enableBlockAssertions) {NSAssert((condition), (desc), ##__VA_ARGS__);}} while(0)
-#   define SFAssert1(condition, desc, arg1) SFAssert((condition), (desc), (arg1))
-#   define SFAssert2(condition, desc, arg1, arg2) SFAssert((condition), (desc), (arg1), (arg2))
-#   define SFAssert3(condition, desc, arg1, arg2, arg3) SFAssert((condition), (desc), (arg1), (arg2), (arg3))
-#   define SFAssert4(condition, desc, arg1, arg2, arg3, arg4) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4))
-#   define SFAssert5(condition, desc, arg1, arg2, arg3, arg4, arg5) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4), (arg5))
-#   define SFParameterAssert(condition) SFAssert((condition), @"Invalid parameter not satisfying: %@", @#condition)
-#else
-#   define SFAssert(condition, desc, ...)   NSAssert((condition), (desc), ##__VA_ARGS__)
-#   define SFAssert1(condition, desc, arg1) SFAssert((condition), (desc), (arg1))
-#   define SFAssert2(condition, desc, arg1, arg2) SFAssert((condition), (desc), (arg1), (arg2))
-#   define SFAssert3(condition, desc, arg1, arg2, arg3) SFAssert((condition), (desc), (arg1), (arg2), (arg3))
-#   define SFAssert4(condition, desc, arg1, arg2, arg3, arg4) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4))
-#   define SFAssert5(condition, desc, arg1, arg2, arg3, arg4, arg5) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4), (arg5))
-#   define SFParameterAssert(condition) SFAssert((condition), @"Invalid parameter not satisfying: %@", @#condition)
-#endif
+#define SFAssert(condition, desc, ...)  do { if (SFFoundation.enableBlockAssertions) {NSAssert((condition), (desc), ##__VA_ARGS__);}} while(0)
+#define SFAssert1(condition, desc, arg1) SFAssert((condition), (desc), (arg1))
+#define SFAssert2(condition, desc, arg1, arg2) SFAssert((condition), (desc), (arg1), (arg2))
+#define SFAssert3(condition, desc, arg1, arg2, arg3) SFAssert((condition), (desc), (arg1), (arg2), (arg3))
+#define SFAssert4(condition, desc, arg1, arg2, arg3, arg4) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4))
+#define SFAssert5(condition, desc, arg1, arg2, arg3, arg4, arg5) SFAssert((condition), (desc), (arg1), (arg2), (arg3), (arg4), (arg5))
+#define SFParameterAssert(condition) SFAssert((condition), @"Invalid parameter not satisfying: %@", @#condition)
 
 #endif /* SFFoundation_Prefix_pch */
