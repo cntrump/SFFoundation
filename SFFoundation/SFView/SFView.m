@@ -7,6 +7,7 @@
 //
 
 #import "SFView.h"
+#import "SFRuntime.h"
 #import "SFAsyncLayer.h"
 
 #if SF_MACOS
@@ -124,6 +125,37 @@ SF_EXTERN_C_END
 
 #if SF_IOS
 @implementation UIView (SFExtension)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(drawRect:), @selector(sf_drawRect:));
+        sf_swizzleInstance(self, @selector(layoutSubviews), @selector(sf_layoutSubviews));
+        sf_swizzleInstance(self, @selector(traitCollectionDidChange:), @selector(sf_traitCollectionDidChange:));
+        sf_swizzleInstance(self, @selector(tintColorDidChange), @selector(sf_tintColorDidChange));
+    });
+}
+
+- (void)sf_drawRect:(CGRect)rect {
+    [self sf_drawRect:rect];
+}
+
+- (void)sf_layoutSubviews {
+    [self sf_layoutSubviews];
+}
+
+- (void)sf_traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self sf_traitCollectionDidChange:previousTraitCollection];
+
+    if ((self.traitCollection.verticalSizeClass != previousTraitCollection.verticalSizeClass)
+        || (self.traitCollection.horizontalSizeClass != previousTraitCollection.horizontalSizeClass)) {
+        // your custom implementation here
+    }
+}
+
+- (void)sf_tintColorDidChange {
+    [self sf_tintColorDidChange];
+}
 
 - (void)setSf_frameOrigin:(CGPoint)origin {
     CGRect frame = self.frame;
