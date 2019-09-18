@@ -7,6 +7,7 @@
 //
 
 #import "SFDeInitHelper.h"
+#import "SFRuntime.h"
 
 @interface SFDeInitHelper : NSObject
 
@@ -17,10 +18,7 @@
 @implementation SFDeInitHelper
 
 - (void)dealloc {
-    if (_deInitBlock) {
-        _deInitBlock();
-        _deInitBlock = nil;
-    }
+    [self finishBlock];
 }
 
 - (instancetype)initWithBlock:(void (^)(void))block {
@@ -31,16 +29,43 @@
     return self;
 }
 
+- (void)finishBlock {
+    if (_deInitBlock) {
+        _deInitBlock();
+        _deInitBlock = nil;
+    }
+}
+
 @end
 
 
 @implementation NSObject (SFDeInitHelper)
 
-- (void)sf_addDeInitBlock:(void (^)(void))block {
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, NSSelectorFromString(@"dealloc"), @selector(sf_dealloc));
+    });
+}
+
+- (void)sf_dealloc {
+    if (self.sf_deInitArray) {
+        for (SFDeInitHelper *helper in self.sf_deInitArray) {
+            [helper finishBlock];
+        }
+
+        self.sf_deInitArray = nil;
+    }
+
+    [self sf_dealloc];
+}
+
+- (void)sf_addDeInitBlock:(void (^)(void))block {    
     SFDeInitHelper *helper = [[SFDeInitHelper alloc] initWithBlock:block];
     NSMutableArray<SFDeInitHelper *> *array = self.sf_deInitArray;
     if (!array) {
         array = NSMutableArray.array;
+        self.sf_deInitArray = array;
     }
 
     [array addObject:helper];

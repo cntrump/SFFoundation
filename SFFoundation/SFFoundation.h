@@ -103,6 +103,7 @@
 #import <SFFoundation/SFCardNumberFormatter.h>
 #import <SFFoundation/SFAsyncOperation.h>
 #import <SFFoundation/SFDeInitHelper.h>
+#import <SFFoundation/SFRWLock.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>

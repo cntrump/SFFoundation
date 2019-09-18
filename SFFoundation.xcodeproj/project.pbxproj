@@ -74,6 +74,8 @@
 		73701F0E22C6661D00E9A20A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73701F0C22C6661D00E9A20A /* MainMenu.xib */; };
 		73701F1122C6661D00E9A20A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73701F1022C6661D00E9A20A /* main.m */; };
 		73701F1622C6666500E9A20A /* SFFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730AD63822C319D400510B82 /* SFFoundation.framework */; };
+		7384B7F023325FDD00F97966 /* SFRWLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7384B7EE23325FDD00F97966 /* SFRWLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7384B7F123325FDD00F97966 /* SFRWLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7384B7EF23325FDD00F97966 /* SFRWLock.m */; };
 		738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 738F492D22FE96D20004175A /* SFImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		738F493022FE96D20004175A /* SFImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F492E22FE96D20004175A /* SFImageScrollView.m */; };
 		739A8AF722C4308D0082346E /* SFRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 739A8AF522C4308D0082346E /* SFRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -222,6 +224,8 @@
 		73701F0F22C6661D00E9A20A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73701F1022C6661D00E9A20A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		73701F1222C6661D00E9A20A /* SFFoundationExample_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SFFoundationExample_macOS.entitlements; sourceTree = "<group>"; };
+		7384B7EE23325FDD00F97966 /* SFRWLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFRWLock.h; sourceTree = "<group>"; };
+		7384B7EF23325FDD00F97966 /* SFRWLock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFRWLock.m; sourceTree = "<group>"; };
 		738F492D22FE96D20004175A /* SFImageScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageScrollView.h; sourceTree = "<group>"; };
 		738F492E22FE96D20004175A /* SFImageScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageScrollView.m; sourceTree = "<group>"; };
 		739A8AF522C4308D0082346E /* SFRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFRuntime.h; sourceTree = "<group>"; };
@@ -326,6 +330,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				7384B7ED23325FBB00F97966 /* SFLock */,
 				731C49E9231E4FC300A5BD58 /* SFOperation */,
 				731EB3BF231767DA0033D3FE /* SFKeyboard */,
 				73E03E5A2313CA2700BC065D /* SFFormatter */,
@@ -518,6 +523,15 @@
 			path = SFFoundationExample_macOS;
 			sourceTree = "<group>";
 		};
+		7384B7ED23325FBB00F97966 /* SFLock */ = {
+			isa = PBXGroup;
+			children = (
+				7384B7EE23325FDD00F97966 /* SFRWLock.h */,
+				7384B7EF23325FDD00F97966 /* SFRWLock.m */,
+			);
+			path = SFLock;
+			sourceTree = "<group>";
+		};
 		739A8AF922C431FF0082346E /* SFRuntime */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,6 +719,7 @@
 				731C49EC231E4FDD00A5BD58 /* SFAsyncOperation.h in Headers */,
 				731F5C1D23209C8B0086EB12 /* SFURLSessionTask.h in Headers */,
 				73E52D9023322A91009788EA /* SFDeInitHelper.h in Headers */,
+				7384B7F023325FDD00F97966 /* SFRWLock.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
@@ -874,6 +889,7 @@
 				73AFB1E422EAB89E0058B8DF /* SFImageDestination.m in Sources */,
 				73B31A9D22C6761E00D1E163 /* SFGeometry.m in Sources */,
 				7318153423056AC10062B4FC /* SFTextSelectionView.m in Sources */,
+				7384B7F123325FDD00F97966 /* SFRWLock.m in Sources */,
 				73D538A622C4A3240041CE03 /* SFOverlayViewController.m in Sources */,
 				73E03E5E2313CAE700BC065D /* SFCardNumberFormatter.m in Sources */,
 				73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */,
