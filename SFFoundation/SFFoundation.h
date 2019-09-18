@@ -102,6 +102,7 @@
 #import <SFFoundation/SFStringTokenizer.h>
 #import <SFFoundation/SFCardNumberFormatter.h>
 #import <SFFoundation/SFAsyncOperation.h>
+#import <SFFoundation/SFDeInitHelper.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>
