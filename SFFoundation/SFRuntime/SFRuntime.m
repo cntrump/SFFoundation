@@ -393,3 +393,190 @@ SF_EXTERN_C_END
 }
 
 @end
+
+#if SF_IOS
+@implementation UIViewController (SFRuntime)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(viewWillLayoutSubviews), @selector(sf_viewWillLayoutSubviews));
+        sf_swizzleInstance(self, @selector(viewDidLayoutSubviews), @selector(sf_viewDidLayoutSubviews));
+        sf_swizzleInstance(self, @selector(traitCollectionDidChange:), @selector(sf_traitCollectionDidChange:));
+    });
+}
+
+- (void)setSf_viewWillLayoutSubviewsBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_viewWillLayoutSubviewsBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_viewWillLayoutSubviewsBlock {
+    return objc_getAssociatedObject(self, @selector(sf_viewWillLayoutSubviewsBlock));
+}
+
+- (void)setSf_viewDidLayoutSubviewsBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_viewDidLayoutSubviewsBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_viewDidLayoutSubviewsBlock {
+    return objc_getAssociatedObject(self, @selector(sf_viewDidLayoutSubviewsBlock));
+}
+
+- (void)sf_viewWillLayoutSubviews {
+    [self sf_viewWillLayoutSubviews];
+
+    if (self.sf_viewWillLayoutSubviewsBlock) {
+        self.sf_viewWillLayoutSubviewsBlock();
+    }
+}
+
+- (void)sf_viewDidLayoutSubviews {
+    [self sf_viewDidLayoutSubviews];
+
+    if (self.sf_viewDidLayoutSubviewsBlock) {
+        self.sf_viewDidLayoutSubviewsBlock();
+    }
+}
+
+- (void)sf_traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self sf_traitCollectionDidChange:previousTraitCollection];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+
+        }
+    }
+#endif
+}
+
+@end
+
+@implementation UIPresentationController (SFRuntime)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(containerViewWillLayoutSubviews), @selector(sf_containerViewWillLayoutSubviews));
+        sf_swizzleInstance(self, @selector(containerViewDidLayoutSubviews), @selector(sf_containerViewDidLayoutSubviews));
+        sf_swizzleInstance(self, @selector(traitCollectionDidChange:), @selector(sf_traitCollectionDidChange:));
+    });
+}
+
+- (void)setSf_containerViewWillLayoutSubviewsBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_containerViewWillLayoutSubviewsBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_containerViewWillLayoutSubviewsBlock {
+    return objc_getAssociatedObject(self, @selector(sf_containerViewWillLayoutSubviewsBlock));
+}
+
+- (void)setSf_containerViewDidLayoutSubviewsBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_containerViewDidLayoutSubviewsBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_containerViewDidLayoutSubviewsBlock {
+    return objc_getAssociatedObject(self, @selector(sf_containerViewDidLayoutSubviewsBlock));
+}
+
+- (void)sf_containerViewWillLayoutSubviews {
+    [self sf_containerViewWillLayoutSubviews];
+
+    if (self.sf_containerViewWillLayoutSubviewsBlock) {
+        self.sf_containerViewWillLayoutSubviewsBlock();
+    }
+}
+
+- (void)sf_containerViewDidLayoutSubviews {
+    [self sf_containerViewDidLayoutSubviews];
+
+    if (self.sf_containerViewDidLayoutSubviewsBlock) {
+        self.sf_containerViewDidLayoutSubviewsBlock();
+    }
+}
+
+- (void)sf_traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self sf_traitCollectionDidChange:previousTraitCollection];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+
+        }
+    }
+#endif
+}
+
+@end
+
+@implementation UIView (SFRuntime)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(drawRect:), @selector(sf_drawRect:));
+        sf_swizzleInstance(self, @selector(layoutSubviews), @selector(sf_layoutSubviews));
+        sf_swizzleInstance(self, @selector(traitCollectionDidChange:), @selector(sf_traitCollectionDidChange:));
+        sf_swizzleInstance(self, @selector(tintColorDidChange), @selector(sf_tintColorDidChange));
+    });
+}
+
+- (void)setSf_drawRectBlock:(void (^)(CGRect))block {
+    objc_setAssociatedObject(self, @selector(sf_drawRectBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)(CGRect))sf_drawRectBlock {
+    return objc_getAssociatedObject(self, @selector(sf_drawRectBlock));
+}
+
+- (void)setSf_layoutSubviewsBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_layoutSubviewsBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_layoutSubviewsBlock {
+    return objc_getAssociatedObject(self, @selector(sf_layoutSubviewsBlock));
+}
+
+- (void)setSf_tintColorDidChangeBlock:(void (^)())block {
+    objc_setAssociatedObject(self, @selector(sf_tintColorDidChangeBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void (^)())sf_tintColorDidChangeBlock {
+    return objc_getAssociatedObject(self, @selector(sf_tintColorDidChangeBlock));
+}
+
+- (void)sf_drawRect:(CGRect)rect {
+    [self sf_drawRect:rect];
+
+    if (self.sf_drawRectBlock) {
+        self.sf_drawRectBlock(rect);
+    }
+}
+
+- (void)sf_layoutSubviews {
+    [self sf_layoutSubviews];
+
+    if (self.sf_layoutSubviewsBlock) {
+        self.sf_layoutSubviewsBlock();
+    }
+}
+
+- (void)sf_traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self sf_traitCollectionDidChange:previousTraitCollection];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+
+        }
+    }
+#endif
+}
+
+- (void)sf_tintColorDidChange {
+    [self sf_tintColorDidChange];
+
+    if (self.sf_tintColorDidChangeBlock) {
+        self.sf_tintColorDidChangeBlock();
+    }
+}
+
+@end
+#endif
