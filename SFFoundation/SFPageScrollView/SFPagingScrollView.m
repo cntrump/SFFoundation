@@ -126,6 +126,15 @@
         return;
     }
 
+    if (!CGSizeEqualToSize(_frame.size, frame.size) && _visiableCells.count > 0) {
+        for (SFPagingScrollViewCell *cell in _visiableCells) {
+            [cell removeFromSuperview];
+            [self enqueueCell:cell];
+        }
+
+        [_visiableCells removeAllObjects];
+    }
+
     _frame = frame;
     _numberOfPages = self.numberOfPages;
     [self layout];
