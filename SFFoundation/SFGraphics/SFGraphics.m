@@ -102,6 +102,9 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         return;
     }
 
+    CGFloat x = CGRectGetMinX(rect);
+    CGFloat y = CGRectGetMinY(rect);
+
     size_t width = CGImageGetWidth(image);
     size_t height = CGImageGetHeight(image);
 
@@ -116,7 +119,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
         if (img) {
             if (!CGRectIsEmpty(r))
-                CGContextDrawImage(c, r, img);
+                CGContextDrawImage(c, CGRectMake(x, y, CGRectGetWidth(r), CGRectGetHeight(r)), img);
             CGImageRelease(img);
         }
     }
@@ -127,7 +130,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         if (img) {
             if (!CGRectIsEmpty(r))
                 CGContextDrawImage(c,
-                                   CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r), 0, CGRectGetWidth(r), CGRectGetHeight(r)),
+                                   CGRectMake(x + CGRectGetWidth(rect) - CGRectGetWidth(r), y, CGRectGetWidth(r), CGRectGetHeight(r)),
                                    img);
             CGImageRelease(img);
         }
@@ -139,7 +142,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         if (img) {
             if (!CGRectIsEmpty(r))
                 CGContextDrawImage(c,
-                                   CGRectMake(0, CGRectGetHeight(rect) - CGRectGetHeight(r), CGRectGetWidth(r), CGRectGetHeight(r)),
+                                   CGRectMake(x, y + CGRectGetHeight(rect) - CGRectGetHeight(r), CGRectGetWidth(r), CGRectGetHeight(r)),
                                    img);
             CGImageRelease(img);
         }
@@ -151,8 +154,8 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         if (img) {
             if (!CGRectIsEmpty(r))
                 CGContextDrawImage(c,
-                                   CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r),
-                                              CGRectGetHeight(rect) - CGRectGetHeight(r),
+                                   CGRectMake(x + CGRectGetWidth(rect) - CGRectGetWidth(r),
+                                              y + CGRectGetHeight(rect) - CGRectGetHeight(r),
                                               CGRectGetWidth(r),
                                               CGRectGetHeight(r)),
                                    img);
@@ -165,7 +168,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         CGRect r = CGRectMake(left, 0, width - left - right, top);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
         if (img) {
-            r = CGRectMake(left, 0, MAX(0, CGRectGetWidth(rect) - left - right), top);
+            r = CGRectMake(x + left, y, MAX(0, CGRectGetWidth(rect) - left - right), top);
             if (!CGRectIsEmpty(r))
                 resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
             CGImageRelease(img);
@@ -176,7 +179,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         CGRect r = CGRectMake(left, top, width - left - right, height - top - bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
         if (img) {
-            r = CGRectMake(left, top, MAX(0, CGRectGetWidth(rect) - left - right), MAX(0, CGRectGetHeight(rect) - top - bottom));
+            r = CGRectMake(x + left, y + top, MAX(0, CGRectGetWidth(rect) - left - right), MAX(0, CGRectGetHeight(rect) - top - bottom));
             if (!CGRectIsEmpty(r))
                 resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
             CGImageRelease(img);
@@ -187,7 +190,7 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
         CGRect r = CGRectMake(left, height - bottom, width - left - right, bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
         if (img) {
-            r = CGRectMake(left, CGRectGetHeight(rect) - bottom, MAX(0, CGRectGetWidth(rect) - left - right), bottom);
+            r = CGRectMake(x + left, y + CGRectGetHeight(rect) - bottom, MAX(0, CGRectGetWidth(rect) - left - right), bottom);
             if (!CGRectIsEmpty(r))
                 resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
             CGImageRelease(img);

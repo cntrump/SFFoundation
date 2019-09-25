@@ -29,6 +29,10 @@
 
 - (void)drawInRect:(CGRect)rect contentsGravity:(CALayerContentsGravity)contentsGravity;
 
+#if SF_IOS
+- (void)sf_drawInRect:(CGRect)rect;
+#endif
+
 @end
 
 SF_EXTERN_C_BEGIN
