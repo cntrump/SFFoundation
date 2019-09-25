@@ -98,6 +98,10 @@ void SFGraphicsEndImageContext(void) {
 }
 
 void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeInsets capInsets, UIImageResizingMode resizingMode) {
+    if (!c || !image) {
+        return;
+    }
+
     size_t width = CGImageGetWidth(image);
     size_t height = CGImageGetHeight(image);
 
@@ -110,63 +114,84 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeIns
     {
         CGRect r = CGRectMake(0, 0, left, top);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        CGContextDrawImage(c, r, img);
-        CGImageRelease(img);
+        if (img) {
+            if (!CGRectIsEmpty(r))
+                CGContextDrawImage(c, r, img);
+            CGImageRelease(img);
+        }
     }
     // top-right
     {
         CGRect r = CGRectMake(width - right, 0, right, top);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        CGContextDrawImage(c,
-                           CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r), 0, CGRectGetWidth(r), CGRectGetHeight(r)),
-                           img);
-        CGImageRelease(img);
+        if (img) {
+            if (!CGRectIsEmpty(r))
+                CGContextDrawImage(c,
+                                   CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r), 0, CGRectGetWidth(r), CGRectGetHeight(r)),
+                                   img);
+            CGImageRelease(img);
+        }
     }
     // bottom-left
     {
         CGRect r = CGRectMake(0, height - bottom, left, bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        CGContextDrawImage(c,
-                           CGRectMake(0, CGRectGetHeight(rect) - CGRectGetHeight(r), CGRectGetWidth(r), CGRectGetHeight(r)),
-                           img);
-        CGImageRelease(img);
+        if (img) {
+            if (!CGRectIsEmpty(r))
+                CGContextDrawImage(c,
+                                   CGRectMake(0, CGRectGetHeight(rect) - CGRectGetHeight(r), CGRectGetWidth(r), CGRectGetHeight(r)),
+                                   img);
+            CGImageRelease(img);
+        }
     }
     // bottom-right
     {
         CGRect r = CGRectMake(width - right, height - bottom, right, bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        CGContextDrawImage(c,
-                           CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r),
-                                      CGRectGetHeight(rect) - CGRectGetHeight(r),
-                                      CGRectGetWidth(r),
-                                      CGRectGetHeight(r)),
-                           img);
-        CGImageRelease(img);
+        if (img) {
+            if (!CGRectIsEmpty(r))
+                CGContextDrawImage(c,
+                                   CGRectMake(CGRectGetWidth(rect) - CGRectGetWidth(r),
+                                              CGRectGetHeight(rect) - CGRectGetHeight(r),
+                                              CGRectGetWidth(r),
+                                              CGRectGetHeight(r)),
+                                   img);
+            CGImageRelease(img);
+        }
     }
 
     // top-center
     {
         CGRect r = CGRectMake(left, 0, width - left - right, top);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        r = CGRectMake(left, 0, CGRectGetWidth(rect) - left - right, top);
-        resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-        CGImageRelease(img);
+        if (img) {
+            r = CGRectMake(left, 0, MAX(0, CGRectGetWidth(rect) - left - right), top);
+            if (!CGRectIsEmpty(r))
+                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
+            CGImageRelease(img);
+        }
     }
     // center
     {
         CGRect r = CGRectMake(left, top, width - left - right, height - top - bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        r = CGRectMake(left, top, CGRectGetWidth(rect) - left - right, CGRectGetHeight(rect) - top - bottom);
-        resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-        CGImageRelease(img);
+        if (img) {
+            r = CGRectMake(left, top, MAX(0, CGRectGetWidth(rect) - left - right), MAX(0, CGRectGetHeight(rect) - top - bottom));
+            if (!CGRectIsEmpty(r))
+                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
+            CGImageRelease(img);
+        }
     }
     // bottom-center
     {
         CGRect r = CGRectMake(left, height - bottom, width - left - right, bottom);
         CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        r = CGRectMake(left, CGRectGetHeight(rect) - bottom, CGRectGetWidth(rect) - left - right, bottom);
-        resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-        CGImageRelease(img);
+        if (img) {
+            r = CGRectMake(left, CGRectGetHeight(rect) - bottom, MAX(0, CGRectGetWidth(rect) - left - right), bottom);
+            if (!CGRectIsEmpty(r))
+                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
+            CGImageRelease(img);
+        }
     }
 }
 
