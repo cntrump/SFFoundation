@@ -7,6 +7,7 @@
 //
 
 #import "SFGraphics.h"
+#import "SFGeometry.h"
 
 SF_EXTERN_C_BEGIN
 
@@ -97,105 +98,118 @@ void SFGraphicsEndImageContext(void) {
 #endif
 }
 
-void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeInsets capInsets, UIImageResizingMode resizingMode) {
+/*
+
+x0     x1      x2      x3
++-------+-------+-------+ y3
+|       |       |       |
+|   6   |   7   |   8   |
+|       |       |       |
++-------+-------+-------+ y2
+|       |       |       |
+|   3   |   4   |   5   |
+|       |       |       |
++-------+-------+-------+ y1
+|       |       |       |
+|   0   |   1   |   2   |
+|       |       |       |
++-------+-------+-------+ y0
+ 
+*/
+#if SF_IOS
+void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image,
+                        UIEdgeInsets capInsets, UIImageResizingMode resizingMode, CGFloat scale) {
     if (!c || !image) {
         return;
     }
 
-    CGFloat x = CGRectGetMinX(rect);
-    CGFloat y = CGRectGetMinY(rect);
+    CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
+    CGRect r[9], s[9];
+    SFRectSlicing(rect, capInsets, r);
+    SFRectSlicing(imageRect,
+                  UIEdgeInsetsMake(capInsets.top * scale,
+                                   capInsets.left * scale,
+                                   capInsets.bottom * scale,
+                                   capInsets.right * scale),
+                  s);
 
-    size_t width = CGImageGetWidth(image);
-    size_t height = CGImageGetHeight(image);
-
-    CGFloat top = capInsets.top;
-    CGFloat left = capInsets.left;
-    CGFloat bottom = capInsets.bottom;
-    CGFloat right = capInsets.right;
-
-    // top-left
-    {
-        CGRect r = CGRectMake(0, 0, left, top);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            if (!CGRectIsEmpty(r))
-                CGContextDrawImage(c, CGRectMake(x, y, CGRectGetWidth(r), CGRectGetHeight(r)), img);
-            CGImageRelease(img);
-        }
-    }
-    // top-right
-    {
-        CGRect r = CGRectMake(width - right, 0, right, top);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            if (!CGRectIsEmpty(r))
-                CGContextDrawImage(c,
-                                   CGRectMake(x + CGRectGetWidth(rect) - CGRectGetWidth(r), y, CGRectGetWidth(r), CGRectGetHeight(r)),
-                                   img);
-            CGImageRelease(img);
-        }
-    }
-    // bottom-left
-    {
-        CGRect r = CGRectMake(0, height - bottom, left, bottom);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            if (!CGRectIsEmpty(r))
-                CGContextDrawImage(c,
-                                   CGRectMake(x, y + CGRectGetHeight(rect) - CGRectGetHeight(r), CGRectGetWidth(r), CGRectGetHeight(r)),
-                                   img);
-            CGImageRelease(img);
-        }
-    }
-    // bottom-right
-    {
-        CGRect r = CGRectMake(width - right, height - bottom, right, bottom);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            if (!CGRectIsEmpty(r))
-                CGContextDrawImage(c,
-                                   CGRectMake(x + CGRectGetWidth(rect) - CGRectGetWidth(r),
-                                              y + CGRectGetHeight(rect) - CGRectGetHeight(r),
-                                              CGRectGetWidth(r),
-                                              CGRectGetHeight(r)),
-                                   img);
-            CGImageRelease(img);
-        }
+    CGImageRef image0 = CGImageCreateWithImageInRect(image, s[0]);
+    if (image0) {
+        CGContextSaveGState(c);
+        CGContextTranslateCTM(c, r[0].origin.x, r[0].origin.y);
+        CGContextTranslateCTM(c, 0, r[0].size.height);
+        CGContextScaleCTM(c, 1.0, -1.0);
+        CGContextTranslateCTM(c, -r[0].origin.x, -r[0].origin.y);
+        CGContextDrawImage(c, r[0], image0);
+        CGContextRestoreGState(c);
+        CGImageRelease(image0);
     }
 
-    // top-center
-    {
-        CGRect r = CGRectMake(left, 0, width - left - right, top);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            r = CGRectMake(x + left, y, MAX(0, CGRectGetWidth(rect) - left - right), top);
-            if (!CGRectIsEmpty(r))
-                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-            CGImageRelease(img);
-        }
+    CGImageRef image1 = CGImageCreateWithImageInRect(image, s[1]);
+    if (image1) {
+        CGContextDrawImage(c, r[1], image1);
+        CGImageRelease(image1);
     }
-    // center
-    {
-        CGRect r = CGRectMake(left, top, width - left - right, height - top - bottom);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            r = CGRectMake(x + left, y + top, MAX(0, CGRectGetWidth(rect) - left - right), MAX(0, CGRectGetHeight(rect) - top - bottom));
-            if (!CGRectIsEmpty(r))
-                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-            CGImageRelease(img);
-        }
+
+    CGImageRef image2 = CGImageCreateWithImageInRect(image, s[2]);
+    if (image2) {
+        CGContextSaveGState(c);
+        CGContextTranslateCTM(c, r[2].origin.x, r[2].origin.y);
+        CGContextTranslateCTM(c, 0, r[2].size.height);
+        CGContextScaleCTM(c, 1.0, -1.0);
+        CGContextTranslateCTM(c, -r[2].origin.x, -r[2].origin.y);
+        CGContextDrawImage(c, r[2], image2);
+        CGContextRestoreGState(c);
+        CGImageRelease(image2);
     }
-    // bottom-center
-    {
-        CGRect r = CGRectMake(left, height - bottom, width - left - right, bottom);
-        CGImageRef img = CGImageCreateWithImageInRect(image, r);
-        if (img) {
-            r = CGRectMake(x + left, y + CGRectGetHeight(rect) - bottom, MAX(0, CGRectGetWidth(rect) - left - right), bottom);
-            if (!CGRectIsEmpty(r))
-                resizingMode == UIImageResizingModeTile ? CGContextDrawTiledImage(c, r, img) : CGContextDrawImage(c, r, img);
-            CGImageRelease(img);
-        }
+
+    CGImageRef image3 = CGImageCreateWithImageInRect(image, s[3]);
+    if (image3) {
+        CGContextDrawImage(c, r[3], image3);
+        CGImageRelease(image3);
+    }
+
+    CGImageRef image4 = CGImageCreateWithImageInRect(image, s[4]);
+    if (image4) {
+        CGContextDrawImage(c, r[4], image4);
+        CGImageRelease(image4);
+    }
+
+    CGImageRef image5 = CGImageCreateWithImageInRect(image, s[5]);
+    if (image5) {
+        CGContextDrawImage(c, r[5], image5);
+        CGImageRelease(image5);
+    }
+
+    CGImageRef image6 = CGImageCreateWithImageInRect(image, s[6]);
+    if (image6) {
+        CGContextSaveGState(c);
+        CGContextTranslateCTM(c, r[6].origin.x, r[6].origin.y);
+        CGContextTranslateCTM(c, 0, r[6].size.height);
+        CGContextScaleCTM(c, 1.0, -1.0);
+        CGContextTranslateCTM(c, -r[6].origin.x, -r[6].origin.y);
+        CGContextDrawImage(c, r[6], image6);
+        CGContextRestoreGState(c);
+        CGImageRelease(image6);
+    }
+
+    CGImageRef image7 = CGImageCreateWithImageInRect(image, s[7]);
+    if (image7) {
+        CGContextDrawImage(c, r[7], image7);
+        CGImageRelease(image7);
+    }
+
+    CGImageRef image8 = CGImageCreateWithImageInRect(image, s[8]);
+    if (image8) {
+        CGContextSaveGState(c);
+        CGContextTranslateCTM(c, r[8].origin.x, r[8].origin.y);
+        CGContextTranslateCTM(c, 0, r[8].size.height);
+        CGContextScaleCTM(c, 1.0, -1.0);
+        CGContextTranslateCTM(c, -r[8].origin.x, -r[8].origin.y);
+        CGContextDrawImage(c, r[8], image8);
+        CGContextRestoreGState(c);
+        CGImageRelease(image8);
     }
 }
-
+#endif
 SF_EXTERN_C_END

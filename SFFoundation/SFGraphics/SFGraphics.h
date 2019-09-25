@@ -24,6 +24,9 @@ void     SFGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloa
 SFImage* SFGraphicsGetImageFromCurrentImageContext(void);
 void     SFGraphicsEndImageContext(void);
 
-void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image, UIEdgeInsets capInsets, UIImageResizingMode resizingMode);
+#if SF_IOS
+void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image,
+                        UIEdgeInsets capInsets, UIImageResizingMode resizingMode, CGFloat scale);
+#endif
 
 SF_EXTERN_C_END

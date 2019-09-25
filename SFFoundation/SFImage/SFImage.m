@@ -179,22 +179,7 @@
 
 #if SF_IOS
 - (void)sf_drawInRect:(CGRect)rect {
-    CGFloat scale = self.scale;
-    UIEdgeInsets capInsets = self.capInsets;
-    capInsets.top *= scale;
-    capInsets.left *= scale;
-    capInsets.bottom *= scale;
-    capInsets.right *= scale;
-
-    CGImageRef CGImage = self.CGImage;
-    UIImageResizingMode resizingMode = self.resizingMode;
-
-    CGContextRef c = SFGraphicsGetCurrentContext();
-    CGContextSaveGState(c);
-    CGContextTranslateCTM(c, 0, CGRectGetHeight(rect));
-    CGContextScaleCTM(c, 1, -1);
-    SFContextDrawImage(c, rect, CGImage, capInsets, resizingMode);
-    CGContextRestoreGState(c);
+    SFContextDrawImage(SFGraphicsGetCurrentContext(), rect, self.CGImage, self.capInsets, self.resizingMode, self.scale);
 }
 #endif
 

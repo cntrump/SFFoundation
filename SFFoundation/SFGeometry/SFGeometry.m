@@ -79,4 +79,39 @@ CGRect SFMakeRectWithAspectRatioInsideRect(CGSize aspectRatio, CGRect boundingRe
     return bounds;
 }
 
+void SFRectSlicing(CGRect r, UIEdgeInsets capInsets, CGRect *slices/*[9]*/) {
+    if (CGRectIsEmpty(r)) {
+        return;
+    }
+
+    CGFloat X0 = CGRectGetMinX(r);
+    CGFloat Y0 = CGRectGetMinY(r);
+    CGFloat W = CGRectGetWidth(r);
+    CGFloat H = CGRectGetHeight(r);
+
+    CGFloat TOP = capInsets.top;
+    CGFloat LEFT = capInsets.left;
+    CGFloat BOTTOM = capInsets.bottom;
+    CGFloat RIGHT = capInsets.right;
+
+    CGFloat x0 = X0;
+    CGFloat x1 = X0 + LEFT;
+    CGFloat x2 = X0 + W - RIGHT;
+    CGFloat x3 = X0 + W;
+    CGFloat y0 = Y0;
+    CGFloat y1 = Y0 + BOTTOM;
+    CGFloat y2 = Y0 + H - TOP;
+    CGFloat y3 = Y0 + H;
+
+    slices[0] = CGRectMake(x0, y0, x1-x0, y1-y0);
+    slices[1] = CGRectMake(x1, y0, x2-x1, y1-y0);
+    slices[2] = CGRectMake(x2, y0, x3-x2, y1-y0);
+    slices[3] = CGRectMake(x0, y1, x1-x0, y2-y1);
+    slices[4] = CGRectMake(x1, y1, x2-x1, y2-y1);
+    slices[5] = CGRectMake(x2, y1, x3-x2, y2-y1);
+    slices[6] = CGRectMake(x0, y2, x1-x0, y3-y2);
+    slices[7] = CGRectMake(x1, y2, x2-x1, y3-y2);
+    slices[8] = CGRectMake(x2, y2, x3-x2, y3-y2);
+}
+
 SF_EXTERN_C_END

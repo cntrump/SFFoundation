@@ -29,4 +29,6 @@ CGSize SFSizeScale(CGSize size, CGFloat scale);
 
 CGRect SFMakeRectWithAspectRatioInsideRect(CGSize aspectRatio, CGRect boundingRect, SFCGContentMode contentMode);
 
+void SFRectSlicing(CGRect r, UIEdgeInsets capInsets, CGRect *slices/*[9]*/);
+
 SF_EXTERN_C_END
