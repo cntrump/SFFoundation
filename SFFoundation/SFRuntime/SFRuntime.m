@@ -199,6 +199,45 @@ SF_EXTERN_C_END
 
 @end
 
+@implementation NSAttributedString (SFSafety)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_attribute:atIndex:longestEffectiveRange:inRange:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_CM_attribute:atIndex:longestEffectiveRange:inRange:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_C_attribute:atIndex:longestEffectiveRange:inRange:));
+    });
+}
+
+- (id)sf_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+- (id)sf_CM_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_CM_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+- (id)sf_C_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_C_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+@end
 
 @implementation NSMutableArray (SFSafety)
 
