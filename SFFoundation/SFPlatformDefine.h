@@ -10,15 +10,19 @@
 #define SFPlatformDefine_h
 
 #if SF_MACOS
-#define SFColor NSColor
-#define SFImage NSImage
-#define SFBezierPath NSBezierPath
+#   define SFColor NSColor
+#   define SFImage NSImage
+#   define SFBezierPath NSBezierPath
+#   define UIEdgeInsets NSEdgeInsets
+#   define UIImageResizingMode NSImageResizingMode
+#   define UIImageResizingModeStretch NSImageResizingModeStretch
+#   define UIImageResizingModeTile NSImageResizingModeTile
 #endif
 
 #if SF_IOS
-#define SFColor UIColor
-#define SFImage UIImage
-#define SFBezierPath UIBezierPath
+#   define SFColor UIColor
+#   define SFImage UIImage
+#   define SFBezierPath UIBezierPath
 #endif
 
 #if !defined(SF_EXTERN)

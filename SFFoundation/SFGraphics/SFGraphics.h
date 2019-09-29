@@ -8,13 +8,6 @@
 
 SF_EXTERN_C_BEGIN
 
-#if SF_MACOS
-#   define UIEdgeInsets NSEdgeInsets
-#   define UIImageResizingMode NSImageResizingMode
-#   define UIImageResizingModeStretch NSImageResizingModeStretch
-#   define UIImageResizingModeTile NSImageResizingModeTile
-#endif
-
 CGContextRef SFGraphicsGetCurrentContext(void);
 void SFGraphicsPushContext(CGContextRef context);
 void SFGraphicsPopContext(void);

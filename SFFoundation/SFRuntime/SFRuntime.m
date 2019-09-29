@@ -81,6 +81,116 @@ void sf_swizzleInstance(Class cls, SEL originalSelector, SEL swizzledSelector) {
 
 SF_EXTERN_C_END
 
+@implementation NSAttributedString (SFSafety)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(self, @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_attribute:atIndex:longestEffectiveRange:inRange:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_CM_attribute:atIndex:longestEffectiveRange:inRange:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_C_attribute:atIndex:longestEffectiveRange:inRange:));
+    });
+}
+
+- (id)sf_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+- (id)sf_CM_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_CM_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+- (id)sf_C_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
+    NSUInteger length = self.length;
+    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
+        return nil;
+    }
+
+    return [self sf_C_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
+}
+
+@end
+
+@implementation NSMutableAttributedString (SFSafety)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(addAttribute:value:range:), @selector(sf_addAttribute:value:range:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(addAttributes:range:), @selector(sf_addAttributes:range:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(removeAttribute:range:), @selector(sf_removeAttribute:range:));
+
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(addAttribute:value:range:), @selector(sf_C_addAttribute:value:range:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(addAttributes:range:), @selector(sf_C_addAttributes:range:));
+        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(removeAttribute:range:), @selector(sf_C_removeAttribute:range:));
+    });
+}
+
+- (void)sf_addAttribute:(NSAttributedStringKey)name value:(id)value range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!name || length < NSMaxRange(range)) {
+        return;
+    }
+
+    [self sf_addAttribute:name value:value range:range];
+}
+
+- (void)sf_addAttributes:(NSDictionary<NSAttributedStringKey,id> *)attrs range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!attrs || length < NSMaxRange(range)) {
+        return;
+    }
+
+    [self sf_addAttributes:attrs range:range];
+}
+
+- (void)sf_removeAttribute:(NSAttributedStringKey)name range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!name || length < NSMaxRange(range)) {
+        return;
+    }
+
+    [self sf_removeAttribute:name range:range];
+}
+
+- (void)sf_C_addAttribute:(NSAttributedStringKey)name value:(id)value range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!name || length < NSMaxRange(range)) {
+        return;
+    }
+
+    [self sf_C_addAttribute:name value:value range:range];
+}
+
+- (void)sf_C_addAttributes:(NSDictionary<NSAttributedStringKey,id> *)attrs range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!attrs || length < NSMaxRange(range)) {
+        return;
+    }
+
+    [self sf_C_addAttributes:attrs range:range];
+}
+
+- (void)sf_C_removeAttribute:(NSAttributedStringKey)name range:(NSRange)range {
+    NSUInteger length = self.length;
+    if (!name || length < NSMaxRange(range)) {
+        return;
+    }
+    
+    [self sf_C_removeAttribute:name range:range];
+}
+
+@end
 
 @implementation NSArray (SFSafety)
 
@@ -195,46 +305,6 @@ SF_EXTERN_C_END
     }
 
     return [self sf_FrozenM_objectAtIndexedSubscript:idx];
-}
-
-@end
-
-@implementation NSAttributedString (SFSafety)
-
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sf_swizzleInstance(self, @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_attribute:atIndex:longestEffectiveRange:inRange:));
-        sf_swizzleInstance(NSClassFromString(@"NSConcreteMutableAttributedString"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_CM_attribute:atIndex:longestEffectiveRange:inRange:));
-        sf_swizzleInstance(NSClassFromString(@"NSConcreteTextStorage"), @selector(attribute:atIndex:longestEffectiveRange:inRange:), @selector(sf_C_attribute:atIndex:longestEffectiveRange:inRange:));
-    });
-}
-
-- (id)sf_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
-    NSUInteger length = self.length;
-    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
-        return nil;
-    }
-
-    return [self sf_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
-}
-
-- (id)sf_CM_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
-    NSUInteger length = self.length;
-    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
-        return nil;
-    }
-
-    return [self sf_CM_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
-}
-
-- (id)sf_C_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)location longestEffectiveRange:(NSRangePointer)range inRange:(NSRange)rangeLimit {
-    NSUInteger length = self.length;
-    if (length == 0 || location > (length - 1) || length < NSMaxRange(rangeLimit)) {
-        return nil;
-    }
-
-    return [self sf_C_attribute:attrName atIndex:location longestEffectiveRange:range inRange:rangeLimit];
 }
 
 @end
