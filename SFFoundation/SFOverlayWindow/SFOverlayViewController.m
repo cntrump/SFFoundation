@@ -50,7 +50,7 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIInterfaceOrientationMask defaultOrientations = UIInterfaceOrientationMaskPortrait;
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         defaultOrientations = UIInterfaceOrientationMaskAll;
     }
 

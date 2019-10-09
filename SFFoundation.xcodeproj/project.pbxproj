@@ -240,6 +240,7 @@
 		73AB9A3722DE02F3006BF59C /* SFAsyncLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAsyncLayer.m; sourceTree = "<group>"; };
 		73ADD77022C3939200317747 /* SFURLSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFURLSessionManager.h; sourceTree = "<group>"; };
 		73ADD77122C3939200317747 /* SFURLSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFURLSessionManager.m; sourceTree = "<group>"; };
+		73AE8370234D79D500125F55 /* SFFoundationExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SFFoundationExample.entitlements; sourceTree = "<group>"; };
 		73AFB1E122EAB89E0058B8DF /* SFImageDestination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageDestination.h; sourceTree = "<group>"; };
 		73AFB1E222EAB89E0058B8DF /* SFImageDestination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageDestination.m; sourceTree = "<group>"; };
 		73B31A9A22C6761E00D1E163 /* SFGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFGeometry.h; sourceTree = "<group>"; };
@@ -441,6 +442,7 @@
 		730AD67922C35DEE00510B82 /* SFFoundationExample */ = {
 			isa = PBXGroup;
 			children = (
+				73AE8370234D79D500125F55 /* SFFoundationExample.entitlements */,
 				73111D0622E72825008A4A5C /* demo.bundle */,
 				730AD67A22C35DEE00510B82 /* AppDelegate.h */,
 				730AD67B22C35DEE00510B82 /* AppDelegate.m */,
@@ -1129,6 +1131,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "";
 				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
@@ -1167,6 +1170,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "";
 				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
@@ -1179,8 +1183,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = SFFoundationExample/SFFoundationExample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = Y28WQ9G7N2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1195,7 +1201,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = me.lvv.SFFoundationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1204,8 +1212,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = SFFoundationExample/SFFoundationExample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = Y28WQ9G7N2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1220,7 +1230,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = me.lvv.SFFoundationExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1244,7 +1256,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.lvv.SFFoundationExample-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1271,7 +1282,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.lvv.SFFoundationExample-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

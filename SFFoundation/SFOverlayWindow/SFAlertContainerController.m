@@ -25,7 +25,7 @@
 - (instancetype)initWithStyle:(UIAlertControllerStyle)style {
     if (self = [super init]) {
         if (style == UIAlertControllerStyleActionSheet &&
-            UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
             _sourceView = [[UIView alloc] init];
             [self.view addSubview:_sourceView];
             _sourceView.translatesAutoresizingMaskIntoConstraints = NO;
