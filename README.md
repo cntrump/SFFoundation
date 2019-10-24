@@ -1,4 +1,4 @@
-# SFFoundation [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+# SFFoundation [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/cntrump/SFFoundation.svg?branch=master)](https://travis-ci.org/cntrump/SFFoundation)
 Foundation for iOS &amp; macOS
 
 add to your project with `Carthage`
