@@ -1,0 +1,5 @@
+osx_image: xcode11
+language: objective-c
+xcode_project: SFFoundation.xcodeproj
+xcode_scheme: SFFoundationHosting
+xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone 11
