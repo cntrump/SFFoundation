@@ -17,6 +17,8 @@
 		15263DF82361383500EC21FD /* SFFoundationHostingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15263DF72361383500EC21FD /* SFFoundationHostingTests.m */; };
 		15263E022361394000EC21FD /* SFFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730AD63822C319D400510B82 /* SFFoundation.framework */; };
 		15263E042361394F00EC21FD /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15263E032361394F00EC21FD /* libc++.tbd */; };
+		15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */ = {isa = PBXBuildFile; fileRef = 15BE41BE236FFF6B00385E43 /* SFURIFixup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15BE41C1236FFF6B00385E43 /* SFURIFixup.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BE41BF236FFF6B00385E43 /* SFURIFixup.m */; };
 		730AD63D22C319D400510B82 /* SFFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 730AD63B22C319D400510B82 /* SFFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		730AD64722C31BAC00510B82 /* SFDispatchQueuePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 730AD64522C31BAC00510B82 /* SFDispatchQueuePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		730AD64822C31BAC00510B82 /* SFDispatchQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 730AD64622C31BAC00510B82 /* SFDispatchQueuePool.m */; };
@@ -154,6 +156,8 @@
 		15263DF72361383500EC21FD /* SFFoundationHostingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFoundationHostingTests.m; sourceTree = "<group>"; };
 		15263DF92361383500EC21FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15263E032361394F00EC21FD /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.1.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		15BE41BE236FFF6B00385E43 /* SFURIFixup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFURIFixup.h; sourceTree = "<group>"; };
+		15BE41BF236FFF6B00385E43 /* SFURIFixup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFURIFixup.m; sourceTree = "<group>"; };
 		730AD63822C319D400510B82 /* SFFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		730AD63B22C319D400510B82 /* SFFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFFoundation.h; sourceTree = "<group>"; };
 		730AD63C22C319D400510B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -319,6 +323,15 @@
 			path = SFFoundationHostingTests;
 			sourceTree = "<group>";
 		};
+		15BE41BD236FFF1700385E43 /* SFURL */ = {
+			isa = PBXGroup;
+			children = (
+				15BE41BE236FFF6B00385E43 /* SFURIFixup.h */,
+				15BE41BF236FFF6B00385E43 /* SFURIFixup.m */,
+			);
+			path = SFURL;
+			sourceTree = "<group>";
+		};
 		730AD62E22C319D400510B82 = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +356,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				15BE41BD236FFF1700385E43 /* SFURL */,
 				7384B7ED23325FBB00F97966 /* SFLock */,
 				731C49E9231E4FC300A5BD58 /* SFOperation */,
 				731EB3BF231767DA0033D3FE /* SFKeyboard */,
@@ -702,6 +716,7 @@
 				73E52D9023322A91009788EA /* SFDeInitHelper.h in Headers */,
 				7384B7F023325FDD00F97966 /* SFRWLock.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
+				15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
@@ -888,6 +903,7 @@
 				730AD66E22C3469400510B82 /* SFTextStorage.m in Sources */,
 				735623C422E2B3B400DF9796 /* SFTextKitContext.m in Sources */,
 				73D538A922C4A3240041CE03 /* SFAlertWindow.m in Sources */,
+				15BE41C1236FFF6B00385E43 /* SFURIFixup.m in Sources */,
 				73D538AB22C4A3240041CE03 /* SFActionSheetWindow.m in Sources */,
 				730AD65322C31E4C00510B82 /* SFDispatchQueue.m in Sources */,
 				73D7391F2307A17200F643AF /* NSString+SFExtension.m in Sources */,
