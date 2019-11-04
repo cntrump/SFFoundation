@@ -104,6 +104,7 @@
 #import <SFFoundation/SFAsyncOperation.h>
 #import <SFFoundation/SFDeInitHelper.h>
 #import <SFFoundation/SFRWLock.h>
+#import <SFFoundation/SFURIFixup.h>
 
 // IOS
 #import <SFFoundation/UIViewController+SFOverlayWindow.h>

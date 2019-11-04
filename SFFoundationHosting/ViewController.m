@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+@import SFFoundation;
 
 @interface ViewController ()
 
@@ -17,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    NSLog(@"url: %@", [SFURIFixup getURL:@"github.com/中文/s?word=关键字&num=30"]);
 }
 
 
