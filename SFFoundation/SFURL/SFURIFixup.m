@@ -44,13 +44,13 @@ static NSString *replaceBrackets(NSString *url) {
 
     NSString *trimmed = [entry stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
     NSString *escaped = [trimmed stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.sf_URLAllowedCharacterSet];
-    if (!escaped) {
+    if (escaped.length == 0) {
         return nil;
     }
 
     escaped = replaceBrackets(escaped);
     url = punycodedURL(escaped);
-    if (url && url.scheme) {
+    if (url.scheme) {
         return url;
     }
 
@@ -63,8 +63,8 @@ static NSString *replaceBrackets(NSString *url) {
     }
 
     url = punycodedURL([@"http://" stringByAppendingString:escaped]);
-    if (url && url.host) {
-        return url;
+    if (!url.host) {
+        return nil;
     }
 
     return url;
