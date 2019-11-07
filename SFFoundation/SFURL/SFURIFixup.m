@@ -67,6 +67,32 @@ static NSString *replaceBrackets(NSString *url) {
         return nil;
     }
 
+    // reformat query string
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+    NSArray<NSURLQueryItem *> *queryItems = components.queryItems;
+    NSUInteger queryCount = queryItems.count;
+    if (queryCount > 0) {
+        NSMutableString *percentEncodedQuery = NSMutableString.string;
+        for (NSUInteger i = 0; i < queryCount; i++) {
+            if (i > 0) [percentEncodedQuery appendString:@"&"];
+
+            NSURLQueryItem *queryItem = queryItems[i];
+            NSString *name = [queryItem.name stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+            NSString *value = queryItem.value;
+            if (value) {
+                value = [queryItem.value stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+                [percentEncodedQuery appendFormat:@"%@=%@", name, value];
+            } else {
+                [percentEncodedQuery appendString:name];
+            }
+        }
+
+        components.query = nil;
+        components.percentEncodedQuery = percentEncodedQuery;
+    }
+
+    url = components.URL;
+
     return url;
 }
 

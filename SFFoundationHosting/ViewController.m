@@ -19,7 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    NSLog(@"url: %@", [SFURIFixup getURL:@"github.com/中文/s?word=关键字&num=30"]);
+    NSURL *url = [SFURIFixup getURL:@"github.com/中文/s?word=2019-12-31T12:31:58.234&key=_q33"];
+    NSLog(@"url: %@", url);
 }
 
 
