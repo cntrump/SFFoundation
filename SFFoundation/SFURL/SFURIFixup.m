@@ -22,52 +22,7 @@ static NSString *replaceBrackets(NSString *url) {
     return [[url stringByReplacingOccurrencesOfString:@"[" withString:@"%5B"] stringByReplacingOccurrencesOfString:@"]" withString:@"%5D"];
 }
 
-@implementation NSCharacterSet (SFURL)
-
-+ (instancetype)sf_URLAllowedCharacterSet {
-    return [self characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=%"];
-}
-
-@end
-
-@implementation SFURIFixup
-
-+ (NSURL *)getURL:(NSString *)entry {
-    if (entry.length == 0) {
-        return nil;
-    }
-
-    NSURL *url = [NSURL URLWithString:entry];
-    if (url) {
-        return url;
-    }
-
-    NSString *trimmed = [entry stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
-    NSString *escaped = [trimmed stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.sf_URLAllowedCharacterSet];
-    if (escaped.length == 0) {
-        return nil;
-    }
-
-    escaped = replaceBrackets(escaped);
-    url = punycodedURL(escaped);
-    if (url.scheme) {
-        return url;
-    }
-
-    if ([trimmed rangeOfString:@"."].length == 0) {
-        return nil;
-    }
-
-    if ([trimmed rangeOfString:@" "].length > 0) {
-        return nil;
-    }
-
-    url = punycodedURL([@"http://" stringByAppendingString:escaped]);
-    if (!url.host) {
-        return nil;
-    }
-
-    // reformat query string
+static NSURL *reformatURL(NSURL *url) {
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
     NSArray<NSURLQueryItem *> *queryItems = components.queryItems;
     NSUInteger queryCount = queryItems.count;
@@ -91,9 +46,55 @@ static NSString *replaceBrackets(NSString *url) {
         components.percentEncodedQuery = percentEncodedQuery;
     }
 
-    url = components.URL;
+    return components.URL;
+}
 
-    return url;
+@implementation NSCharacterSet (SFURL)
+
++ (instancetype)sf_URLAllowedCharacterSet {
+    return [self characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=%"];
+}
+
+@end
+
+@implementation SFURIFixup
+
++ (NSURL *)getURL:(NSString *)entry {
+    if (entry.length == 0) {
+        return nil;
+    }
+
+    NSURL *url = [NSURL URLWithString:entry];
+    if (url) {
+        return reformatURL(url);
+    }
+
+    NSString *trimmed = [entry stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    NSString *escaped = [trimmed stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.sf_URLAllowedCharacterSet];
+    if (escaped.length == 0) {
+        return nil;
+    }
+
+    escaped = replaceBrackets(escaped);
+    url = punycodedURL(escaped);
+    if (url.scheme) {
+        return reformatURL(url);
+    }
+
+    if ([trimmed rangeOfString:@"."].length == 0) {
+        return nil;
+    }
+
+    if ([trimmed rangeOfString:@" "].length > 0) {
+        return nil;
+    }
+
+    url = punycodedURL([@"http://" stringByAppendingString:escaped]);
+    if (!url.host) {
+        return nil;
+    }
+
+    return reformatURL(url);
 }
 
 @end
