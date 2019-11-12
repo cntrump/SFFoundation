@@ -17,6 +17,8 @@
 		15263DF82361383500EC21FD /* SFFoundationHostingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15263DF72361383500EC21FD /* SFFoundationHostingTests.m */; };
 		15263E022361394000EC21FD /* SFFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730AD63822C319D400510B82 /* SFFoundation.framework */; };
 		15263E042361394F00EC21FD /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15263E032361394F00EC21FD /* libc++.tbd */; };
+		1536E6F8237A8CEE0001F9A8 /* UIMenuController+SFMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 1536E6F6237A8CEE0001F9A8 /* UIMenuController+SFMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1536E6F9237A8CEE0001F9A8 /* UIMenuController+SFMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1536E6F7237A8CEE0001F9A8 /* UIMenuController+SFMenu.m */; };
 		15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */ = {isa = PBXBuildFile; fileRef = 15BE41BE236FFF6B00385E43 /* SFURIFixup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15BE41C1236FFF6B00385E43 /* SFURIFixup.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BE41BF236FFF6B00385E43 /* SFURIFixup.m */; };
 		730AD63D22C319D400510B82 /* SFFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 730AD63B22C319D400510B82 /* SFFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -156,6 +158,8 @@
 		15263DF72361383500EC21FD /* SFFoundationHostingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFoundationHostingTests.m; sourceTree = "<group>"; };
 		15263DF92361383500EC21FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15263E032361394F00EC21FD /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.1.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		1536E6F6237A8CEE0001F9A8 /* UIMenuController+SFMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIMenuController+SFMenu.h"; sourceTree = "<group>"; };
+		1536E6F7237A8CEE0001F9A8 /* UIMenuController+SFMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIMenuController+SFMenu.m"; sourceTree = "<group>"; };
 		15BE41BE236FFF6B00385E43 /* SFURIFixup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFURIFixup.h; sourceTree = "<group>"; };
 		15BE41BF236FFF6B00385E43 /* SFURIFixup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFURIFixup.m; sourceTree = "<group>"; };
 		730AD63822C319D400510B82 /* SFFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +327,15 @@
 			path = SFFoundationHostingTests;
 			sourceTree = "<group>";
 		};
+		1536E6F5237A8CC60001F9A8 /* SFMenu */ = {
+			isa = PBXGroup;
+			children = (
+				1536E6F6237A8CEE0001F9A8 /* UIMenuController+SFMenu.h */,
+				1536E6F7237A8CEE0001F9A8 /* UIMenuController+SFMenu.m */,
+			);
+			path = SFMenu;
+			sourceTree = "<group>";
+		};
 		15BE41BD236FFF1700385E43 /* SFURL */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +369,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				1536E6F5237A8CC60001F9A8 /* SFMenu */,
 				15BE41BD236FFF1700385E43 /* SFURL */,
 				7384B7ED23325FBB00F97966 /* SFLock */,
 				731C49E9231E4FC300A5BD58 /* SFOperation */,
@@ -717,6 +731,7 @@
 				7384B7F023325FDD00F97966 /* SFRWLock.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */,
+				1536E6F8237A8CEE0001F9A8 /* UIMenuController+SFMenu.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
@@ -923,6 +938,7 @@
 				731D6DB32308CE7800EDC951 /* SFStringTokenizer.m in Sources */,
 				73D538B722C4BB0B0041CE03 /* SFISO8601DateFormatter.m in Sources */,
 				73488BEC22E6103600832EF7 /* SFAsyncImageView.m in Sources */,
+				1536E6F9237A8CEE0001F9A8 /* UIMenuController+SFMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

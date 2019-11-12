@@ -116,6 +116,7 @@
 #import <SFFoundation/SFMagnifierView.h>
 #import <SFFoundation/SFTextSelectionView.h>
 #import <SFFoundation/SFKeyboardListener.h>
+#import <SFFoundation/UIMenuController+SFMenu.h>
 
 // MACOS
 #import <SFFoundation/SFDisplayLink.h>
