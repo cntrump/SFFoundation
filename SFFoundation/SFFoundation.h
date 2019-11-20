@@ -95,6 +95,7 @@
 #import <SFFoundation/SFAnimatedImage.h>
 #import <SFFoundation/SFAsyncImageView.h>
 #import <SFFoundation/SFGraphics.h>
+#import <SFFoundation/CALayer+SFExtension.h>
 #import <SFFoundation/SFRunLoopObserver.h>
 #import <SFFoundation/SFAsyncLayer.h>
 #import <SFFoundation/SFTextKitContext.h>

@@ -23,3 +23,11 @@ void SFContextDrawImage(CGContextRef c, CGRect rect, CGImageRef image,
 #endif
 
 SF_EXTERN_C_END
+
+#if SF_MACOS
+@interface NSBezierPath (SFExtension)
+
+@property(nonatomic, readonly) CGPathRef sf_cgPath;
+
+@end
+#endif
