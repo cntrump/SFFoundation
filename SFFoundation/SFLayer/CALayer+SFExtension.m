@@ -33,6 +33,13 @@
     [self sf_updateShadowPath];
 }
 
+- (void)sf_applySketchShadow:(CGColorRef)color
+                       alpha:(CGFloat)alpha
+                           x:(CGFloat)x y:(CGFloat)y
+                        blur:(CGFloat)blur {
+    [self sf_applySketchShadow:color alpha:alpha x:x y:y blur:blur spread:0];
+}
+
 - (void)sf_updateShadowPath {
     CGFloat spread = self.sf_shadowSpread;
     CGRect bounds = CGRectInset(self.bounds, -spread, -spread);

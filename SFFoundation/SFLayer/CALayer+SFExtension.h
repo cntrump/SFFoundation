@@ -18,4 +18,9 @@
                         blur:(CGFloat)blur
                       spread:(CGFloat)spread;
 
+- (void)sf_applySketchShadow:(CGColorRef)color
+                       alpha:(CGFloat)alpha
+                           x:(CGFloat)x y:(CGFloat)y
+                        blur:(CGFloat)blur;
+
 @end
