@@ -23,6 +23,8 @@ typedef NS_ENUM(NSInteger, SFButtonDirection) {
 
 @property(nonatomic, assign) SFButtonDirection direction;
 
+@property(nonatomic, assign) CGSize imageSize; // custom image size, default is CGSizeZero
+
 @property(nonatomic, strong, readonly) UIImage *currentImage;
 
 @property(nonatomic, strong, readonly) UIImage *currentBackgroundImage;

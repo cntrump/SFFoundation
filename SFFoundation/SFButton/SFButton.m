@@ -78,7 +78,7 @@
 
     if (self.currentImage) {
         [_imageView sizeToFit];
-        imageViewFrame = _imageView.frame;
+        imageViewFrame = (_imageSize.width > 0 && _imageSize.height > 0) ? CGRectMake(0, 0, _imageSize.width, _imageSize.height) : _imageView.frame;
         hasImage = YES;
     }
 
@@ -138,7 +138,7 @@
     CGRect imageViewFrame = CGRectZero, titleLabelFrame = CGRectZero;
 
     if (self.currentImage) {
-        CGSize size = [_imageView sizeThatFits:CGSizeMake(INFINITY, INFINITY)];
+        CGSize size = (_imageSize.width > 0 && _imageSize.height > 0) ? _imageSize : [_imageView sizeThatFits:CGSizeMake(INFINITY, INFINITY)];
         imageViewFrame = CGRectMake(0, 0, size.width, size.height);
         hasImage = YES;
     }
