@@ -32,10 +32,10 @@ static NSURL *reformatURL(NSURL *url) {
             if (i > 0) [percentEncodedQuery appendString:@"&"];
 
             NSURLQueryItem *queryItem = queryItems[i];
-            NSString *name = [queryItem.name stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+            NSString *name = [queryItem.name stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.sf_URLAllowedCharacterSet];
             NSString *value = queryItem.value;
             if (value) {
-                value = [queryItem.value stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.alphanumericCharacterSet];
+                value = [queryItem.value stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.sf_URLAllowedCharacterSet];
                 [percentEncodedQuery appendFormat:@"%@=%@", name, value];
             } else {
                 [percentEncodedQuery appendString:name];
