@@ -187,4 +187,27 @@ SF_EXTERN_C_END
 }
 
 @end
+
+@implementation UITableView (SFExtension)
+
+#if (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
++ (instancetype)sf_insetGroupedTableViewWithFrame:(CGRect)frame {
+    if (@available(iOS 13.0, *)) {
+        return [[self alloc] initWithFrame:frame style:UITableViewStyleInsetGrouped];
+    } else {
+        return [self sf_groupedTableViewWithFrame:frame];
+    }
+}
+#endif
+
++ (instancetype)sf_groupedTableViewWithFrame:(CGRect)frame {
+    return [[self alloc] initWithFrame:frame style:UITableViewStyleGrouped];
+}
+
++ (instancetype)sf_plainTableViewWithFrame:(CGRect)frame {
+    return [[self alloc] initWithFrame:frame style:UITableViewStylePlain];
+}
+
+@end
+
 #endif
