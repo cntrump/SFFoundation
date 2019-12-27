@@ -70,12 +70,12 @@ SF_EXTERN CALayerContentsGravity _Nonnull CALayerContentsGravityFromSFViewConten
 @interface UITableView (SFExtension)
 
 #if (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-+ (instancetype)sf_insetGroupedTableViewWithFrame:(CGRect)frame;
++ (instancetype)sf_insetGroupedStyleWithFrame:(CGRect)frame;
 #endif
 
-+ (instancetype)sf_groupedTableViewWithFrame:(CGRect)frame;
++ (instancetype)sf_groupedStyleWithFrame:(CGRect)frame;
 
-+ (instancetype)sf_plainTableViewWithFrame:(CGRect)frame;
++ (instancetype)sf_plainStyleWithFrame:(CGRect)frame;
 
 @end
 
