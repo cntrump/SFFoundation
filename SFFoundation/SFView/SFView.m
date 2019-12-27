@@ -195,7 +195,7 @@ SF_EXTERN_C_END
     if (@available(iOS 13.0, *)) {
         return [[self alloc] initWithFrame:frame style:UITableViewStyleInsetGrouped];
     } else {
-        return [self sf_groupedTableViewWithFrame:frame];
+        return [self sf_groupedStyleWithFrame:frame];
     }
 }
 #endif
