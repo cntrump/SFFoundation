@@ -46,3 +46,12 @@
 + (instancetype)globalHighQueue;
 
 @end
+
+#define SFDispatchOnce(block) \
+do { \
+    static dispatch_once_t onceToken = 0; \
+    dispatch_once(&onceToken, ^{ \
+    block \
+    }); \
+ \
+} while (0)
