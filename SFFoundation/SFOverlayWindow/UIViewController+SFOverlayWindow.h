@@ -18,4 +18,21 @@
 
 @end
 
+@interface UIAlertController (SFExtension)
+
++ (instancetype)sf_alertStyleWithTitle:(NSString *)title message:(NSString *)message;
++ (instancetype)sf_actionSheetStyleWithTitle:(NSString *)title message:(NSString *)message;
+
+- (void)sf_addDefaultActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
+
+- (void)sf_addCancelActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
+
+- (void)sf_addDestructiveActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
+
+#if (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
+- (void)sf_addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
+#endif
+
+@end
+
 #endif
