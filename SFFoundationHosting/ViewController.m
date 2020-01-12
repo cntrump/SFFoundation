@@ -9,7 +9,38 @@
 #import "ViewController.h"
 @import SFFoundation;
 
-@interface ViewController ()
+@interface ItemCell : UICollectionViewCell {
+    SFBoxView *_boxView;
+}
+
+@end
+
+@implementation ItemCell
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        _boxView = [[SFBoxView alloc] initWithFrame:self.contentView.bounds];
+        [_boxView setPadding:UIEdgeInsetsMake(30, 30, 30, 30)];
+        _boxView.contentView.backgroundColor = UIColor.whiteColor;
+        [_boxView setCornerRadius:20];
+        [_boxView setShadow:UIColor.blackColor offset:CGSizeMake(0, 5) blur:30 opacity:0.2];
+        [self.contentView addSubview:_boxView];
+    }
+
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    _boxView.frame = self.contentView.bounds;
+}
+
+@end
+
+@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
+    UICollectionView *_collectionView;
+}
 
 @end
 
@@ -17,11 +48,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 
-    NSURL *url = [SFURIFixup getURL:@"github.com/中文/s?word=2019-12-31T12:31:58.234&key=_q33"];
-    NSLog(@"url: %@", url);
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:({
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.minimumLineSpacing = 30;
+        layout.minimumInteritemSpacing = 30;
+        layout;
+    })];
+    _collectionView.backgroundColor = UIColor.clearColor;
+    [_collectionView registerClass:ItemCell.class forCellWithReuseIdentifier:NSStringFromClass(ItemCell.class)];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    [self.view addSubview:_collectionView];
 }
 
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 10000;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ItemCell.class) forIndexPath:indexPath];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat w = CGRectGetWidth(collectionView.bounds) - 32;
+
+    return CGSizeMake(w, w * 1.2);
+}
 
 @end

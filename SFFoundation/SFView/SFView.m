@@ -31,6 +31,8 @@ CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFViewContent
              }[@(contentMode)];
 }
 SF_EXTERN_C_END
+#else
+
 #endif
 
 @implementation SFView
@@ -206,6 +208,124 @@ SF_EXTERN_C_END
 
 + (instancetype)sf_plainStyleWithFrame:(CGRect)frame {
     return [[self alloc] initWithFrame:frame style:UITableViewStylePlain];
+}
+
+@end
+
+@interface SFShadowView() {
+    UIColor *_color;
+    CGFloat _opacity;
+    CGFloat _blur;
+    CGSize _offset;
+}
+
+@end
+
+@implementation SFShadowView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        _blur = 6;
+        _offset = CGSizeMake(0, 3);
+        _opacity = 0.2;
+    }
+
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    [self updateShadow];
+}
+
+- (void)setShadow:(UIColor *)color offset:(CGSize)offset blur:(CGFloat)blur opacity:(CGFloat)opacity {
+    _color = color;
+    _offset = offset;
+    _blur = blur;
+    _opacity = opacity;
+
+    [self updateShadow];
+}
+
+- (void)updateShadow {
+    self.layer.shadowColor = _color.CGColor;
+    self.layer.shadowOpacity = _opacity;
+    self.layer.shadowOffset = _offset;
+    self.layer.shadowRadius = _blur * 0.5;
+
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds
+                                                    cornerRadius:self.layer.cornerRadius];
+    self.layer.shadowPath = _color ? path.CGPath : nil;
+}
+
+@end
+
+@interface SFBoxView () {
+    SFShadowView *_shadowView;
+}
+
+@end
+
+@implementation SFBoxView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        _shadowView = [[SFShadowView alloc] initWithFrame:self.bounds];
+        [self addSubview:_shadowView];
+
+        _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
+        [self addSubview:_backgroundView];
+
+        _contentView = [[UIView alloc] initWithFrame:self.bounds];
+        [self addSubview:_contentView];
+    }
+
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    [self updateContentBounds];
+}
+
+- (void)updateContentBounds {
+    CGRect bounds = UIEdgeInsetsInsetRect(self.bounds, _padding);
+    _shadowView.frame = bounds;
+    _backgroundView.frame = bounds;
+    _contentView.frame = bounds;
+}
+
+- (void)setBounds:(CGRect)bounds {
+    super.bounds = bounds;
+
+    [self updateContentBounds];
+}
+
+- (void)setPadding:(UIEdgeInsets)padding {
+    _padding = padding;
+    [self updateContentBounds];
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    _cornerRadius = cornerRadius;
+    _contentView.layer.cornerRadius = cornerRadius;
+    _contentView.layer.masksToBounds = YES;
+
+    _backgroundView.layer.cornerRadius = cornerRadius;
+    _backgroundView.layer.masksToBounds = YES;
+
+    _shadowView.layer.cornerRadius = cornerRadius;
+}
+
+- (void)setBorder:(UIColor *)color width:(CGFloat)width {
+    _contentView.layer.borderColor = color.CGColor;
+    _contentView.layer.borderWidth = width;
+}
+
+- (void)setShadow:(UIColor *)color offset:(CGSize)offset blur:(CGFloat)blur opacity:(CGFloat)opacity {
+    [_shadowView setShadow:color offset:offset blur:blur opacity:opacity];
 }
 
 @end

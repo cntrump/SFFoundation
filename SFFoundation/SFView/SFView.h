@@ -23,8 +23,8 @@ typedef NS_ENUM(NSInteger, SFViewContentMode) {
     SFViewContentModeBottomRight
 };
 
-SF_EXTERN CALayerContentsGravity _Nonnull const sfkCAGravityRedraw;
-SF_EXTERN CALayerContentsGravity _Nonnull CALayerContentsGravityFromSFViewContentMode(SFViewContentMode contentMode);
+SF_EXTERN CALayerContentsGravity const sfkCAGravityRedraw;
+SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFViewContentMode contentMode);
 
 #endif
 
@@ -35,7 +35,7 @@ SF_EXTERN CALayerContentsGravity _Nonnull CALayerContentsGravityFromSFViewConten
 @interface SFView : NSView
 #endif
 
-+ (Class _Nonnull)layerClass;
++ (Class)layerClass;
 
 #if SF_MACOS
 @property(nonatomic, assign) SFViewContentMode contentMode;
@@ -45,11 +45,11 @@ SF_EXTERN CALayerContentsGravity _Nonnull CALayerContentsGravityFromSFViewConten
 
 @interface SFAsyncView : SFView
 
-@property (nonatomic, nullable, strong, readonly) id drawParameters;
+@property (nonatomic, strong, readonly) id drawParameters;
 
-- (void)drawInContext:(CGContextRef _Nonnull)context bounds:(CGRect)bounds parameters:(id _Nullable)parameters renderSynchronously:(BOOL)renderSynchronously;
-- (SFImage * _Nullable)willDisplayAsynchronouslyWithDrawParameters:(id _Nullable)drawParameters;
-- (void)didDisplayAsynchronously:(SFImage * _Nullable)newContents withDrawParameters:(id _Nullable)drawParameters;
+- (void)drawInContext:(CGContextRef)context bounds:(CGRect)bounds parameters:(id)parameters renderSynchronously:(BOOL)renderSynchronously;
+- (SFImage *)willDisplayAsynchronouslyWithDrawParameters:(id)drawParameters;
+- (void)didDisplayAsynchronously:(SFImage *)newContents withDrawParameters:(id)drawParameters;
 
 @end
 
@@ -76,6 +76,22 @@ SF_EXTERN CALayerContentsGravity _Nonnull CALayerContentsGravityFromSFViewConten
 + (instancetype)sf_groupedStyleWithFrame:(CGRect)frame;
 
 + (instancetype)sf_plainStyleWithFrame:(CGRect)frame;
+
+@end
+
+@interface SFShadowView : UIView
+@end
+
+@interface SFBoxView : UIControl
+
+@property(nonatomic, strong) UIView *backgroundView;
+@property(nonatomic, readonly) UIView *contentView;
+
+@property(nonatomic, assign) UIEdgeInsets padding;
+@property(nonatomic, assign) CGFloat cornerRadius;
+
+- (void)setBorder:(UIColor *)color width:(CGFloat)width;
+- (void)setShadow:(UIColor *)color offset:(CGSize)offset blur:(CGFloat)blur opacity:(CGFloat)opacity;
 
 @end
 
