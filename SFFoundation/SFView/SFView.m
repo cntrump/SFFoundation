@@ -328,6 +328,18 @@ SF_EXTERN_C_END
     [_shadowView setShadow:color offset:offset blur:blur opacity:opacity];
 }
 
+- (void)setBackgroundView:(UIView *)backgroundView {
+    [_backgroundView removeFromSuperview];
+    _backgroundView = backgroundView;
+
+    if (backgroundView) {
+        [self insertSubview:backgroundView aboveSubview:_shadowView];
+        backgroundView.frame = UIEdgeInsetsInsetRect(self.bounds, _padding);
+        backgroundView.layer.cornerRadius = _cornerRadius;
+        backgroundView.layer.masksToBounds = YES;
+    }
+}
+
 @end
 
 #endif
