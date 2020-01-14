@@ -303,6 +303,12 @@ SF_EXTERN_C_END
     [self updateContentBounds];
 }
 
+- (void)setFrame:(CGRect)frame{
+    super.frame = frame;
+
+    [self updateContentBounds];
+}
+
 - (void)setPadding:(UIEdgeInsets)padding {
     _padding = padding;
     [self updateContentBounds];
