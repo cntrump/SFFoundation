@@ -21,11 +21,7 @@
     if (self = [super initWithFrame:frame]) {
         _boxView = [[SFBoxView alloc] initWithFrame:self.contentView.bounds];
         _boxView.backgroundView.backgroundColor = UIColor.whiteColor;
-        _boxView.selectionView = ({
-            UIView *v = [[UIView alloc] init];
-            v.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
-            v;
-        });
+        _boxView.selectionView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
         [_boxView setPadding:UIEdgeInsetsMake(30, 30, 30, 30)];
         [_boxView setCornerRadius:20];
         [_boxView setShadow:UIColor.blackColor offset:CGSizeMake(0, 5) blur:30 opacity:0.2];

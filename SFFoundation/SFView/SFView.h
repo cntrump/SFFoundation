@@ -82,7 +82,7 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 @interface SFShadowView : UIView
 @end
 
-@interface SFBoxView : UIView
+@interface SFBoxView : UIControl
 
 @property(nonatomic, strong) UIView *selectionView;
 @property(nonatomic, strong) UIView *backgroundView;

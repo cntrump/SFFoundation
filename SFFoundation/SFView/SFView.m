@@ -263,10 +263,7 @@ SF_EXTERN_C_END
 
 @interface SFBoxView () {
     SFShadowView *_shadowView;
-    BOOL _isHighlighted;
 }
-
-@property(nonatomic, assign) BOOL highlighted;
 
 @end
 
@@ -376,13 +373,17 @@ SF_EXTERN_C_END
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
-    _highlighted = highlighted;
+    super.highlighted = highlighted;
 
     [self updateSelectionView];
+
+    if (_onTouch) {
+        _onTouch(self);
+    }
 }
 
 - (void)updateSelectionView {
-    _selectionView.hidden = !_highlighted;
+    _selectionView.hidden = !self.isHighlighted;
 
     if (_backgroundView) {
         [self insertSubview:_selectionView aboveSubview:_backgroundView];
@@ -391,26 +392,13 @@ SF_EXTERN_C_END
     }
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-
-    self.highlighted = YES;
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesEnded:touches withEvent:event];
-
-    self.highlighted = NO;
-
-    if (_onTouch) {
-        _onTouch(self);
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *view = [super hitTest:point withEvent:event];
+    if (view == _contentView) {
+        return self;
     }
-}
 
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesCancelled:touches withEvent:event];
-
-    self.highlighted = NO;
+    return view;
 }
 
 @end
