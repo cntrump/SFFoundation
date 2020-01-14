@@ -41,6 +41,8 @@ typedef NS_ENUM(NSInteger, SFButtonDirection) {
 
 @property(nonatomic, strong, readonly) UIImageView *backgroundImageView;
 
+@property(nonatomic, copy) void (^onStateBlock)(SFButton*);
+
 
 + (instancetype)button;
 

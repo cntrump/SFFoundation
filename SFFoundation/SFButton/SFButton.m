@@ -191,16 +191,28 @@
 - (void)setEnabled:(BOOL)enabled {
     super.enabled = enabled;
     [self updateCurrentState];
+
+    if (_onStateBlock) {
+        _onStateBlock(self);
+    }
 }
 
 - (void)setSelected:(BOOL)selected {
     super.selected = selected;
     [self updateCurrentState];
+
+    if (_onStateBlock) {
+        _onStateBlock(self);
+    }
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
     super.highlighted = highlighted;
     [self updateCurrentState];
+
+    if (_onStateBlock) {
+        _onStateBlock(self);
+    }
 }
 
 - (void)setSpacing:(CGFloat)spacing {
