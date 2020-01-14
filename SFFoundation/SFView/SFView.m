@@ -263,7 +263,10 @@ SF_EXTERN_C_END
 
 @interface SFBoxView () {
     SFShadowView *_shadowView;
+    BOOL _isHighlighted;
 }
+
+@property(nonatomic, assign) BOOL highlighted;
 
 @end
 
@@ -272,10 +275,17 @@ SF_EXTERN_C_END
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _shadowView = [[SFShadowView alloc] initWithFrame:self.bounds];
+        _shadowView.userInteractionEnabled = NO;
         [self addSubview:_shadowView];
 
         _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
+        _backgroundView.userInteractionEnabled = NO;
         [self addSubview:_backgroundView];
+
+        _selectionView = [[UIView alloc] initWithFrame:self.bounds];
+        _selectionView.userInteractionEnabled = NO;
+        _selectionView.hidden = YES;
+        [self addSubview:_selectionView];
 
         _contentView = [[UIView alloc] initWithFrame:self.bounds];
         [self addSubview:_contentView];
@@ -294,6 +304,7 @@ SF_EXTERN_C_END
     CGRect bounds = UIEdgeInsetsInsetRect(self.bounds, _padding);
     _shadowView.frame = bounds;
     _backgroundView.frame = bounds;
+    _selectionView.frame = bounds;
     _contentView.frame = bounds;
 }
 
@@ -322,6 +333,9 @@ SF_EXTERN_C_END
     _backgroundView.layer.cornerRadius = cornerRadius;
     _backgroundView.layer.masksToBounds = YES;
 
+    _selectionView.layer.cornerRadius = cornerRadius;
+    _selectionView.layer.masksToBounds = YES;
+
     _shadowView.layer.cornerRadius = cornerRadius;
 }
 
@@ -339,11 +353,64 @@ SF_EXTERN_C_END
     _backgroundView = backgroundView;
 
     if (backgroundView) {
+        backgroundView.userInteractionEnabled = NO;
         [self insertSubview:backgroundView aboveSubview:_shadowView];
         backgroundView.frame = UIEdgeInsetsInsetRect(self.bounds, _padding);
         backgroundView.layer.cornerRadius = _cornerRadius;
         backgroundView.layer.masksToBounds = YES;
     }
+}
+
+- (void)setSelectionView:(UIView *)selectionView {
+    [_selectionView removeFromSuperview];
+    _selectionView = selectionView;
+
+    if (selectionView) {
+        selectionView.userInteractionEnabled = NO;
+        selectionView.frame = UIEdgeInsetsInsetRect(self.bounds, _padding);
+        selectionView.layer.cornerRadius = _cornerRadius;
+        selectionView.layer.masksToBounds = YES;
+
+        [self updateSelectionView];
+    }
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    _highlighted = highlighted;
+
+    [self updateSelectionView];
+}
+
+- (void)updateSelectionView {
+    _selectionView.hidden = !_highlighted;
+
+    if (_backgroundView) {
+        [self insertSubview:_selectionView aboveSubview:_backgroundView];
+    } else {
+        [self insertSubview:_selectionView aboveSubview:_shadowView];
+    }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+
+    self.highlighted = YES;
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+
+    self.highlighted = NO;
+
+    if (_onTouch) {
+        _onTouch(self);
+    }
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+
+    self.highlighted = NO;
 }
 
 @end
