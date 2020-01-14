@@ -33,6 +33,8 @@
 - (void)sf_drawInRect:(CGRect)rect;
 #endif
 
+- (SFImage *)sf_imageWithTintColor:(SFColor *)color;
+
 @end
 
 SF_EXTERN_C_BEGIN

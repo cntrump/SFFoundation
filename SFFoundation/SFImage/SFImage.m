@@ -183,6 +183,44 @@
 }
 #endif
 
+- (SFImage *)sf_imageWithTintColor:(SFColor *)color {
+#if SF_IOS
+#if (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [self imageWithTintColor:color];
+    } else {
+#endif
+        CGSize size = self.size;
+        CGRect rect = CGRectMake(0, 0, size.width, size.height);
+        UIGraphicsBeginImageContextWithOptions(size, NO, self.scale);
+        [color setFill];
+        UIRectFill(rect);
+        [self drawInRect:rect blendMode:kCGBlendModeDestinationIn alpha:1];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        return image;
+#if (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
+#endif
+
+#if SF_MACOS
+    CGSize size = self.size;
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    SFGraphicsBeginImageContextWithOptions(size, NO, self.sf_scale);
+    CGContextRef ctx = SFGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(ctx, color.CGColor);
+    CGContextFillRect(ctx, rect);
+    CGContextSetBlendMode(ctx, kCGBlendModeDestinationIn);
+    CGContextDrawImage(ctx, rect, self.sf_CGImage);
+    SFImage *image = SFGraphicsGetImageFromCurrentImageContext();
+    SFGraphicsEndImageContext();
+
+    return image;
+#endif
+}
+
 @end
 
 SF_EXTERN_C_BEGIN
