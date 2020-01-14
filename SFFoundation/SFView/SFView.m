@@ -263,6 +263,7 @@ SF_EXTERN_C_END
 
 @interface SFBoxView () {
     SFShadowView *_shadowView;
+    BOOL _highlighted;
 }
 
 @end
@@ -281,7 +282,7 @@ SF_EXTERN_C_END
 
         _selectionView = [[UIView alloc] initWithFrame:self.bounds];
         _selectionView.userInteractionEnabled = NO;
-        _selectionView.hidden = YES;
+        _selectionView.alpha = 0;
         [self addSubview:_selectionView];
 
         _contentView = [[UIView alloc] initWithFrame:self.bounds];
@@ -367,38 +368,29 @@ SF_EXTERN_C_END
         selectionView.frame = UIEdgeInsetsInsetRect(self.bounds, _padding);
         selectionView.layer.cornerRadius = _cornerRadius;
         selectionView.layer.masksToBounds = YES;
-
+        selectionView.alpha = 0;
         [self updateSelectionView];
     }
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
-    super.highlighted = highlighted;
+    _highlighted = highlighted;
 
     [self updateSelectionView];
+}
 
-    if (_onTouch) {
-        _onTouch(self);
-    }
+- (BOOL)isHighlighted {
+    return _highlighted;
 }
 
 - (void)updateSelectionView {
-    _selectionView.hidden = !self.isHighlighted;
-
     if (_backgroundView) {
         [self insertSubview:_selectionView aboveSubview:_backgroundView];
     } else {
         [self insertSubview:_selectionView aboveSubview:_shadowView];
     }
-}
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    UIView *view = [super hitTest:point withEvent:event];
-    if (view == _contentView) {
-        return self;
-    }
-
-    return view;
+    _selectionView.alpha = self.isHighlighted ? 1 : 0;
 }
 
 @end

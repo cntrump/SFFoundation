@@ -82,7 +82,7 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 @interface SFShadowView : UIView
 @end
 
-@interface SFBoxView : UIControl
+@interface SFBoxView : UIView
 
 @property(nonatomic, strong) UIView *selectionView;
 @property(nonatomic, strong) UIView *backgroundView;
@@ -91,7 +91,9 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 @property(nonatomic, assign) UIEdgeInsets padding;
 @property(nonatomic, assign) CGFloat cornerRadius;
 
-@property(nonatomic, copy) void (^onTouch)(SFBoxView *);
+@property(nonatomic, assign, getter=isHighlighted) BOOL highlighted;
+
+@property(nonatomic, readonly) BOOL isHighlighted;
 
 - (void)setBorder:(UIColor *)color width:(CGFloat)width;
 - (void)setShadow:(UIColor *)color offset:(CGSize)offset blur:(CGFloat)blur opacity:(CGFloat)opacity;

@@ -37,6 +37,11 @@
     _boxView.frame = self.contentView.bounds;
 }
 
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    _boxView.highlighted = selected;
+}
+
 @end
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
@@ -75,6 +80,10 @@
     CGFloat w = CGRectGetWidth(collectionView.bounds) - 32;
 
     return CGSizeMake(w, w * 1.2);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
 @end
