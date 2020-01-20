@@ -31,4 +31,8 @@ CGRect SFMakeRectWithAspectRatioInsideRect(CGSize aspectRatio, CGRect boundingRe
 
 void SFRectSlicing(CGRect r, UIEdgeInsets capInsets, CGRect *slices/*[9]*/);
 
+CGSize SFLayoutWrapItems(NSInteger itemCount, CGFloat width, CGSize itemSize, CGFloat interItemSpacing, CGFloat lineSpacing);
+
+CGSize SFLayoutWrap(NSInteger itemCount, CGFloat width, CGSize itemSize, CGFloat spacing);
+
 SF_EXTERN_C_END

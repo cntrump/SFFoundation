@@ -114,4 +114,17 @@ void SFRectSlicing(CGRect r, UIEdgeInsets capInsets, CGRect *slices/*[9]*/) {
     slices[8] = CGRectMake(x2, y2, x3-x2, y3-y2);
 }
 
+CGSize SFLayoutWrapItems(NSInteger itemCount, CGFloat width, CGSize itemSize, CGFloat interItemSpacing, CGFloat lineSpacing) {
+    NSInteger col = (width - interItemSpacing) / (itemSize.width + interItemSpacing);
+    NSInteger row = ceil((CGFloat)itemCount / (CGFloat)col);
+    CGFloat h = (itemSize.height + lineSpacing) * row - lineSpacing;
+    CGFloat w = (itemSize.width + interItemSpacing) * col - interItemSpacing;
+
+    return CGSizeMake(w, h);
+}
+
+CGSize SFLayoutWrap(NSInteger itemCount, CGFloat width, CGSize itemSize, CGFloat spacing) {
+    return SFLayoutWrapItems(itemCount, width, itemSize, spacing, spacing);
+}
+
 SF_EXTERN_C_END
