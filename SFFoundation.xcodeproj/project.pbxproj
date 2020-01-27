@@ -23,6 +23,8 @@
 		153B2A472384CCCF004FBF79 /* CALayer+SFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 153B2A452384CCCF004FBF79 /* CALayer+SFExtension.m */; };
 		15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */ = {isa = PBXBuildFile; fileRef = 15BE41BE236FFF6B00385E43 /* SFURIFixup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15BE41C1236FFF6B00385E43 /* SFURIFixup.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BE41BF236FFF6B00385E43 /* SFURIFixup.m */; };
+		15FD41B523DEDCD600713B88 /* SFKeychainPasswordItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 15FD41B323DEDCD600713B88 /* SFKeychainPasswordItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15FD41B623DEDCD600713B88 /* SFKeychainPasswordItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FD41B423DEDCD600713B88 /* SFKeychainPasswordItem.m */; };
 		730AD63D22C319D400510B82 /* SFFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 730AD63B22C319D400510B82 /* SFFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		730AD64722C31BAC00510B82 /* SFDispatchQueuePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 730AD64522C31BAC00510B82 /* SFDispatchQueuePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		730AD64822C31BAC00510B82 /* SFDispatchQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 730AD64622C31BAC00510B82 /* SFDispatchQueuePool.m */; };
@@ -166,6 +168,8 @@
 		153B2A452384CCCF004FBF79 /* CALayer+SFExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+SFExtension.m"; sourceTree = "<group>"; };
 		15BE41BE236FFF6B00385E43 /* SFURIFixup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFURIFixup.h; sourceTree = "<group>"; };
 		15BE41BF236FFF6B00385E43 /* SFURIFixup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFURIFixup.m; sourceTree = "<group>"; };
+		15FD41B323DEDCD600713B88 /* SFKeychainPasswordItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFKeychainPasswordItem.h; sourceTree = "<group>"; };
+		15FD41B423DEDCD600713B88 /* SFKeychainPasswordItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFKeychainPasswordItem.m; sourceTree = "<group>"; };
 		730AD63822C319D400510B82 /* SFFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		730AD63B22C319D400510B82 /* SFFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFFoundation.h; sourceTree = "<group>"; };
 		730AD63C22C319D400510B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -349,6 +353,15 @@
 			path = SFURL;
 			sourceTree = "<group>";
 		};
+		15FD41B223DEDC9F00713B88 /* SFKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				15FD41B323DEDCD600713B88 /* SFKeychainPasswordItem.h */,
+				15FD41B423DEDCD600713B88 /* SFKeychainPasswordItem.m */,
+			);
+			path = SFKeychain;
+			sourceTree = "<group>";
+		};
 		730AD62E22C319D400510B82 = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +386,7 @@
 		730AD63A22C319D400510B82 /* SFFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				15FD41B223DEDC9F00713B88 /* SFKeychain */,
 				1536E6F5237A8CC60001F9A8 /* SFMenu */,
 				15BE41BD236FFF1700385E43 /* SFURL */,
 				7384B7ED23325FBB00F97966 /* SFLock */,
@@ -740,6 +754,7 @@
 				153B2A462384CCCF004FBF79 /* CALayer+SFExtension.h in Headers */,
 				1536E6F8237A8CEE0001F9A8 /* UIMenuController+SFMenu.h in Headers */,
 				73213EA222CDB45B0037204E /* SFBitOPS.h in Headers */,
+				15FD41B523DEDCD600713B88 /* SFKeychainPasswordItem.h in Headers */,
 				73D538AE22C4A3240041CE03 /* SFOverlayViewController.h in Headers */,
 				732E1DA422DEF9B50003829A /* SFAsyncTransaction.h in Headers */,
 				73D538A222C4A3240041CE03 /* SFAlertContainerController.h in Headers */,
@@ -898,6 +913,7 @@
 				73FBA1A322C6F9FD00C0CD43 /* SFImageView.m in Sources */,
 				73E52D9123322A91009788EA /* SFDeInitHelper.m in Sources */,
 				73D538A522C4A3240041CE03 /* UIViewController+SFOverlayWindow.m in Sources */,
+				15FD41B623DEDCD600713B88 /* SFKeychainPasswordItem.m in Sources */,
 				738F493022FE96D20004175A /* SFImageScrollView.m in Sources */,
 				730AD66922C33FEA00510B82 /* SFImage.m in Sources */,
 				73D538A722C4A3240041CE03 /* SFOverlayWindow.m in Sources */,
