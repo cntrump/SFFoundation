@@ -210,6 +210,20 @@ SF_EXTERN_C_END
     return [[self alloc] initWithFrame:frame style:UITableViewStylePlain];
 }
 
+- (void)sf_performBatchUpdates:(void (^)(void))updates {
+    if (!updates) {
+        return;
+    }
+
+    if (@available(iOS 11.0, *)) {
+        [self performBatchUpdates:updates completion:nil];
+    } else {
+        [self beginUpdates];
+        updates();
+        [self endUpdates];
+    }
+}
+
 @end
 
 @interface SFShadowView() {

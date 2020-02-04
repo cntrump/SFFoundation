@@ -77,6 +77,8 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 
 + (instancetype)sf_plainStyleWithFrame:(CGRect)frame;
 
+- (void)sf_performBatchUpdates:(void (^)(void))updates;
+
 @end
 
 @interface SFShadowView : UIView
