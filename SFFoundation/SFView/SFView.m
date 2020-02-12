@@ -232,11 +232,11 @@ SF_EXTERN_C_END
     [self registerClass:viewClass forHeaderFooterViewReuseIdentifier:NSStringFromClass(viewClass)];
 }
 
-- (UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
     return [self dequeueReusableCellWithIdentifier:NSStringFromClass(cellClass) forIndexPath:indexPath];
 }
 
-- (UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass {
+- (__kindof UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass {
     return [self dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass(viewClass)];
 }
 
@@ -260,18 +260,18 @@ SF_EXTERN_C_END
           withReuseIdentifier:NSStringFromClass(viewClass)];
 }
 
-- (UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
     return [self dequeueReusableCellWithReuseIdentifier:NSStringFromClass(cellClass)
                                            forIndexPath:indexPath];
 }
 
-- (UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
     return [self dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                                     withReuseIdentifier:NSStringFromClass(viewClass)
                                            forIndexPath:indexPath];
 }
 
-- (UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
     return [self dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
                                     withReuseIdentifier:NSStringFromClass(viewClass)
                                            forIndexPath:indexPath];

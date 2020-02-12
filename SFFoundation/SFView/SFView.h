@@ -83,9 +83,9 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 
 - (void)sf_registerReuseableHeaderFooterViewClass:(Class)viewClass;
 
-- (UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
+- (__kindof UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
 
-- (UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass;
+- (__kindof UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass;
 
 @end
 
@@ -97,11 +97,11 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 
 - (void)sf_registerReuseableFooterViewClass:(Class)viewClass;
 
-- (UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
+- (__kindof UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
 
-- (UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
+- (__kindof UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
 
-- (UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
+- (__kindof UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
