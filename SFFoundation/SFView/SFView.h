@@ -79,6 +79,30 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 
 - (void)sf_performBatchUpdates:(void (^)(void))updates;
 
+- (void)sf_registerReuseableCellClass:(Class)cellClass;
+
+- (void)sf_registerReuseableHeaderFooterViewClass:(Class)viewClass;
+
+- (UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
+
+- (UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass;
+
+@end
+
+@interface UICollectionView (SFExtension)
+
+- (void)sf_registerReuseableCellClass:(Class)cellClass;
+
+- (void)sf_registerReuseableHeaderViewClass:(Class)viewClass;
+
+- (void)sf_registerReuseableFooterViewClass:(Class)viewClass;
+
+- (UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath;
+
+- (UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
+
+- (UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 @interface SFShadowView : UIView

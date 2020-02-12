@@ -224,6 +224,59 @@ SF_EXTERN_C_END
     }
 }
 
+- (void)sf_registerReuseableCellClass:(Class)cellClass {
+    [self registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
+}
+
+- (void)sf_registerReuseableHeaderFooterViewClass:(Class)viewClass {
+    [self registerClass:viewClass forHeaderFooterViewReuseIdentifier:NSStringFromClass(viewClass)];
+}
+
+- (UITableViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
+    return [self dequeueReusableCellWithIdentifier:NSStringFromClass(cellClass) forIndexPath:indexPath];
+}
+
+- (UITableViewHeaderFooterView *)sf_dequeueReusableHeaderFooterViewWithClass:(Class)viewClass {
+    return [self dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass(viewClass)];
+}
+
+@end
+
+@implementation UICollectionView (SFExtension)
+
+- (void)sf_registerReuseableCellClass:(Class)cellClass {
+    [self registerClass:cellClass forCellWithReuseIdentifier:NSStringFromClass(cellClass)];
+}
+
+- (void)sf_registerReuseableHeaderViewClass:(Class)viewClass {
+    [self registerClass:viewClass
+          forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+          withReuseIdentifier:NSStringFromClass(viewClass)];
+}
+
+- (void)sf_registerReuseableFooterViewClass:(Class)viewClass {
+    [self registerClass:viewClass
+          forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+          withReuseIdentifier:NSStringFromClass(viewClass)];
+}
+
+- (UICollectionViewCell *)sf_dequeueReusableCellWithClass:(Class)cellClass forIndexPath:(NSIndexPath *)indexPath {
+    return [self dequeueReusableCellWithReuseIdentifier:NSStringFromClass(cellClass)
+                                           forIndexPath:indexPath];
+}
+
+- (UICollectionReusableView *)sf_dequeueReusableHeaderViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
+    return [self dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                    withReuseIdentifier:NSStringFromClass(viewClass)
+                                           forIndexPath:indexPath];
+}
+
+- (UICollectionReusableView *)sf_dequeueReusableFooterViewWithClass:(Class)viewClass forIndexPath:(NSIndexPath *)indexPath {
+    return [self dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+                                    withReuseIdentifier:NSStringFromClass(viewClass)
+                                           forIndexPath:indexPath];
+}
+
 @end
 
 @interface SFShadowView() {
