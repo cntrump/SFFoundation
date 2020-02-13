@@ -126,4 +126,20 @@ SF_EXTERN CALayerContentsGravity CALayerContentsGravityFromSFViewContentMode(SFV
 
 @end
 
+typedef NS_ENUM(NSInteger, SFGradientDirection) {
+    SFGradientDirectionHorizontal,
+    SFGradientDirectionVertical
+};
+
+@interface SFGradientView : UIView
+
++ (instancetype)gradientHorizontalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
+
++ (instancetype)gradientVerticalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
+
+- (instancetype)initWithDirection:(SFGradientDirection)direction startColor:(UIColor *)startColor endColor:(UIColor *)endColor;
+
+@end
+
+
 #endif

@@ -462,4 +462,45 @@ SF_EXTERN_C_END
 
 @end
 
+@implementation SFGradientView
+
++ (Class)layerClass {
+    return CAGradientLayer.class;
+}
+
++ (instancetype)gradientHorizontalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
+    return [[self alloc] initWithDirection:SFGradientDirectionHorizontal startColor:startColor endColor:endColor];
+}
+
++ (instancetype)gradientVerticalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
+    return [[self alloc] initWithDirection:SFGradientDirectionVertical startColor:startColor endColor:endColor];
+}
+
+- (instancetype)initWithDirection:(SFGradientDirection)direction startColor:(UIColor *)startColor endColor:(UIColor *)endColor {
+    if (self = [super initWithFrame:CGRectZero]) {
+        CAGradientLayer *layer = (CAGradientLayer *)self.layer;
+        layer.colors = @[(__bridge id)startColor.CGColor, (__bridge id)endColor.CGColor];
+        layer.locations = @[@0, @1];
+
+        switch (direction) {
+            case SFGradientDirectionHorizontal:
+                layer.startPoint = CGPointZero;
+                layer.endPoint = CGPointMake(1, 0);
+                break;
+
+            case SFGradientDirectionVertical:
+                layer.startPoint = CGPointZero;
+                layer.endPoint = CGPointMake(0, 1);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    return self;
+}
+
+@end
+
 #endif
