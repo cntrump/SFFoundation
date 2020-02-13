@@ -468,11 +468,11 @@ SF_EXTERN_C_END
     return CAGradientLayer.class;
 }
 
-+ (instancetype)gradientHorizontalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
++ (instancetype)gradientHorizontalWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
     return [[self alloc] initWithDirection:SFGradientDirectionHorizontal startColor:startColor endColor:endColor];
 }
 
-+ (instancetype)gradientVerticalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
++ (instancetype)gradientVerticalWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor {
     return [[self alloc] initWithDirection:SFGradientDirectionVertical startColor:startColor endColor:endColor];
 }
 

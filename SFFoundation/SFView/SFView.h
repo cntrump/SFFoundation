@@ -133,9 +133,9 @@ typedef NS_ENUM(NSInteger, SFGradientDirection) {
 
 @interface SFGradientView : UIView
 
-+ (instancetype)gradientHorizontalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
++ (instancetype)gradientHorizontalWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
 
-+ (instancetype)gradientVerticalWithstartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
++ (instancetype)gradientVerticalWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
 
 - (instancetype)initWithDirection:(SFGradientDirection)direction startColor:(UIColor *)startColor endColor:(UIColor *)endColor;
 
