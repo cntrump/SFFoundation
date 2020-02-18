@@ -137,7 +137,13 @@ typedef NS_ENUM(NSInteger, SFGradientDirection) {
 
 + (instancetype)gradientVerticalWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor;
 
++ (instancetype)gradientHorizontalWithColors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations;
+
++ (instancetype)gradientVerticalWithColors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations;
+
 - (instancetype)initWithDirection:(SFGradientDirection)direction startColor:(UIColor *)startColor endColor:(UIColor *)endColor;
+
+- (instancetype)initWithDirection:(SFGradientDirection)direction colors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations;
 
 @end
 

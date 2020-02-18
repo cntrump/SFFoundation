@@ -476,11 +476,39 @@ SF_EXTERN_C_END
     return [[self alloc] initWithDirection:SFGradientDirectionVertical startColor:startColor endColor:endColor];
 }
 
++ (instancetype)gradientHorizontalWithColors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations {
+    return [[self alloc] initWithDirection:SFGradientDirectionHorizontal colors:colors locations:locations];
+}
+
++ (instancetype)gradientVerticalWithColors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations {
+    return [[self alloc] initWithDirection:SFGradientDirectionVertical colors:colors locations:locations];
+}
+
 - (instancetype)initWithDirection:(SFGradientDirection)direction startColor:(UIColor *)startColor endColor:(UIColor *)endColor {
+    return [self initWithDirection:direction colors:@[startColor, endColor] locations:@[@0, @1]];
+}
+
+- (instancetype)initWithDirection:(SFGradientDirection)direction colors:(NSArray<UIColor *> *)colors locations:(NSArray<NSNumber *> *)locations {
     if (self = [super initWithFrame:CGRectZero]) {
         CAGradientLayer *layer = (CAGradientLayer *)self.layer;
-        layer.colors = @[(__bridge id)startColor.CGColor, (__bridge id)endColor.CGColor];
-        layer.locations = @[@0, @1];
+
+        layer.colors = ({
+            NSMutableArray *array = NSMutableArray.array;
+            for (UIColor *color in colors) {
+                [array addObject:(__bridge id)color.CGColor];
+            }
+
+            array;
+        });
+
+        layer.locations = ({
+            NSMutableArray *array = NSMutableArray.array;
+            for (NSNumber *location in locations) {
+                [array addObject:location];
+            }
+
+            array;
+        });
 
         switch (direction) {
             case SFGradientDirectionHorizontal:
