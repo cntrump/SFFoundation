@@ -83,8 +83,9 @@
     }
 
     if (self.currentTitle || self.currentAttributedTitle) {
-        [_titleLabel sizeToFit];
-        titleLabelFrame = _titleLabel.frame;
+        CGFloat maxWidth = CGRectGetWidth(self.bounds) - (_contentInset.left + _contentInset.right) - (hasImage ? CGRectGetWidth(imageViewFrame) + _spacing : 0);
+        CGSize titleSize = [_titleLabel sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
+        titleLabelFrame = CGRectMake(0, 0, titleSize.width, titleSize.height);
         hasTitle = YES;
     }
 
