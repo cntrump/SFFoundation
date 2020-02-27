@@ -83,8 +83,16 @@
     }
 
     if (self.currentTitle || self.currentAttributedTitle) {
-        CGFloat maxWidth = CGRectGetWidth(self.bounds) - (_contentInset.left + _contentInset.right) - (hasImage ? CGRectGetWidth(imageViewFrame) + _spacing : 0);
+        CGFloat hSpacing = hasImage && (_direction == SFButtonDirectionRow || _direction == SFButtonDirectionRowReverse) ? _spacing : 0;
+        CGFloat vSpacing = hasImage && (_direction == SFButtonDirectionColumn || _direction == SFButtonDirectionColumnReverse) ? _spacing : 0;
+
+        CGFloat maxWidth = CGRectGetWidth(self.bounds) - (_contentInset.left + _contentInset.right) - (hasImage ? CGRectGetWidth(imageViewFrame) + hSpacing : 0);
+        CGFloat maxHeight = CGRectGetHeight(self.bounds) - (_contentInset.top + _contentInset.bottom) - (hasImage ? CGRectGetHeight(imageViewFrame) + vSpacing : 0);
+
         CGSize titleSize = [_titleLabel sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
+        titleSize.width = MIN(titleSize.width, maxWidth);
+        titleSize.height = MIN(titleSize.height, maxHeight);
+
         titleLabelFrame = CGRectMake(0, 0, titleSize.width, titleSize.height);
         hasTitle = YES;
     }
