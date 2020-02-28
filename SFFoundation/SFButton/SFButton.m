@@ -83,17 +83,17 @@
     }
 
     if (self.currentTitle || self.currentAttributedTitle) {
-        CGFloat hSpacing = hasImage && (_direction == SFButtonDirectionRow || _direction == SFButtonDirectionRowReverse) ? _spacing : 0;
-        CGFloat vSpacing = hasImage && (_direction == SFButtonDirectionColumn || _direction == SFButtonDirectionColumnReverse) ? _spacing : 0;
+        CGFloat hSpacing = hasImage && (_direction == SFButtonDirectionRow || _direction == SFButtonDirectionRowReverse) ? _spacing + CGRectGetWidth(imageViewFrame) : 0;
+        CGFloat vSpacing = hasImage && (_direction == SFButtonDirectionColumn || _direction == SFButtonDirectionColumnReverse) ? _spacing + CGRectGetHeight(imageViewFrame) : 0;
 
-        CGFloat maxWidth = CGRectGetWidth(self.bounds) - (_contentInset.left + _contentInset.right) - (hasImage ? CGRectGetWidth(imageViewFrame) + hSpacing : 0);
-        CGFloat maxHeight = CGRectGetHeight(self.bounds) - (_contentInset.top + _contentInset.bottom) - (hasImage ? CGRectGetHeight(imageViewFrame) + vSpacing : 0);
+        CGFloat maxWidth = CGRectGetWidth(self.bounds) - (_contentInset.left + _contentInset.right) -  hSpacing;
+        CGFloat maxHeight = CGRectGetHeight(self.bounds) - (_contentInset.top + _contentInset.bottom) - vSpacing;
 
-        CGSize titleSize = [_titleLabel sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
-        titleSize.width = MIN(titleSize.width, maxWidth);
-        titleSize.height = MIN(titleSize.height, maxHeight);
+        CGSize size = [_titleLabel sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
+        size.width = MIN(size.width, maxWidth);
+        size.height = MIN(size.height, maxHeight);
 
-        titleLabelFrame = CGRectMake(0, 0, titleSize.width, titleSize.height);
+        titleLabelFrame = CGRectMake(0, 0, size.width, size.height);
         hasTitle = YES;
     }
 
