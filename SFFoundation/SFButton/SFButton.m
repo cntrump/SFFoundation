@@ -93,7 +93,7 @@
         size.width = MIN(size.width, maxWidth);
         size.height = MIN(size.height, maxHeight);
 
-        titleLabelFrame = CGRectMake(0, 0, size.width, size.height);
+        titleLabelFrame = CGRectMake(0, 0, ceil(size.width), ceil(size.height));
         hasTitle = YES;
     }
 
@@ -154,7 +154,7 @@
 
     if (self.currentTitle || self.currentAttributedTitle) {
         CGSize size = [_titleLabel sizeThatFits:CGSizeMake(INFINITY, INFINITY)];
-        titleLabelFrame = CGRectMake(0, 0, size.width, size.height);
+        titleLabelFrame = CGRectMake(0, 0, ceil(size.width), ceil(size.height));
         hasTitle = YES;
     }
 
