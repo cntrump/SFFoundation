@@ -243,7 +243,10 @@
 - (UIImage *)currentImage {
     SFButtonAttributes *attrs = [self attributesForState:self.state];
 
-    return attrs.image ? : [self attributesForState:UIControlStateNormal].image;
+    UIImage *image = attrs.image ? : [self attributesForState:UIControlStateNormal].image;
+    CGSize size = image.size;
+
+    return (size.width > 0 && size.height > 0) ? image : nil;
 }
 
 - (UIImage *)currentBackgroundImage {
