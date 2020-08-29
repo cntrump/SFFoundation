@@ -80,7 +80,7 @@
 		738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 738F492D22FE96D20004175A /* SFImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		738F493022FE96D20004175A /* SFImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F492E22FE96D20004175A /* SFImageScrollView.m */; };
 		739A8AF722C4308D0082346E /* SFRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 739A8AF522C4308D0082346E /* SFRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		739A8AF822C4308D0082346E /* SFRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 739A8AF622C4308D0082346E /* SFRuntime.m */; };
+		739A8AF822C4308D0082346E /* SFRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 739A8AF622C4308D0082346E /* SFRuntime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		73A6113922FD1932007FB40B /* NSScrollView+SFExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A6113722FD1932007FB40B /* NSScrollView+SFExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73A6113A22FD1932007FB40B /* NSScrollView+SFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A6113822FD1932007FB40B /* NSScrollView+SFExtension.m */; };
 		73AB9A2922DD781B006BF59C /* SFDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 73AB9A2722DD781B006BF59C /* SFDelegateForwarder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -119,8 +119,6 @@
 		73D815CA22EAA40E00991D05 /* SFAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D815C822EAA40E00991D05 /* SFAnimatedImage.m */; };
 		73E03E5D2313CAE700BC065D /* SFCardNumberFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73E03E5E2313CAE700BC065D /* SFCardNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */; };
-		73E52D9023322A91009788EA /* SFDeInitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 73E52D8E23322A91009788EA /* SFDeInitHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73E52D9123322A91009788EA /* SFDeInitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E52D8F23322A91009788EA /* SFDeInitHelper.m */; };
 		73F7F1B722E5D67E00881631 /* SFImageSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 73F7F1B522E5D67E00881631 /* SFImageSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73F7F1B822E5D67E00881631 /* SFImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7F1B622E5D67E00881631 /* SFImageSource.m */; };
 		73FAAED7232F2A3B008C07A9 /* SFFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FAAED6232F2A3B008C07A9 /* SFFoundation.m */; };
@@ -272,8 +270,6 @@
 		73D815C822EAA40E00991D05 /* SFAnimatedImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAnimatedImage.m; sourceTree = "<group>"; };
 		73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFCardNumberFormatter.h; path = SFFoundation/SFView/SFCardNumberFormatter.h; sourceTree = SOURCE_ROOT; };
 		73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFCardNumberFormatter.m; path = SFFoundation/SFView/SFCardNumberFormatter.m; sourceTree = SOURCE_ROOT; };
-		73E52D8E23322A91009788EA /* SFDeInitHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFDeInitHelper.h; sourceTree = "<group>"; };
-		73E52D8F23322A91009788EA /* SFDeInitHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFDeInitHelper.m; sourceTree = "<group>"; };
 		73F7F1B522E5D67E00881631 /* SFImageSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFImageSource.h; sourceTree = "<group>"; };
 		73F7F1B622E5D67E00881631 /* SFImageSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFImageSource.m; sourceTree = "<group>"; };
 		73FAAED6232F2A3B008C07A9 /* SFFoundation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFoundation.m; sourceTree = "<group>"; };
@@ -566,8 +562,6 @@
 				739A8AF622C4308D0082346E /* SFRuntime.m */,
 				73AB9A2722DD781B006BF59C /* SFDelegateForwarder.h */,
 				73AB9A2822DD781B006BF59C /* SFDelegateForwarder.m */,
-				73E52D8E23322A91009788EA /* SFDeInitHelper.h */,
-				73E52D8F23322A91009788EA /* SFDeInitHelper.m */,
 			);
 			path = SFRuntime;
 			sourceTree = "<group>";
@@ -747,7 +741,6 @@
 				731EB3C2231767FB0033D3FE /* SFKeyboardListener.h in Headers */,
 				731C49EC231E4FDD00A5BD58 /* SFAsyncOperation.h in Headers */,
 				731F5C1D23209C8B0086EB12 /* SFURLSessionTask.h in Headers */,
-				73E52D9023322A91009788EA /* SFDeInitHelper.h in Headers */,
 				7384B7F023325FDD00F97966 /* SFRWLock.h in Headers */,
 				731D6DB22308CE7800EDC951 /* SFStringTokenizer.h in Headers */,
 				15BE41C0236FFF6B00385E43 /* SFURIFixup.h in Headers */,
@@ -911,7 +904,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				73FBA1A322C6F9FD00C0CD43 /* SFImageView.m in Sources */,
-				73E52D9123322A91009788EA /* SFDeInitHelper.m in Sources */,
 				73D538A522C4A3240041CE03 /* UIViewController+SFOverlayWindow.m in Sources */,
 				15FD41B623DEDCD600713B88 /* SFKeychainPasswordItem.m in Sources */,
 				738F493022FE96D20004175A /* SFImageScrollView.m in Sources */,
