@@ -80,7 +80,7 @@
 		738F492F22FE96D20004175A /* SFImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 738F492D22FE96D20004175A /* SFImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		738F493022FE96D20004175A /* SFImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F492E22FE96D20004175A /* SFImageScrollView.m */; };
 		739A8AF722C4308D0082346E /* SFRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 739A8AF522C4308D0082346E /* SFRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		739A8AF822C4308D0082346E /* SFRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 739A8AF622C4308D0082346E /* SFRuntime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		739A8AF822C4308D0082346E /* SFRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 739A8AF622C4308D0082346E /* SFRuntime.m */; };
 		73A6113922FD1932007FB40B /* NSScrollView+SFExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A6113722FD1932007FB40B /* NSScrollView+SFExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73A6113A22FD1932007FB40B /* NSScrollView+SFExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A6113822FD1932007FB40B /* NSScrollView+SFExtension.m */; };
 		73AB9A2922DD781B006BF59C /* SFDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 73AB9A2722DD781B006BF59C /* SFDelegateForwarder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -686,7 +686,8 @@
 				73E03E5B2313CAE700BC065D /* SFCardNumberFormatter.h */,
 				73E03E5C2313CAE700BC065D /* SFCardNumberFormatter.m */,
 			);
-			path = SFFormatter;
+			name = SFFormatter;
+			path = SFView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
