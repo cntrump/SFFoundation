@@ -1197,12 +1197,6 @@
 		730AD64122C319D400510B82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"ARCHS[sdk=iphoneos*]" = (
-					arm64,
-					armv7,
-				);
-				"ARCHS[sdk=iphonesimulator*]" = x86_64;
-				"ARCHS[sdk=macosx*]" = x86_64;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -1226,22 +1220,12 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "";
-				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
-				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Debug;
 		};
 		730AD64222C319D400510B82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"ARCHS[sdk=iphoneos*]" = (
-					arm64,
-					armv7,
-				);
-				"ARCHS[sdk=iphonesimulator*]" = x86_64;
-				"ARCHS[sdk=macosx*]" = x86_64;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -1265,10 +1249,6 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "";
-				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
-				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Release;
 		};
